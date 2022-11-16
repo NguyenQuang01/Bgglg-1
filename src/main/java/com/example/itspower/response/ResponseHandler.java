@@ -1,4 +1,4 @@
-package com.example.itspower.dto.handler;
+package com.example.itspower.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

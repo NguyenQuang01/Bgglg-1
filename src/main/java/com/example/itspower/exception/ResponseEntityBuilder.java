@@ -1,6 +1,6 @@
 package com.example.itspower.exception;
 
-import com.example.itspower.dto.handler.ResponseHandler;
+import com.example.itspower.response.ResponseHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

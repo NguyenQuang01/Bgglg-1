@@ -10,4 +10,6 @@ public interface EmployeeService {
     Employee getById(Long id);
 
     List<Employee> getByOrganizationId(Long orgId);
+
+    Employee creatOrUpdate(Employee employee);
 }

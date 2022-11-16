@@ -4,14 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
-
     // Business error
     EMAIL_EXISTED(1001, "Email existed!", "Email đã tồn tại!"),
     FILE_NOT_FOUND(1002, "File not found!", "File không tồn tại!"),
     ORGANIZATION_NOT_FOUND(1003, "Organization not found!", "Đơn vị không tồn tại!"),
     ACCOUNT_NOT_FOUND(1004, "Account not found!", "Tài khoản không tồn tại!"),
     EMPLOYEE_NOT_FOUND(1005, "Employee not found!", "Nhân viên không tồn tại!"),
-
     // Server error
     VIOLATE_VALIDATION_ARGUMENT(2000, "Violate validation constraint", "Dữ liệu không hợp lệ!"),
     METHOD_ARGUMENT_TYPE_MISMATCH(2001, "Method argument type mismatch", "Dữ liệu không hợp lệ!"),
@@ -23,7 +21,6 @@ public enum ErrorCode {
     private final Integer responseStatus;
     private final String causeMsg;
     private final String detailsMessage;
-
     ErrorCode(int responseStatus, String causeMsg, String detailsMessage) {
         this.responseStatus = responseStatus;
         this.causeMsg = causeMsg;
