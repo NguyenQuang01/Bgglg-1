@@ -24,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
+        /// Cung cấp userservice cho spring security
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
@@ -33,11 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeHttpRequests().antMatchers("/api/login/**").permitAll();
+        // Ngăn chặn request từ một domain khác
+        http.cors().and().authorizeHttpRequests().antMatchers("/api/login/**").permitAll(); // Cho phép tất cả mọi người truy cập vào địa chỉ này
+        // Cho phép role là ROLE_USER được phép truy cập vào nhung path có tiền tố đầu tiên là user
         http.authorizeHttpRequests().antMatchers("/user/**").hasAnyAuthority("ROLE_USER");
         http.authorizeHttpRequests().antMatchers("/employee/**").hasAnyAuthority("ROLE_MANAGER");
+        // Tất cả các request khác đều cần phải xác thực mới được truy cập
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+        // Thêm một lớp Filter kiểm tra user
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     @Bean

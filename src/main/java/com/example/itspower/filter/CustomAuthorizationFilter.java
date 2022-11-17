@@ -31,9 +31,9 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse  response, FilterChain filterChain) throws ServletException, IOException {
             //kiem tra duong dan dang nhap
-        if(request.getServletPath().equals("/api/logn")){
+        if(request.getServletPath().equals("/api/login")){
             filterChain.doFilter(request,response);
         }else{
             String authenticationHeader= request.getHeader(AUTHORIZATION);
@@ -42,13 +42,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     String token = authenticationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
+                    // Kiểm tra xem header Authorization có chứa thông tin jwt không
                     DecodedJWT decodedJWT = verifier.verify(token);
+                    // Lấy thông tin user từ chuỗi jwt
                     String userName = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
                     stream(roles).forEach(role ->{
                         authorities.add(new SimpleGrantedAuthority(role));
                     });
+                    // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName,null,authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request,response);
@@ -62,7 +65,12 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     new ObjectMapper().writeValue(response.getOutputStream(),error);
                 }
             }else{
-                filterChain.doFilter(request,response);
+                Map<String,String> error = new HashMap<>();
+                error.put("timesTamp : ","" + System.currentTimeMillis());
+                error.put("status : ","403");
+                error.put("error :","Forbidden");
+                error.put("message :","Access Denied");
+                new ObjectMapper().writeValue(response.getOutputStream(),error);
             }
         }
     }

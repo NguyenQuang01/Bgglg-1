@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/6/0680717be73416b6a1a49a82e45813cfefb07628" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/f/7f23ebacf1e90354557f1756ea46a385e4e06a91" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/2/b2de863d1a1eca0893f11010896a56136dde2eac" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/4/c455650ae93680fad52186c13cba1bcb7f223d93" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/7/e7b2dc2c889202869cbd1801670303b9439030b3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/ItsPowerApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/constrant/EFieldMatch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/constrant/FieldMatch$List.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/constrant/FieldMatch.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/constrant/FieldsMatchValidator$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/constrant/FieldsMatchValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/enums/ERoles.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/ConverterUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/Date.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/DateUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/DateValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/Integer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/IntegerValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/ObjectMappingUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/StartBeforeEndDate$List.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/StartBeforeEndDate.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/StartBeforeEndDateValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/component/util/TextUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/config/ModelMapperConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/config/SetToStringConverter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/BaseController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/BaseSearchController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/EmployeeController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/dto/EmployeeDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/dto/search/AddToUserForm.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/dto/search/CaseResultEmployeeDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/dto/search/OrganizationDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/dto/search/SearchDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/entity/BaseEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/entity/Employee.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/entity/Organization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/entity/RolesEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/entity/UserEntity.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/DuplicateResourceException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/ErrorCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/ErrorResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/GlobalExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/ResourceNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/ResponseEntityBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/exception/ViolationBusinessException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/filter/CustomAuthenticationFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/filter/CustomAuthorizationFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/EmployeeRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/RolesRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/UserRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/AbstractResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/ErrorsResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/PageResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/ResponseHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/SuccessResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/security/SecurityConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/BaseSearchService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/BaseService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/EmployeeService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/BaseServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/EmployeeServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/UserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/type/Language.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/type/RegexType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/message.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/controller/BaseSearchController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/controller/BaseSearchController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/filter/CustomAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/filter/CustomAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/filter/CustomAuthorizationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/filter/CustomAuthorizationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2HblO9kGSL0iEcvHdUABszdSYBK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/MorProject/its-system",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "e17a19105d4c966f3bfe76f06d26c877"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\its-power\its-power\src\main\java\com\example\itspower\response" />
+      <recent name="D:\its-power\its-power\src\main\java\com\example\itspower" />
+      <recent name="D:\its-power\its-power\src\main\java\com\example\itspower\component\util" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.itspower.repository" />
+      <recent name="com.example.itspower.component.util" />
+      <recent name="com.example.itspower.response" />
+      <recent name="com.example.itspower.type" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="ItsPowerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="its-power" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.itspower.ItsPowerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="" />
+      <created>1668561629400</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668561629400</updated>
+      <workItem from="1668561630682" duration="5299000" />
+      <workItem from="1668567007196" duration="24595000" />
+      <workItem from="1668648701315" duration="723000" />
+      <workItem from="1668649918647" duration="7718000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
