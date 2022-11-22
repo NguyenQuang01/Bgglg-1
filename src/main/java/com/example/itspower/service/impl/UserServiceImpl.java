@@ -64,6 +64,11 @@ public class UserServiceImpl implements UserService , UserDetailsService {
         log.info("save role : " + roleName + " to user :" + userName);
         UserEntity user = userRepository.findByUserName(userName);
         RolesEntity roles = rolesRepository.findByName(roleName);
+        if(roleName.equals("ROLE_USER")){
+            roles.setName("ROLE_USER");
+        }else if(roleName.equals("ROLE_MANAGER")){
+            roles.setName("ROLE_MANAGER");
+        }
         user.getRoles().add(roles);
     }
 
