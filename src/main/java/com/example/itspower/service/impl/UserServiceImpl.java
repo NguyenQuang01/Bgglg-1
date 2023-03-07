@@ -5,7 +5,10 @@ import com.example.itspower.entity.UserEntity;
 import com.example.itspower.repository.UserRepository;
 import com.example.itspower.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +29,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity user = userRepository.findByUser(username);
+        if (StringUtils.isEmpty(user.getUserLogin())) {
+            throw new UsernameNotFoundException("msg_userLoginNotExits_0");
+        }
         return null;
     }
 
