@@ -1,10 +1,16 @@
 package com.example.itspower.repository;
 
 import com.example.itspower.entity.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.itspower.repository.repositoryjpa.UserJPARepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Repository
-public interface UserRepository extends JpaRepository<UserEntity,Long > {
-    UserEntity findByUserName(String userName);
+@RequiredArgsConstructor
+@Component
+public class UserRepository {
+    private final UserJPARepository userJPARepository;
+
+    public UserEntity save(UserEntity user) {
+        return userJPARepository.save(user);
+    }
 }

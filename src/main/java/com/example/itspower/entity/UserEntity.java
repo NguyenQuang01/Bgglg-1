@@ -3,8 +3,6 @@ package com.example.itspower.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,15 +10,14 @@ import java.util.Collection;
 @Setter
 @Entity
 @Table(name = "user")
-@Data
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String userName;
+    @Column(name = "user_login")
+    private String userLogin;
+    @Column(name = "password")
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<RolesEntity> roles = new ArrayList<>();
+    @Column(name = "user_name")
+    private String userName;
 }
-
