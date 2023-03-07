@@ -8,6 +8,7 @@ import com.example.itspower.response.search.UserAulogin;
 import com.example.itspower.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,12 +29,12 @@ public class UserController {
     @PostMapping("/save")
     public ResponseEntity<SuccessResponse<Object>> save(@Valid @RequestBody AddToUserForm addToUserForm) {
         UserEntity data = userService.save(addToUserForm);
-        return ResponseEntity.ok(new SuccessResponse<>("save success", data));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>("save success", data));
     }
 
     @PostMapping("/login")
     public ResponseEntity<SuccessResponse<Object>> login(@Valid @RequestBody UserAulogin userAulogin) {
         UserResponse response = userService.loginUser(userAulogin);
-        return ResponseEntity.ok(new SuccessResponse<>(1, "login success", response));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "login success", response));
     }
 }

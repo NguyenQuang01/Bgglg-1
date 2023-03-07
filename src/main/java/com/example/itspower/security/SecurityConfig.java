@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Ngăn chặn request từ một domain khác
         http.cors().and().csrf().disable() // Ngăn chặn request từ một domain khác
                 .authorizeRequests()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/api/login").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
                 .antMatchers("/api/register").permitAll()// đăng ký tài khoản
                 .anyRequest().authenticated();
