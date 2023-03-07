@@ -1,4 +1,4 @@
-package com.example.itspower.dto.search;
+package com.example.itspower.response.search;
 
 import lombok.Data;
 import lombok.Getter;
