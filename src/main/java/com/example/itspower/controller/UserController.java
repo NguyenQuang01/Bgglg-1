@@ -1,40 +1,53 @@
 package com.example.itspower.controller;
 
-import com.example.itspower.entity.UserEntity;
+import com.example.itspower.filter.JwtToken;
+import com.example.itspower.filter.entity.UserEntity;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.model.UserResponse;
 import com.example.itspower.response.search.AddToUserForm;
 import com.example.itspower.response.search.UserAulogin;
+import com.example.itspower.service.UserRegister;
 import com.example.itspower.service.impl.UserServiceImpl;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-@Controller
-@RestController()
-@Slf4j
-@RequestMapping("/api")
+@RestController
+@CrossOrigin
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @PostMapping("/save")
-    public ResponseEntity<SuccessResponse<Object>> save(@Valid @RequestBody AddToUserForm addToUserForm) {
-        UserEntity data = userService.save(addToUserForm);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>("save success", data));
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtToken jwtToken;
+
+    @Autowired
+    private UserRegister userRegister;
+
+    @PostMapping("/api/save")
+    public ResponseEntity<SuccessResponse<Object>> saveData(@RequestBody AddToUserForm addToUserForm) {
+        UserEntity data = userRegister.save(addToUserForm);
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "register success", data));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<SuccessResponse<Object>> login(@Valid @RequestBody UserAulogin userAulogin) {
-        UserResponse response = userService.loginUser(userAulogin);
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "login success", response));
+    @PostMapping("/api/login")
+    public ResponseEntity<SuccessResponse<Object>> login(@RequestBody UserAulogin userAulogin) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
+            UserDetails userDetails = userService.loadUserByUsername(userAulogin.getUserLogin());
+            String token = jwtToken.generateToken(userDetails);
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "login success", new UserResponse(userDetails.getUsername(), token)));
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
     }
 }

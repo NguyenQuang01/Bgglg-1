@@ -25,7 +25,7 @@ public class JwtToken {
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-//                .claim("role",userDetails.get().getRoles().toString())// phan quyen user
+                .claim("role", userDetails.getAuthorities())// phan quyen user
                 .compact();
 
     }
@@ -36,7 +36,6 @@ public class JwtToken {
                 .setSigningKey(JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
-
         return claims.getSubject();
     }
 

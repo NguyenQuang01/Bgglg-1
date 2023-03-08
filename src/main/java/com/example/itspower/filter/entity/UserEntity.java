@@ -1,4 +1,4 @@
-package com.example.itspower.entity;
+package com.example.itspower.filter.entity;
 
 import lombok.*;
 
@@ -6,13 +6,13 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "user")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
     @Column(name = "user_login")
     private String userLogin;

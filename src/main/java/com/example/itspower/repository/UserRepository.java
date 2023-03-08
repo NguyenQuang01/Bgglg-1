@@ -1,6 +1,6 @@
 package com.example.itspower.repository;
 
-import com.example.itspower.entity.UserEntity;
+import com.example.itspower.filter.entity.UserEntity;
 import com.example.itspower.repository.repositoryjpa.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
