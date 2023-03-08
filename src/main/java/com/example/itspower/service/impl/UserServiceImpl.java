@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @Slf4j
 public class UserServiceImpl implements UserDetailsService {
@@ -23,6 +25,6 @@ public class UserServiceImpl implements UserDetailsService {
         if (user.getUserLogin()==null) {
             throw new UsernameNotFoundException("msg_userLoginNotExits_0");
         }
-        return new User(user.getUserName(), user.getPassword(),null);
+        return new User(user.getUserName(), user.getPassword(),new ArrayList<>());
     }
 }
