@@ -19,8 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserServiceImpl userService;
 
-    @Autowired
-    public JwtAuthenticationFilter jwtAuthenticationFilter;
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+        return new JwtAuthenticationFilter();
+    }
 
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -42,12 +43,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-         // Ngăn chặn request từ một domain khác
-               http.authorizeRequests()
-                .antMatchers("/**").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
+        http// Ngăn chặn request từ một domain khác
+                .authorizeHttpRequests()
+                .antMatchers("/api/**").permitAll()// Cho phép tất cả mọi người truy cập vào địa chỉ này
+//                .antMatchers("/api/register").permitAll()// đăng ký tài khoản
                 .anyRequest().authenticated(); // Tất cả các request khác đều cần phải xác thực mới được truy cập
-
         // Thêm một lớp Filter kiểm tra jwt
-        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

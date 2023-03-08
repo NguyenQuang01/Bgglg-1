@@ -1,7 +1,6 @@
 package com.example.itspower.filter;
 
 import com.example.itspower.service.impl.UserServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,11 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @Slf4j
 @Component
@@ -54,14 +48,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
         } catch (Exception e) {
-            log.error("Error logging in : {} " + e.getMessage());
-            response.setHeader("erorr", e.getMessage());
-            response.setStatus(FORBIDDEN.value());
-            Map<String, String> error = new HashMap<>();
-            error.put("error_message", e.getMessage());
-            response.setContentType(APPLICATION_JSON_VALUE);
-            new ObjectMapper().writeValue(response.getOutputStream(), error);
-
+//            log.error("Error logging in : {} " + e.getMessage());
+//            response.setHeader("erorr", e.getMessage());
+//            response.setStatus(FORBIDDEN.value());
+//            Map<String, String> error = new HashMap<>();
+//            error.put("error_message", e.getMessage());
+//            response.setContentType(APPLICATION_JSON_VALUE);
+//            new ObjectMapper().writeValue(response.getOutputStream(), error);
+            throw new RuntimeException();
         }
     }
 
