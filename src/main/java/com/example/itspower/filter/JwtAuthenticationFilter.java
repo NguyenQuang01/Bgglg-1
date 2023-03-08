@@ -1,6 +1,6 @@
 package com.example.itspower.filter;
 
-import com.example.itspower.service.impl.UserServiceImpl;
+import com.example.itspower.service.impl.UserLoginConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtToken token;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserLoginConfig userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -1,7 +1,7 @@
 package com.example.itspower.security;
 
 import com.example.itspower.filter.JwtAuthenticationFilter;
-import com.example.itspower.service.impl.UserServiceImpl;
+import com.example.itspower.service.impl.UserLoginConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserServiceImpl userService;
+    UserLoginConfig userService;
 
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)

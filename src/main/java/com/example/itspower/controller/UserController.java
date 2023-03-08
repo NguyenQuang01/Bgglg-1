@@ -1,19 +1,13 @@
 package com.example.itspower.controller;
 
-import com.example.itspower.filter.JwtToken;
 import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.response.SuccessResponse;
-import com.example.itspower.model.UserResponse;
 import com.example.itspower.response.search.AddToUserForm;
 import com.example.itspower.response.search.UserAulogin;
-import com.example.itspower.service.UserRegister;
-import com.example.itspower.service.impl.UserServiceImpl;
+import com.example.itspower.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,31 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class UserController {
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtToken jwtToken;
-
-    @Autowired
-    private UserRegister userRegister;
 
     @PostMapping("/api/save")
-    public ResponseEntity<SuccessResponse<Object>> saveData(@RequestBody AddToUserForm addToUserForm) {
-        UserEntity data = userRegister.save(addToUserForm);
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "register success", data));
+    public ResponseEntity<Object> saveData(@RequestBody AddToUserForm addToUserForm) {
+        try {
+            UserEntity data = userService.save(addToUserForm);
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "register success", data));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<SuccessResponse<Object>> login(@RequestBody UserAulogin userAulogin) {
+    public ResponseEntity<Object> login(@RequestBody UserAulogin userAulogin) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
-            UserDetails userDetails = userService.loadUserByUsername(userAulogin.getUserLogin());
-            String token = jwtToken.generateToken(userDetails);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "login success", new UserResponse(userDetails.getUsername(), token)));
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "login success", userService.loginUser(userAulogin)));
         } catch (Exception e) {
-            throw new RuntimeException();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }
