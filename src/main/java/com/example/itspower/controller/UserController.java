@@ -1,9 +1,9 @@
 package com.example.itspower.controller;
 
 import com.example.itspower.filter.JwtToken;
-import com.example.itspower.filter.entity.UserEntity;
+import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.response.SuccessResponse;
-import com.example.itspower.response.model.UserResponse;
+import com.example.itspower.model.UserResponse;
 import com.example.itspower.response.search.AddToUserForm;
 import com.example.itspower.response.search.UserAulogin;
 import com.example.itspower.service.UserRegister;

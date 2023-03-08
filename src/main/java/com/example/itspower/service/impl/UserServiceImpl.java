@@ -1,6 +1,6 @@
 package com.example.itspower.service.impl;
 
-import com.example.itspower.filter.entity.UserEntity;
+import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

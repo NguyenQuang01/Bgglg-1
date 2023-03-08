@@ -1,4 +1,4 @@
-package com.example.itspower.filter.entity;
+package com.example.itspower.model.entity;
 
 import lombok.*;
 
@@ -20,4 +20,6 @@ public class UserEntity {
     private String password;
     @Column(name = "user_name")
     private String userName;
+    @Column(name = "is_admin")
+    private Boolean isAdmin;
 }

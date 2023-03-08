@@ -1,6 +1,6 @@
 package com.example.itspower.service;
 
-import com.example.itspower.filter.entity.UserEntity;
+import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.repository.UserRepository;
 import com.example.itspower.response.search.AddToUserForm;
 import org.springframework.beans.factory.annotation.Autowired;

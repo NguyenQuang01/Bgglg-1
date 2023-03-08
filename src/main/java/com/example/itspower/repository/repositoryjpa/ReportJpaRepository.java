@@ -1,10 +1,9 @@
 package com.example.itspower.repository.repositoryjpa;
 
-import com.example.itspower.model.entity.UserEntity;
+import com.example.itspower.model.entity.ReportEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserJPARepository extends JpaRepository<UserEntity, Integer> {
-    UserEntity findByUserName(String userName);
+public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer> {
 }

@@ -25,7 +25,7 @@ public class JwtToken {
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-                .claim("role", userDetails.getAuthorities())// phan quyen user
+//                .claim("role", userDetails.getAuthorities())// phan quyen user
                 .compact();
 
     }
