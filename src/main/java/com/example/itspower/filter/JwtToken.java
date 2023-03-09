@@ -1,9 +1,9 @@
 package com.example.itspower.filter;
 
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
 
 import java.util.Date;
 
@@ -14,6 +14,20 @@ public class JwtToken {
 
     //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 604800000L;
+
+//    private final AuthenticationManager authenticationManager;
+//    public JwtToken(AuthenticationManager authenticationManager) {
+//        this.authenticationManager = authenticationManager;
+//    }
+//    @Override
+//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+//        String userName =request.getParameter("userLogin");
+//        String passWord = request.getParameter("password");
+////        log.info("userLogin is : {} ",userName);
+////        log.info("password is : {} ",passWord);
+//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName,passWord);
+//        return authenticationManager.authenticate(authenticationToken);
+//    }
 
     // Tạo ra jwt từ thông tin user
     public String generateToken(UserDetails userDetails) {
