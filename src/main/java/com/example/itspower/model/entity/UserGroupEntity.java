@@ -11,12 +11,11 @@ public class UserGroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "parent_id")
+    private Integer parentId;
     @Column(name = "user_id")
-    private Integer userId;
-    @Column(name = "office")
-    private String office;
-    @Column(name = "enterprise")
-    private String enterprise;
-    @Column(name = "odd_unit")
-    private String oddUnit;
+    private String userId;
+
 }
