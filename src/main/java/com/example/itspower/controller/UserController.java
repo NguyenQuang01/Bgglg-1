@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @CrossOrigin
 public class UserController {
@@ -35,7 +37,7 @@ public class UserController {
 
 
     @PostMapping("/api/save")
-    public ResponseEntity<Object> saveData(@RequestBody AddToUserForm addToUserForm) {
+    public ResponseEntity<Object> saveData(@Valid @RequestBody AddToUserForm addToUserForm) {
         try {
             UserEntity data = userService.save(addToUserForm);
             return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "register success", data));
@@ -45,11 +47,10 @@ public class UserController {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<Object> login(@RequestBody UserAulogin userAulogin) {
+    public ResponseEntity<Object> login(@Valid @RequestBody UserAulogin userAulogin) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "login success", new UserResponse(userDetails.getUsername(), token)));
-//
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), token)));
     }
 }
