@@ -1,7 +1,9 @@
 package com.example.itspower.security;
-import com.example.itspower.filter.CustomAuthenticationFilter;
-import com.example.itspower.filter.CustomAuthorizationFilter;
-import lombok.RequiredArgsConstructor;
+
+import com.example.itspower.filter.JwtAuthenticationEntryPoint;
+import com.example.itspower.filter.JwtAuthenticationFilter;
+import com.example.itspower.service.impl.UserLoginConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,45 +12,47 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-
-@Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    UserLoginConfig userService;
+
+    @Autowired
+    JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // Password encoder, để Spring Security sử dụng mã hóa mật khẩu người dùng
-        /// Cung cấp userservice cho spring security
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Autowired
+    public JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-        http.csrf().disable();
+        http.cors().and().csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/api/login").permitAll()
+                .anyRequest().authenticated();
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // Ngăn chặn request từ một domain khác
-        http.cors().and().authorizeHttpRequests().antMatchers("/api/login/**").permitAll(); // Cho phép tất cả mọi người truy cập vào địa chỉ này
-        // Cho phép role là ROLE_USER được phép truy cập vào nhung path có tiền tố đầu tiên là user
-        http.authorizeHttpRequests().antMatchers("/user/**").hasAnyAuthority("ROLE_USER");
-        http.authorizeHttpRequests().antMatchers("/employee/**").hasAnyAuthority("ROLE_MANAGER");
-        // Tất cả các request khác đều cần phải xác thực mới được truy cập
-        http.authorizeHttpRequests().anyRequest().authenticated();
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
-        // Thêm một lớp Filter kiểm tra user
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception{
-        return super.authenticationManagerBean();
+        http.logout().disable();
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
