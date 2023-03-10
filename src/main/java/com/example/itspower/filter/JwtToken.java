@@ -11,25 +11,8 @@ import java.util.Date;
 @Component
 public class JwtToken {
     private final String JWT_SECRET = "anhpd1303@gmail.com####123%%%%";
-
-    //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 604800000L;
 
-//    private final AuthenticationManager authenticationManager;
-//    public JwtToken(AuthenticationManager authenticationManager) {
-//        this.authenticationManager = authenticationManager;
-//    }
-//    @Override
-//    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-//        String userName =request.getParameter("userLogin");
-//        String passWord = request.getParameter("password");
-////        log.info("userLogin is : {} ",userName);
-////        log.info("password is : {} ",passWord);
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName,passWord);
-//        return authenticationManager.authenticate(authenticationToken);
-//    }
-
-    // Tạo ra jwt từ thông tin user
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);

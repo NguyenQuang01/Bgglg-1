@@ -31,5 +31,7 @@ Q.idea/sonarlint/securityhotspotstore/2/a/2a3bf3ca499821031b9cc86444567451ed79b0
 Q.idea/sonarlint/securityhotspotstore/c/4/c455650ae93680fad52186c13cba1bcb7f223d93,0\a\0ad2bfeac4fa8d41680f2a74513b2fc7ecc3d746
 Å
 Q.idea/sonarlint/securityhotspotstore/d/4/d481b8d6e0808b1920148c3e48f4ef0f8edc5928,e\a\ea2abb86c579d1c4e3a60eac5fe4185042fd358c
-q
-Asrc/main/java/com/example/itspower/repository/UserRepository.java,6\f\6f6b3076e9dc486bf88a510c1918b89760027472
+x
+Hsrc/main/java/com/example/itspower/exception/GlobalExceptionHandler.java,b\2\b2de863d1a1eca0893f11010896a56136dde2eac
+|
+Lsrc/main/java/com/example/itspower/exception/ViolationBusinessException.java,c\7\c7324f4170127fd1bd7b4c829f9cf6ba0a4aa7bf
