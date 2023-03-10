@@ -38,10 +38,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             // Lấy jwt từ request
             String authenticationHeader = getJwtFromRequest(request);
-            String userLogin;
             if (StringUtils.hasText(authenticationHeader) && token.validateToken(authenticationHeader)) {
                 // Lấy userLogin từ chuỗi jwt
-                userLogin = token.getUserNameFromJWT(authenticationHeader);
+                String userLogin = token.getUserNameFromJWT(authenticationHeader);
                 // Lấy thông tin người dùng qua userLogin
                 UserDetails userDetails = userService.loadUserByUsername(userLogin);
                 if (userDetails != null) {

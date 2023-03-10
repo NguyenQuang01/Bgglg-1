@@ -1,9 +1,9 @@
 package com.example.itspower.filter;
 
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import io.jsonwebtoken.*;
 
 import java.util.Date;
 
@@ -11,11 +11,8 @@ import java.util.Date;
 @Component
 public class JwtToken {
     private final String JWT_SECRET = "anhpd1303@gmail.com####123%%%%";
-
-    //Thời gian có hiệu lực của chuỗi jwt
     private final long JWT_EXPIRATION = 604800000L;
 
-    // Tạo ra jwt từ thông tin user
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
