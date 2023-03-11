@@ -1,6 +1,6 @@
 package com.example.itspower.model.entity;
 
-import com.example.itspower.component.enums.Type;
+import com.example.itspower.component.enums.TransferType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,5 +17,5 @@ public class TransferEntity {
     @Column(name = "transfer_num")
     private Integer transferNum;
     @Column(name = "type")
-    private Type type;
+    private TransferType type;
 }
