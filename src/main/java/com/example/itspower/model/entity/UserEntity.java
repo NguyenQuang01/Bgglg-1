@@ -1,9 +1,6 @@
 package com.example.itspower.model.entity;
-
 import lombok.*;
-
 import javax.persistence.*;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -22,4 +19,10 @@ public class UserEntity {
     private String userName;
     @Column(name = "is_admin")
     private Boolean isAdmin;
+    @Column(name = "readReport")
+    private Boolean readReport;
+    @Column(name = "editReport")
+    private Boolean editReport;
+    @Column(name = "upDateReport")
+    private Boolean upDateReport;
 }

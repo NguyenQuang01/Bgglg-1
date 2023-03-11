@@ -14,7 +14,7 @@ public class UserRepository {
         return userJPARepository.save(user);
     }
 
-    public UserEntity findByUser(String userLogin) {
+    public UserEntity findByUser(String userLogin)   {
         return userJPARepository.findByUserName(userLogin);
     }
 }
