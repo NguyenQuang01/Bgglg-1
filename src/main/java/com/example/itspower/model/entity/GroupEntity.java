@@ -19,4 +19,7 @@ public class GroupEntity {
     private String name;
     @Column(name = "parent_id")
     private Integer parentId;
+    @Column(name = "numEmp")
+    private Integer numEmp;
+
 }
