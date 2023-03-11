@@ -22,4 +22,10 @@ public class UserEntity {
     private String userName;
     @Column(name = "is_admin")
     private Boolean isAdmin;
+    @Column(name = "read_report")
+    private Boolean readReport;
+    @Column(name = "edit_report")
+    private Boolean editReport;
+    @Column(name = "creat_report")
+    private Boolean creatReport;
 }
