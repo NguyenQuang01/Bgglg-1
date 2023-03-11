@@ -20,7 +20,7 @@ public class ReportController {
     private ReportService reportService;
 
     @PostMapping("/report/save")
-    public ResponseEntity<Object> save(@Valid @RequestBody ReportRequest request) {
+    public ResponseEntity<Object> report(@Valid @RequestBody ReportRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(reportService.add(1, request));
     }
 
