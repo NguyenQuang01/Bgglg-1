@@ -12,6 +12,6 @@ public class ReasonEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "reason_name")
-    private Integer reasonName;
+    private String reasonName;
 
 }

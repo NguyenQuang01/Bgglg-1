@@ -1,5 +1,6 @@
 package com.example.itspower.service;
 
+import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.response.ReportResponse;
 import com.example.itspower.response.ReportRestNumResponse;
 import com.example.itspower.response.request.ReportEmpNumRequest;
@@ -13,4 +14,6 @@ public interface ReportService {
     ReportRestNumResponse reportRestNum(int userGroupId, int id, int restNum);
 
     void reportEmpAndReason(List<ReportEmpNumRequest> requests, Integer userGroupId);
+
+    List<GroupEntity> getListGroup();
 }

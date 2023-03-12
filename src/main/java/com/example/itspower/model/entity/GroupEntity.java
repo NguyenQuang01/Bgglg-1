@@ -21,5 +21,4 @@ public class GroupEntity {
     @Column(name = "parent_id")
     private Integer parentId;
 
-
 }

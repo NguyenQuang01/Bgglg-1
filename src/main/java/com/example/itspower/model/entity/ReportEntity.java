@@ -19,6 +19,4 @@ public class ReportEntity {
     private Integer userGroupId;
     @Column(name = "createBy")
     private String createBy;
-    @Column(name = "createAt")
-    private Date createAt;
 }
