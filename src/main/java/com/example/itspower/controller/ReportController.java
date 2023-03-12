@@ -6,10 +6,7 @@ import com.example.itspower.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,5 +32,9 @@ public class ReportController {
     public ResponseEntity<Object> reportEmpReason(@RequestBody List<@Valid ReportEmpNumRequest> requests) {
         reportService.reportEmpAndReason(requests, 1);
         return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+    @GetMapping("/report/groupsName")
+    public ResponseEntity<Object> getListUserGroup() {
+        return ResponseEntity.status(HttpStatus.OK).body(reportService.getListGroup());
     }
 }
