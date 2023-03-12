@@ -18,7 +18,7 @@ public class ReportRepository {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setUserGroupId(userGroupId);
         reportEntity.setOrderDate(DateUtils.fromString(request.getOrderDate()));
-        reportEntity.setRestNumber(request.getRestNum());
+//        reportEntity.setRestNumber(request.getRestNum());
         return reportJpaRepository.save(reportEntity);
     }
 

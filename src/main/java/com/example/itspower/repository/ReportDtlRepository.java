@@ -26,10 +26,10 @@ public class ReportDtlRepository {
             ReportDtlEntity reportDtlEntity = new ReportDtlEntity();
             reportDtlEntity.setReportId(reportId);
             reportDtlEntity.setEmpNum(item.getEmpNum());
-            reportDtlEntity.setEmpName(item.getEmpName());
-            reportDtlEntity.setReasonId(item.getReasonId());
-            reportDtlEntity.setPartTimeNum(item.getPartTimeNum());
-            reportDtlEntity.setStudentNum(item.getStudentNum());
+//            reportDtlEntity.setEmpName(item.getEmpName());
+//            reportDtlEntity.setReasonId(item.getReasonId());
+//            reportDtlEntity.setPartTimeNum(item.getPartTimeNum());
+//            reportDtlEntity.setStudentNum(item.getStudentNum());
             reportDtlEntity.setRiceNumber(item.getRiceNum());
             entities.add(reportDtlEntity);
         }

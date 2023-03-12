@@ -12,8 +12,8 @@ public class TransferEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "user_group_id")
-    private Integer userGroupId;
+    @Column(name = "report_ID")
+    private Integer reportId;
     @Column(name = "transfer_num")
     private Integer transferNum;
     @Column(name = "type")

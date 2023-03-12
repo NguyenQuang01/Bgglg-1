@@ -16,7 +16,7 @@ public class ReportResponse {
     public List<ReportDtlResponse> responses = new ArrayList<>();
 
     public ReportResponse(ReportEntity reportEntity, List<ReportDtlEntity> reportDtlEntities) {
-        this.restNum = reportEntity.getRestNumber();
+//        this.restNum = reportEntity.getRestNumber();
         this.orderDate = DateUtils.formatDate(reportEntity.getOrderDate());
         this.userGroupId = reportEntity.getUserGroupId();
         reportDtlEntities.forEach(i -> this.responses.add(new ReportDtlResponse(i)));

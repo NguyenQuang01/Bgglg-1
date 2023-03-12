@@ -10,16 +10,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "group_name")
-public class GroupEntity {
+@Table(name = "employee_rest")
+public class EmployeeRestEntity {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "parent_id")
-    private Integer parentId;
-
-
+    @Column(name = "emp_name")
+    private String empName;
+    @Column(name = "reason_id")
+    private Integer reasonId;
 }

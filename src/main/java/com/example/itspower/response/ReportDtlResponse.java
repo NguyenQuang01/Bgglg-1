@@ -18,10 +18,10 @@ public class ReportDtlResponse {
         this.id = entity.getId();
         this.reportId = entity.getReportId();
         this.empNum = entity.getEmpNum();
-        this.reasonId = entity.getReasonId();
-        this.empName = entity.getEmpName();
-        this.partTimeNum = entity.getPartTimeNum();
-        this.studentNum = entity.getStudentNum();
+//        this.reasonId = entity.getReasonId();
+//        this.empName = entity.getEmpName();
+//        this.partTimeNum = entity.getPartTimeNum();
+//        this.studentNum = entity.getStudentNum();
         this.riceNum = entity.getRiceNumber();
     }
 }

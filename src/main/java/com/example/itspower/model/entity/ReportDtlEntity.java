@@ -11,17 +11,24 @@ public class ReportDtlEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "rest_id")
-    private Integer reportId; @Column(name = "reason_id")
-    private Integer reasonId;
+    @Column(name = "report_id")
+    private Integer reportId;
     @Column(name = "empNum")
     private Integer empNum;
-    @Column(name = "emp_name")
-    private String empName;
-    @Column(name = "part_time_num")
-    private Integer partTimeNum;
-    @Column(name = "student_num")
-    private Integer studentNum;
     @Column(name = "rice_number")
     private Integer riceNumber;
+    @Column(name = "numEmp")
+    private Integer numEmp;
+    @Column(name = "groupID")
+    private Integer groupID;
+    @Column(name = "part_time_num")
+    private Integer partTimeNum;
+    @Column(name = "rest_number")
+    private Integer restNumber ;
+    @Column(name = "student_num")
+    private Integer studentNum;
+    @Column(name = "num_Support")
+    private Integer numSupport ;
+    @Column(name = "num_transfer")
+    private Integer numTransfer ;
 }

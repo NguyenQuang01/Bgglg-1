@@ -12,7 +12,7 @@ public class ReportRestNumResponse {
     private int id;
 
     public ReportRestNumResponse(Optional<ReportEntity> entity) {
-        this.restNum = entity.get().getRestNumber();
+//        this.restNum = entity.get().getRestNumber();
         this.id = entity.get().getId();
         this.userGroupId = entity.get().getUserGroupId();
     }
