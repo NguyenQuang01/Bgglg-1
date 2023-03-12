@@ -13,13 +13,13 @@ public class ReportDtlEntity {
     private Integer id;
     @Column(name = "report_id")
     private Integer reportId;
-    @Column(name = "empNum")
+    @Column(name = "emp_num")
     private Integer empNum;
     @Column(name = "rice_number")
     private Integer riceNumber;
-    @Column(name = "numEmp")
+    @Column(name = "num_emp")
     private Integer numEmp;
-    @Column(name = "groupID")
+    @Column(name = "group_id")
     private Integer groupID;
     @Column(name = "part_time_num")
     private Integer partTimeNum;
@@ -27,7 +27,7 @@ public class ReportDtlEntity {
     private Integer restNumber ;
     @Column(name = "student_num")
     private Integer studentNum;
-    @Column(name = "transferId")
+    @Column(name = "transfer_id")
     private Integer transferId;
 
 }

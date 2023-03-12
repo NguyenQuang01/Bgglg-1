@@ -17,6 +17,6 @@ public class ReportEntity {
     private Date orderDate;
     @Column(name = "user_group_id")
     private Integer userGroupId;
-    @Column(name = "createBy")
+    @Column(name = "create_by")
     private String createBy;
 }

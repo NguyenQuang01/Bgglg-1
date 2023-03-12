@@ -12,11 +12,8 @@ public class TransferEntity {
     private Integer reportId;
     @Column(name = "num_transfer")
     private Integer numTransfer ;
-    @Column(name = "num_Support")
+    @Column(name = "num_support")
     private Integer numSupport ;
-    @Column(name = "userGroupId")
+    @Column(name = "user_group_id")
     private Integer userGroupId;
-    @Column(name = "type")
-    private Integer type;
-
 }

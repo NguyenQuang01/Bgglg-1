@@ -3,7 +3,9 @@ package com.example.itspower.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,6 +19,6 @@ public class EmployeeRestEntity {
     private String empName;
     @Column(name = "reason_id")
     private Integer reasonId;
-    @Column(name = "reportId")
+    @Column(name = "report_id")
     private Integer reportId;
 }

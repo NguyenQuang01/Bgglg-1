@@ -24,8 +24,8 @@ public class UserEntity {
     private Boolean isAdmin;
     @Column(name = "read_report")
     private Boolean readReport;
-    @Column(name = "edit_report")
-    private Boolean editReport;
+    @Column(name = "up_date_report")
+    private Boolean upDateReport;
     @Column(name = "creat_report")
     private Boolean creatReport;
 }

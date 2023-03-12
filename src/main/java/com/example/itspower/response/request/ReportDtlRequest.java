@@ -4,10 +4,14 @@ import lombok.Data;
 
 @Data
 public class ReportDtlRequest {
-    private int empNum;
-    private int reasonId;
-    private String empName;
-    private int partTimeNum;
-    private int studentNum;
-    private int riceNum;
+    private Integer reportId;
+    private Integer empNum;
+    private Integer riceNumber;
+    private Integer numEmp;
+    private Integer groupId;
+    private Integer partTimeNum;
+    private Integer restNumber;
+    private Integer studentNum;
+    private Integer transferNum;
+    private Integer transferSupport;
 }

@@ -1,5 +1,7 @@
 package com.example.itspower.component.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,10 +34,11 @@ public class DateUtils {
             return null;
         }
         try {
-            sdf.applyPattern(FORMAT_DATE_TIME);
-            return sdf.parse(date);
-        } catch (Exception e) {
-            return null;
+            DateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE);
+            Date convertStringToDate = dateFormat.parse(date);
+            return convertStringToDate;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 }

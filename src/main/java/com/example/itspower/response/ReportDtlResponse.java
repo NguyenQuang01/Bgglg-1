@@ -5,23 +5,27 @@ import lombok.Data;
 
 @Data
 public class ReportDtlResponse {
-    private int id;
-    private int reportId;
-    private int empNum;
-    private int reasonId;
-    private String empName;
-    private int partTimeNum;
-    private int studentNum;
-    private int riceNum;
+    private Integer id;
+    private Integer reportId;
+    private Integer empNum;
+    private Integer riceNumber;
+    private Integer numEmp;
+    private Integer groupID;
+    private Integer partTimeNum;
+    private Integer restNumber;
+    private Integer studentNum;
+    private Integer transferId;
 
     public ReportDtlResponse(ReportDtlEntity entity) {
         this.id = entity.getId();
         this.reportId = entity.getReportId();
         this.empNum = entity.getEmpNum();
-//        this.reasonId = entity.getReasonId();
-//        this.empName = entity.getEmpName();
-//        this.partTimeNum = entity.getPartTimeNum();
-//        this.studentNum = entity.getStudentNum();
-        this.riceNum = entity.getRiceNumber();
+        this.riceNumber = entity.getRiceNumber();
+        this.numEmp = entity.getNumEmp();
+        this.groupID = entity.getGroupID();
+        this.partTimeNum = entity.getPartTimeNum();
+        this.restNumber = entity.getRestNumber();
+        this.studentNum = entity.getStudentNum();
+        this.transferId = entity.getTransferId();
     }
 }

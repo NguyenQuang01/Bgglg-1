@@ -5,20 +5,17 @@ import com.example.itspower.model.entity.ReportDtlEntity;
 import com.example.itspower.model.entity.ReportEntity;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 public class ReportResponse {
-    private int restNum;
+    private String createBy;
     private int userGroupId;
     private String orderDate;
-    public List<ReportDtlResponse> responses = new ArrayList<>();
+    public ReportDtlResponse responses;
 
-    public ReportResponse(ReportEntity reportEntity, List<ReportDtlEntity> reportDtlEntities) {
-//        this.restNum = reportEntity.getRestNumber();
+    public ReportResponse(ReportEntity reportEntity, ReportDtlEntity dtlEntities) {
         this.orderDate = DateUtils.formatDate(reportEntity.getOrderDate());
+        this.createBy = reportEntity.getCreateBy();
         this.userGroupId = reportEntity.getUserGroupId();
-        reportDtlEntities.forEach(i -> this.responses.add(new ReportDtlResponse(i)));
+        this.responses = new ReportDtlResponse(dtlEntities);
     }
 }

@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
         try{
             StringBuilder query = new StringBuilder();
             query.append("select user_login as userName ,read_report as readReport ,up_date_report as updateReport,\n" +
-                    "creat_report as createReport, group_id as groupId, gn.name as groupName\n" +
+                    " creat_report as createReport, group_id as groupId, gn.name as groupName\n" +
                     " from user u inner join user_Group ug  on u.id =ug.user_id inner join group_name gn \n" +
                     " on ug.group_id =gn.id where u.user_name ='"+loginName+"'");
             Query queryResult = entityManager.createNativeQuery(query.toString());
