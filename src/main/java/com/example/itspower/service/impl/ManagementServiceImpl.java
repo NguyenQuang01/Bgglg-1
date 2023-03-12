@@ -1,5 +1,4 @@
 package com.example.itspower.service.impl;
-
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.repository.repositoryjpa.GroupRepository;
 import com.example.itspower.response.ListRootChildResponse;
@@ -11,7 +10,6 @@ import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.text.ParseException;
