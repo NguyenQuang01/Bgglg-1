@@ -20,5 +20,4 @@ public interface GroupRepository extends JpaRepository<GroupEntity,Integer> {
             "where groupid in (select id from group_name where parent_id = ?1) and r.create_at = ?2 ",
                 nativeQuery = true)
     Integer totalEmpProductivity(Integer parentId,String date);
-
 }

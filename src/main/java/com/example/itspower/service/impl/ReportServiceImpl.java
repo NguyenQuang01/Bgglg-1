@@ -1,9 +1,11 @@
 package com.example.itspower.service.impl;
 
+import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.ReportDtlEntity;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.repository.ReportDtlRepository;
 import com.example.itspower.repository.ReportRepository;
+import com.example.itspower.repository.repositoryjpa.GroupRepository;
 import com.example.itspower.response.ReportResponse;
 import com.example.itspower.response.ReportRestNumResponse;
 import com.example.itspower.response.request.ReportDtlRequest;
@@ -22,6 +24,8 @@ public class ReportServiceImpl implements ReportService {
     private ReportRepository reportRepository;
     @Autowired
     private ReportDtlRepository reportDtlRepository;
+    @Autowired
+    private GroupRepository groupRepository;
 
     @Override
     public ReportResponse add(Integer userGroupId, ReportRequest request) {
@@ -44,5 +48,10 @@ public class ReportServiceImpl implements ReportService {
                 reportDtlRepository.reportEmAndReason(numRequests, userGroupId);
             }
         }
+    }
+
+    @Override
+    public List<GroupEntity> getListGroup() {
+        return groupRepository.findAll();
     }
 }
