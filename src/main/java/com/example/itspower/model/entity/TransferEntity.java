@@ -1,21 +1,22 @@
 package com.example.itspower.model.entity;
-
-import com.example.itspower.component.enums.Type;
 import lombok.Data;
-
 import javax.persistence.*;
-
 @Data
-@Table(name = "transfer")
+@Table(name = "Transfer")
 @Entity
 public class TransferEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "user_group_id")
+    @Column(name = "report_id")
+    private Integer reportId;
+    @Column(name = "num_transfer")
+    private Integer numTransfer ;
+    @Column(name = "num_Support")
+    private Integer numSupport ;
+    @Column(name = "userGroupId")
     private Integer userGroupId;
-    @Column(name = "transfer_num")
-    private Integer transferNum;
     @Column(name = "type")
-    private Type type;
+    private Integer type;
+
 }

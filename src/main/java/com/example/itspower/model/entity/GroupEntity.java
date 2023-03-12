@@ -3,6 +3,7 @@ package com.example.itspower.model.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @AllArgsConstructor
@@ -19,7 +20,6 @@ public class GroupEntity {
     private String name;
     @Column(name = "parent_id")
     private Integer parentId;
-    @Column(name = "numEmp")
-    private Integer numEmp;
+
 
 }
