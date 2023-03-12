@@ -45,8 +45,9 @@ public class UserController {
     @GetMapping("/api/getInfo")
     public ResponseEntity<Object> getInfo(@RequestParam String loginName) {
         return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(),
-                "get user Infor",userService.getInfoUser(loginName)));
-}
+                "get user Infor", userService.getInfoUser(loginName)));
+    }
+
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@Valid @RequestBody UserAulogin userAulogin) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
