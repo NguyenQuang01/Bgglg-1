@@ -13,4 +13,5 @@ public class ReasonEntity {
     private Integer id;
     @Column(name = "reason_name")
     private Integer reasonName;
+
 }

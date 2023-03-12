@@ -27,8 +27,7 @@ public class ReportDtlEntity {
     private Integer restNumber ;
     @Column(name = "student_num")
     private Integer studentNum;
-    @Column(name = "num_Support")
-    private Integer numSupport ;
-    @Column(name = "num_transfer")
-    private Integer numTransfer ;
+    @Column(name = "transferId")
+    private Integer transferId;
+
 }
