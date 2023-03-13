@@ -6,7 +6,6 @@ import lombok.Data;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Data
 public class ReportRequest {
@@ -24,7 +23,4 @@ public class ReportRequest {
     @NotBlank
     @Valid
     ReportDtlRequest reportDtlRequest;
-    List<RestRequest> restList;
-
-    List<TransferRequest> transferList;
 }
