@@ -20,7 +20,6 @@ public class ReportDtlRepository {
         reportDtlEntity.setPartTimeNum(reportDtlRequest.getPartTimeNum());
         reportDtlEntity.setStudentNum(reportDtlRequest.getStudentNum());
         reportDtlEntity.setRestNumber(reportDtlRequest.getRestNumber());
-        reportDtlEntity.setGroupID(reportDtlRequest.getGroupId());
         return reportDtlJpaRepository.save(reportDtlEntity);
     }
 

@@ -1,6 +1,5 @@
 package com.example.itspower.response.request;
 
-import com.example.itspower.component.enums.TransferType;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -10,7 +9,5 @@ public class TransferRequest {
     @NonNull
     private Integer userGroupId;
     @NonNull
-    private Integer reportId;
-    @NonNull
-    private TransferType transferType;
+    private Integer transferType;
 }

@@ -40,14 +40,14 @@ public class UserServiceImpl implements UserService {
     public InforUser getInfoUser(String loginName) {
         try{
             StringBuilder query = new StringBuilder();
-            query.append("select user_login as userName ,read_report as readReport ,up_date_report as updateReport,\n" +
+            query.append("select user_login as userName ,read_report as readReport ,edit_report as updateReport,\n" +
                     " creat_report as createReport, group_id as groupId, gn.name as groupName\n" +
                     " from user u inner join user_Group ug  on u.id =ug.user_id inner join group_name gn \n" +
                     " on ug.group_id =gn.id where u.user_name ='"+loginName+"'");
             Query queryResult = entityManager.createNativeQuery(query.toString());
             return (InforUser) queryResult.unwrap(NativeQuery.class).setResultTransformer(Transformers.aliasToBean(InforUser.class)).getSingleResult();
         }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
+            return new InforUser();
         }
     }
 }

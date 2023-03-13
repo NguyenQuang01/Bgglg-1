@@ -15,6 +15,6 @@ public class TransferResponse {
         this.transferNum = transferEntity.getNumTransfer();
         this.userGroupId = transferEntity.getUserGroupId();
         this.reportId = transferEntity.getReportId();
-        this.transferType = transferEntity.getTransferType();
+//        this.transferType = transferEntity.getTransferType();
     }
 }

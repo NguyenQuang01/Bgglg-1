@@ -1,8 +1,6 @@
 package com.example.itspower.response;
-
 import com.example.itspower.model.entity.ReportDtlEntity;
 import lombok.Data;
-
 @Data
 public class ReportDtlResponse {
     private Integer id;
@@ -22,7 +20,6 @@ public class ReportDtlResponse {
         this.empNum = entity.getEmpNum();
         this.riceNumber = entity.getRiceNumber();
         this.numEmp = entity.getNumEmp();
-        this.groupID = entity.getGroupID();
         this.partTimeNum = entity.getPartTimeNum();
         this.restNumber = entity.getRestNumber();
         this.studentNum = entity.getStudentNum();

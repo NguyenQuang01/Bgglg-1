@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface ReportService {
     ReportResponse add(ReportRequest request);
-
     Object detail(String orderDate, Integer userGroupId);
-
     List<GroupEntity> getListGroup();
 }

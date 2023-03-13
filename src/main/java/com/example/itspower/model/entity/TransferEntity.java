@@ -1,10 +1,15 @@
 package com.example.itspower.model.entity;
-import com.example.itspower.component.enums.TransferType;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 @Data
 @Table(name = "Transfer")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class TransferEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +21,12 @@ public class TransferEntity {
     @Column(name = "user_group_id")
     private Integer userGroupId;
     @Column(name = "transferType")
-    private TransferType transferType ;
+    private Integer transferType ;
+
+    public TransferEntity( Integer numTransfer, Integer userGroupId, Integer transferType,Integer reportId) {
+        this.reportId = reportId;
+        this.numTransfer = numTransfer;
+        this.userGroupId = userGroupId;
+        this.transferType = transferType;
+    }
 }

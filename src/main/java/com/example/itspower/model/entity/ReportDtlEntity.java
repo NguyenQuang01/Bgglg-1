@@ -19,8 +19,6 @@ public class ReportDtlEntity {
     private Integer riceNumber;
     @Column(name = "num_emp")
     private Integer numEmp;
-    @Column(name = "group_id")
-    private Integer groupID;
     @Column(name = "part_time_num")
     private Integer partTimeNum;
     @Column(name = "rest_number")

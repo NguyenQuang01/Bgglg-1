@@ -4,17 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportDetailResponse {
-    private Number demarcation;
-    private Integer restNum;
-    private Integer partTimeNum;
-    private Integer studentNum;
-    private Integer transferNum;
-    private Integer supportNum;
-    private Integer riceNum;
-    private Number totalProductivity;
-
+    private Integer id;
+    private Double dinhBien;
+    private Integer soNghi;
+    private Integer thoiVu;
+    private Integer hocSinh;
+    private Integer soCom;
+    private Number laoDongNangSuat;
+    List<ListTransfer> transferList;
+    List<ListRest> restList;
 }
