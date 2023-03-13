@@ -11,9 +11,13 @@ public class RestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String Name;
-    private Integer reasonId;
 
+    @Column(name = "name")
+    private String Name;
+
+    @Column(name ="reason_id")
+    private Integer reasonId;
+    @Column(name ="report_id")
     private Integer reportId;
 
     public RestEntity(String name, Integer reasonId, Integer reportId) {

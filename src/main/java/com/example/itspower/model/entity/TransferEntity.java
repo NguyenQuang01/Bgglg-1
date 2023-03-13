@@ -20,7 +20,7 @@ public class TransferEntity {
     private Integer numTransfer ;
     @Column(name = "user_group_id")
     private Integer userGroupId;
-    @Column(name = "transferType")
+    @Column(name = "transfer_type")
     private Integer transferType ;
 
     public TransferEntity( Integer numTransfer, Integer userGroupId, Integer transferType,Integer reportId) {
