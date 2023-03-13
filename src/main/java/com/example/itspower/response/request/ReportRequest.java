@@ -1,7 +1,6 @@
 package com.example.itspower.response.request;
 
 import com.example.itspower.component.util.OrderDateException;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -26,6 +25,5 @@ public class ReportRequest {
     @Valid
     ReportDtlRequest reportDtlRequest;
     private List<TransferRequest> transferRequests;
-    @JsonIgnore
     private List<RestRequest> restRequests;
 }
