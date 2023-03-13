@@ -2,6 +2,7 @@ package com.example.itspower.service.impl;
 
 import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.repository.UserRepository;
+import com.example.itspower.response.CheckIsReportResponse;
 import com.example.itspower.response.InforUser;
 import com.example.itspower.response.search.AddToUserForm;
 import com.example.itspower.service.UserService;
@@ -49,5 +50,14 @@ public class UserServiceImpl implements UserService {
         }catch (Exception e){
             return new InforUser();
         }
+    }
+
+    @Override
+    public CheckIsReportResponse checkIsReport(Integer groupId, String date) {
+        StringBuilder query = new StringBuilder();
+        query.append("select count(*) as num from report r where r.user_group_id=1 " +
+                         "and r.order_date  like '"+date+"%'");
+        Query queryResult = entityManager.createNativeQuery(query.toString());
+        return (CheckIsReportResponse) queryResult.unwrap(NativeQuery.class).setResultTransformer(Transformers.aliasToBean(CheckIsReportResponse.class)).getSingleResult();
     }
 }
