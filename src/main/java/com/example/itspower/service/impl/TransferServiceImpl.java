@@ -17,10 +17,8 @@ public class TransferServiceImpl implements TransferService {
     private TransferRepository transferRepository;
 
     @Override
-    public List<TransferResponse> saveTransfer(List<TransferRequest> transferRequests) {
+    public List<TransferEntity> saveTransfer(List<TransferRequest> transferRequests) {
         List<TransferEntity> entities = transferRepository.saveTransfer(transferRequests);
-        List<TransferResponse> transferResponses = new ArrayList<>();
-        entities.forEach(i -> transferResponses.add(new TransferResponse(i)));
-        return transferResponses;
+        return entities;
     }
 }
