@@ -1,5 +1,4 @@
 package com.example.itspower.controller;
-
 import com.example.itspower.response.request.ReportRequest;
 import com.example.itspower.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
+@CrossOrigin
 public class ReportController {
     @Autowired
     private ReportService reportService;
