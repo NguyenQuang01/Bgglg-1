@@ -5,8 +5,8 @@ import com.example.itspower.model.entity.ReportDtlEntity;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.repository.ReportDtlRepository;
 import com.example.itspower.repository.ReportRepository;
+import com.example.itspower.repository.TransferRepository;
 import com.example.itspower.repository.repositoryjpa.GroupRepository;
-import com.example.itspower.repository.repositoryjpa.RestRepository;
 import com.example.itspower.repository.repositoryjpa.TransferJpaRepository;
 import com.example.itspower.response.ListRest;
 import com.example.itspower.response.ListTransfer;
@@ -14,6 +14,7 @@ import com.example.itspower.response.ReportDetailResponse;
 import com.example.itspower.response.ReportResponse;
 import com.example.itspower.response.request.ReportRequest;
 import com.example.itspower.service.ReportService;
+import com.example.itspower.service.RestService;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,15 +31,18 @@ public class ReportServiceImpl implements ReportService {
     private final ReportDtlRepository reportDtlRepository;
     private final GroupRepository groupRepository;
     private final EntityManager entityManager;
-    private final RestRepository restRepository;
+
+    private final TransferRepository transferRepository;
+    private final RestService restService;
     private final TransferJpaRepository transferJpaRepository;
 
-    public ReportServiceImpl(ReportRepository reportRepository, ReportDtlRepository reportDtlRepository, GroupRepository groupRepository, @Qualifier("primaryEntityManager") EntityManager entityManager, RestRepository restRepository, TransferJpaRepository transferJpaRepository) {
+    public ReportServiceImpl(ReportRepository reportRepository, ReportDtlRepository reportDtlRepository, GroupRepository groupRepository, @Qualifier("primaryEntityManager") EntityManager entityManager, TransferRepository transferRepository, RestService restService, TransferJpaRepository transferJpaRepository) {
         this.reportRepository = reportRepository;
         this.reportDtlRepository = reportDtlRepository;
         this.groupRepository = groupRepository;
         this.entityManager = entityManager;
-        this.restRepository = restRepository;
+        this.transferRepository = transferRepository;
+        this.restService = restService;
         this.transferJpaRepository = transferJpaRepository;
     }
 
@@ -48,6 +52,8 @@ public class ReportServiceImpl implements ReportService {
         try {
             ReportEntity reportEntity = reportRepository.save(request);
             ReportDtlEntity dtlEntities = reportDtlRepository.saveDtls(request.getReportDtlRequest(), reportEntity.getId());
+            transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
+            restService.save(request.getRestRequests(), reportEntity.getId());
             return new ReportResponse(reportEntity, dtlEntities);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
