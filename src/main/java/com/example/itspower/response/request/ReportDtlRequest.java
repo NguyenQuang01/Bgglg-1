@@ -12,6 +12,4 @@ public class ReportDtlRequest {
     private Integer partTimeNum;
     private Integer restNumber;
     private Integer studentNum;
-    private Integer transferNum;
-    private Integer transferSupport;
 }
