@@ -2,6 +2,7 @@ package com.example.itspower.controller;
 
 import com.example.itspower.filter.JwtToken;
 import com.example.itspower.model.entity.UserEntity;
+import com.example.itspower.response.CheckIsReportResponse;
 import com.example.itspower.response.InforUser;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.search.AddToUserForm;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -55,6 +58,14 @@ public class UserController {
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
         InforUser inforUser = userService.getInfoUser(userDetails.getUsername());
+        Date date = new Date();
+        String newDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        CheckIsReportResponse checkReported = userService.checkIsReport(inforUser.getGroupId(),newDate);
+        if(checkReported.getNum().intValue() >=1){
+            inforUser.setReported(true);
+        }else{
+            inforUser.setReported(false);
+        }
         inforUser.setToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success",
                 inforUser));

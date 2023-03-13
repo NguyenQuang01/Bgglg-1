@@ -11,6 +11,7 @@ public class InforUser {
     private Boolean createReport;
     private Integer groupId;
     private String groupName;
+    private Boolean reported;
     private String token;
 
 }

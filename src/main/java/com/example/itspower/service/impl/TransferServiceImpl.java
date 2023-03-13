@@ -1,5 +1,6 @@
 package com.example.itspower.service.impl;
 
+import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.repository.TransferRepository;
 import com.example.itspower.response.TransferResponse;
 import com.example.itspower.response.request.TransferRequest;
@@ -16,10 +17,8 @@ public class TransferServiceImpl implements TransferService {
     private TransferRepository transferRepository;
 
     @Override
-    public List<TransferResponse> saveTransfer(List<TransferRequest> transferRequests) {
-//        List<TransferEntity> entities = transferRepository.saveTransfer(transferRequests);
-        List<TransferResponse> transferResponses = new ArrayList<>();
-//        entities.forEach(i -> transferResponses.add(new TransferResponse(i)));
-        return transferResponses;
+    public List<TransferEntity> saveTransfer(List<TransferRequest> transferRequests) {
+        List<TransferEntity> entities = transferRepository.saveTransfer(transferRequests);
+        return entities;
     }
 }

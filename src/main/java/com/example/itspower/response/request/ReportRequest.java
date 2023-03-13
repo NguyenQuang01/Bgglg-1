@@ -24,7 +24,6 @@ public class ReportRequest {
     @NotBlank
     @Valid
     ReportDtlRequest reportDtlRequest;
-    List<RestRequest> restList;
-
-    List<TransferRequest> transferList;
+    private List<TransferRequest> transferRequests;
+    private List<RestRequest> restRequests;
 }
