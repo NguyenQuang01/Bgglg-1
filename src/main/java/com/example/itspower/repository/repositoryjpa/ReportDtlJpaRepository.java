@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ReportDtlJpaRepository extends JpaRepository<ReportDtlEntity, Integer> {
 
@@ -13,4 +15,6 @@ public interface ReportDtlJpaRepository extends JpaRepository<ReportDtlEntity, I
             "rd.reason_id = :#{#reasonId} where " +
             "rd.report_id = :#{#reportId} and rd.id = :#{#id} ", nativeQuery = true)
     void reportEmpAndReason(String empName, Integer empNum, Integer reasonId, Integer reportId, Integer id);
+
+    Optional<ReportDtlEntity> findByReportId(Integer reportId);
 }
