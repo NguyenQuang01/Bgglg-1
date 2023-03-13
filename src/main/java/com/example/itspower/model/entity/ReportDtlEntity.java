@@ -27,7 +27,5 @@ public class ReportDtlEntity {
     private Integer restNumber ;
     @Column(name = "student_num")
     private Integer studentNum;
-    @Column(name = "transfer_id")
-    private Integer transferId;
 
 }

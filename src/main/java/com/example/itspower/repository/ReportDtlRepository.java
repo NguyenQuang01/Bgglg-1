@@ -11,10 +11,9 @@ import org.springframework.stereotype.Component;
 public class ReportDtlRepository {
     private final ReportDtlJpaRepository reportDtlJpaRepository;
 
-    public ReportDtlEntity saveDtls(ReportDtlRequest reportDtlRequest, Integer reportId,Integer transferId) {
+    public ReportDtlEntity saveDtls(ReportDtlRequest reportDtlRequest, Integer reportId) {
         ReportDtlEntity reportDtlEntity = new ReportDtlEntity();
         reportDtlEntity.setReportId(reportId);
-        reportDtlEntity.setTransferId(transferId);
         reportDtlEntity.setEmpNum(reportDtlRequest.getEmpNum());
         reportDtlEntity.setRiceNumber(reportDtlRequest.getRiceNumber());
         reportDtlEntity.setNumEmp(reportDtlRequest.getNumEmp());

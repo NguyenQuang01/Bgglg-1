@@ -19,6 +19,7 @@ public class EmployeeRepository {
         for (EmployeeRequest item : employeeRequests) {
             EmployeeRestEntity entity = new EmployeeRestEntity();
             entity.setEmpName(item.getEmpName());
+            entity.setEmpCode(item.getEmpCode());
             entity.setReasonId(item.getReasonId());
             entity.setReportId(item.getReportId());
             employeeRestEntities.add(entity);

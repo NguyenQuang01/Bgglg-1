@@ -17,6 +17,8 @@ public class EmployeeRestEntity {
     private Integer id;
     @Column(name = "emp_name")
     private String empName;
+    @Column(name = "emp_code")
+    private String empCode;
     @Column(name = "reason_id")
     private Integer reasonId;
     @Column(name = "report_id")

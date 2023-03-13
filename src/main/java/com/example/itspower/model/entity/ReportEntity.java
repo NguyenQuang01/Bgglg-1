@@ -19,4 +19,8 @@ public class ReportEntity {
     private Integer userGroupId;
     @Column(name = "create_by")
     private String createBy;
+    @Column(name = "total_productivity")
+    private Double totalProductivity;
+    @Column(name = "demarcation")
+    private Double demarcation;
 }

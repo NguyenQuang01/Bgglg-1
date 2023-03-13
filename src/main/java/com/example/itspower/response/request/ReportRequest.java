@@ -11,6 +11,10 @@ import javax.validation.constraints.NotNull;
 public class ReportRequest {
     @NotNull
     private Integer userGroupId;
+    @NotNull
+    private Double totalProductivity;
+    @NotNull
+    private Double demarcation;
     @NotBlank
     private String createBy;
     @NotBlank

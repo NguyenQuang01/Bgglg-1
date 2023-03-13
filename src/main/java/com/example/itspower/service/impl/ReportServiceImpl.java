@@ -3,7 +3,6 @@ package com.example.itspower.service.impl;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.ReportDtlEntity;
 import com.example.itspower.model.entity.ReportEntity;
-import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.repository.ReportDtlRepository;
 import com.example.itspower.repository.ReportRepository;
 import com.example.itspower.repository.TransferRepository;
@@ -32,15 +31,12 @@ public class ReportServiceImpl implements ReportService {
     public ReportResponse add(ReportRequest request) {
         try {
             ReportEntity reportEntity = reportRepository.save(request);
-            TransferEntity transferEntity = transferRepository.saveTransfer(request.getReportDtlRequest().getTransferSupport(), request.getReportDtlRequest().getTransferNum(), reportEntity.getId(), request.getUserGroupId());
-            ReportDtlEntity dtlEntities = reportDtlRepository.saveDtls(request.getReportDtlRequest(), reportEntity.getId(), transferEntity.getId());
+            ReportDtlEntity dtlEntities = reportDtlRepository.saveDtls(request.getReportDtlRequest(), reportEntity.getId());
             return new ReportResponse(reportEntity, dtlEntities);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-
     @Override
     public List<GroupEntity> getListGroup() {
         return groupRepository.findAll();

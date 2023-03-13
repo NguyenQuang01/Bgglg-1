@@ -26,6 +26,5 @@ public class ReportDtlResponse {
         this.partTimeNum = entity.getPartTimeNum();
         this.restNumber = entity.getRestNumber();
         this.studentNum = entity.getStudentNum();
-        this.transferId = entity.getTransferId();
     }
 }

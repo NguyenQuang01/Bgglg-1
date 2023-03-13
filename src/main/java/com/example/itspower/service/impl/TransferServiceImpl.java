@@ -2,9 +2,14 @@ package com.example.itspower.service.impl;
 
 import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.repository.TransferRepository;
+import com.example.itspower.response.TransferResponse;
+import com.example.itspower.response.request.TransferRequest;
 import com.example.itspower.service.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TransferServiceImpl implements TransferService {
@@ -12,7 +17,10 @@ public class TransferServiceImpl implements TransferService {
     private TransferRepository transferRepository;
 
     @Override
-    public TransferEntity saveTransfer(Integer numSp, Integer numTransfer, Integer reportId, Integer userGroupId) {
-        return null;
+    public List<TransferResponse> saveTransfer(List<TransferRequest> transferRequests) {
+        List<TransferEntity> entities = transferRepository.saveTransfer(transferRequests);
+        List<TransferResponse> transferResponses = new ArrayList<>();
+        entities.forEach(i -> transferResponses.add(new TransferResponse(i)));
+        return transferResponses;
     }
 }
