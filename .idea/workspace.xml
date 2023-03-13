@@ -5,19 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="fixx">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/3/432c8df09ece79d0bdd8104516b61bff9588a2d1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/3/432c8df09ece79d0bdd8104516b61bff9588a2d1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/request/ReportDtlRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/request/ReportDtlRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/ReportDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/ReportDetailResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/impl/ReportServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/ReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/ReportController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/ReportRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/ReportRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/repositoryjpa/ReportDtlJpaRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/repositoryjpa/ReportDtlJpaRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/response/request/ReportRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/request/ReportRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/response/request/TransferRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/request/TransferRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/service/ReportService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/ReportService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/service/TransferService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/TransferService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/response/ReportDetailResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/ReportDetailResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/response/request/ReportDtlRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/request/ReportDtlRequest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/ReportServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/ReportServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,7 +128,7 @@
       <workItem from="1678429320947" duration="2970000" />
       <workItem from="1678687005749" duration="1193000" />
       <workItem from="1678689634394" duration="8000" />
-      <workItem from="1678691380200" duration="10223000" />
+      <workItem from="1678691380200" duration="10838000" />
     </task>
     <task id="LOCAL-00001" summary="creat api add user">
       <created>1678201874543</created>
@@ -234,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678700733663</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fixx">
+      <created>1678703833069</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1678703833069</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
