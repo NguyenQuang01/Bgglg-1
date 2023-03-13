@@ -20,7 +20,6 @@ public class ManagementController {
 
     @GetMapping("/root")
     public ResponseEntity<Object> getRoot(@RequestParam("date") String date) throws ParseException {
-
         return ResponseEntity.ok(managementService.getRoot(date));
     }
 }
