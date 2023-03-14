@@ -1,9 +1,8 @@
 package com.example.itspower.controller;
 
 import com.example.itspower.filter.JwtToken;
+import com.example.itspower.model.UserResponse;
 import com.example.itspower.model.entity.UserEntity;
-import com.example.itspower.response.CheckIsReportResponse;
-import com.example.itspower.response.InforUser;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.search.AddToUserForm;
 import com.example.itspower.response.search.UserAulogin;
@@ -15,11 +14,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -46,28 +46,11 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/getInfo")
-    public ResponseEntity<Object> getInfo(@RequestParam String loginName) {
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(),
-                "get user Infor", userService.getInfoUser(loginName)));
-    }
-
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@Valid @RequestBody UserAulogin userAulogin) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
-        InforUser inforUser = userService.getInfoUser(userDetails.getUsername());
-        Date date = new Date();
-        String newDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        CheckIsReportResponse checkReported = userService.checkIsReport(inforUser.getGroupId(),newDate);
-        if(checkReported.getNum().intValue() >=1){
-            inforUser.setReported(true);
-        }else{
-            inforUser.setReported(false);
-        }
-        inforUser.setToken(token);
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success",
-                inforUser));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(),token)));
     }
 }
