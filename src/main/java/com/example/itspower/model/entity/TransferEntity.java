@@ -3,6 +3,7 @@ package com.example.itspower.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Data
 @Entity
@@ -18,5 +19,6 @@ public class TransferEntity {
     @Column(name = "group_id")
     private Integer groupId;
     @Column(name = "type")
+    @Min(1)
     private Integer type;
 }

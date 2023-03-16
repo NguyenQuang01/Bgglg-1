@@ -22,10 +22,11 @@ import java.util.Date;
                         @ColumnResult(name = "restNum", type = Integer.class),
                         @ColumnResult(name = "partTimeNum", type = Integer.class),
                         @ColumnResult(name = "studentNum", type = Integer.class),
-                        @ColumnResult(name = "totalRice", type = Integer.class)
+                        @ColumnResult(name = "totalRice", type = Integer.class),
                 }
         )
 )
+
 @NamedNativeQuery(
         name = "find_by_report",
         query = " select r.id,r.demarcation,r.labor_productivity as laborProductivity, " +
@@ -46,7 +47,7 @@ public class ReportEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "report_date")
-    private Date name;
+    private Date reportDate;
     @Column(name = "part_time_num")
     private Integer partTimeNum = 0;
     @Column(name = "student_num")
