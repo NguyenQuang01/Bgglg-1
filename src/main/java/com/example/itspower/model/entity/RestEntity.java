@@ -32,8 +32,8 @@ public class RestEntity {
     @Column(name = "rest_name")
     private String restName;
     @Column(name = "reason_id")
-    private String reasonId;
+    private Integer reasonId;
     @Column(name = "reportId")
-    private String reportId;
+    private Integer reportId;
 
 }

@@ -1,4 +1,4 @@
-package com.example.itspower.security;
+package com.example.itspower.response.security;
 
 import com.example.itspower.filter.JwtAuthenticationEntryPoint;
 import com.example.itspower.filter.JwtAuthenticationFilter;

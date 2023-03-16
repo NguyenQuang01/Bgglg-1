@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReportDto {
     private Integer id;
+    private Integer groupId;
     private Integer demarcation;
     private Integer laborProductivity;
     private Integer transferNum;
