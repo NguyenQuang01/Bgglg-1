@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,6 +20,10 @@ public class TransferEntity {
     private Integer reportId;
     @Column(name = "group_id")
     private Integer groupId;
+    @Column(name = "is_access")
+    private boolean isAccess;
+    @Column(name = "transferDate")
+    private Date transferDate;
     @Column(name = "type")
     @Min(1)
     private Integer type;
