@@ -15,12 +15,22 @@ public class RiceRepository {
         return riceJpaRepository.findByReportId(reportId);
     }
 
-    public RiceEntity saveRice(RiceRequest riceRequest,Integer reportId) {
-            RiceEntity entity = new RiceEntity();
-            entity.setReportId(reportId);
-            entity.setRiceEmp(riceRequest.getRiceEmp());
-            entity.setRiceCus(riceRequest.getRiceCus());
-            entity.setRiceVip(riceRequest.getRiceVip());
+    public RiceEntity saveRice(RiceRequest riceRequest, Integer reportId) {
+        RiceEntity entity = new RiceEntity();
+        entity.setReportId(reportId);
+        entity.setRiceEmp(riceRequest.getRiceEmp());
+        entity.setRiceCus(riceRequest.getRiceCus());
+        entity.setRiceVip(riceRequest.getRiceVip());
+        return riceJpaRepository.save(entity);
+    }
+
+    public RiceEntity updateRice(RiceRequest riceRequest, Integer reportId) {
+        RiceEntity entity = new RiceEntity();
+        entity.setRiceId(riceRequest.getRiceId());
+        entity.setReportId(reportId);
+        entity.setRiceEmp(riceRequest.getRiceEmp());
+        entity.setRiceCus(riceRequest.getRiceCus());
+        entity.setRiceVip(riceRequest.getRiceVip());
         return riceJpaRepository.save(entity);
     }
 }

@@ -12,14 +12,12 @@ com\example\itspower\model\entity\ReportEntity.class
 com\example\itspower\component\util\DateValidator.class
 com\example\itspower\service\impl\UserServiceImpl.class
 com\example\itspower\component\constrant\FieldMatch.class
-com\example\itspower\model\entity\UserGroup.class
-com\example\itspower\repository\repositoryjpa\UserJPARepository.class
-com\example\itspower\response\search\AddToUserForm.class
 com\example\itspower\response\search\UserAulogin.class
 com\example\itspower\component\util\Date.class
 com\example\itspower\repository\repositoryjpa\GroupJpaRepository.class
 com\example\itspower\repository\UserRepository.class
 com\example\itspower\component\util\StartBeforeEndDateValidator.class
+com\example\itspower\filter\AjaxAuthenticationProvider.class
 com\example\itspower\component\util\ConverterUtils.class
 com\example\itspower\service\impl\UserLoginConfig.class
 com\example\itspower\component\util\StartBeforeEndDate.class
@@ -39,7 +37,6 @@ com\example\itspower\request\RiceRequest.class
 com\example\itspower\component\constrant\EFieldMatch.class
 com\example\itspower\repository\RestRepository.class
 com\example\itspower\response\ResponseHandler.class
-com\example\itspower\response\security\SecurityConfig.class
 com\example\itspower\response\TransferResponse.class
 com\example\itspower\repository\repositoryjpa\UserGroupJpaRepository.class
 com\example\itspower\controller\ReportController.class
@@ -48,6 +45,7 @@ com\example\itspower\type\Language.class
 com\example\itspower\response\SuccessResponse.class
 com\example\itspower\component\util\DateUtils.class
 com\example\itspower\exception\ResourceNotFoundException.class
+com\example\itspower\model\resultset\UserDto.class
 com\example\itspower\component\util\TextUtils.class
 com\example\itspower\exception\DuplicateResourceException.class
 com\example\itspower\exception\ErrorResponse.class
@@ -59,8 +57,11 @@ com\example\itspower\component\util\StartBeforeEndDate$List.class
 com\example\itspower\model\entity\GroupEntity.class
 com\example\itspower\repository\repositoryjpa\ReportJpaRepository.class
 com\example\itspower\repository\TransferRepository.class
+com\example\itspower\repository\repositoryjpa\UserJpaRepository.class
 com\example\itspower\repository\repositoryjpa\ReasonJpaRepository.class
+com\example\itspower\response\search\UserRequest.class
 com\example\itspower\response\AbstractResponse.class
+com\example\itspower\security\SecurityConfig.class
 com\example\itspower\filter\JwtAuthenticationFilter.class
 com\example\itspower\model\resultset\ReportDto.class
 com\example\itspower\exception\GlobalExceptionHandler.class
@@ -69,6 +70,7 @@ com\example\itspower\SwaggerConfig.class
 com\example\itspower\model\entity\RiceEntity.class
 com\example\itspower\component\Auth\AuthConfig.class
 com\example\itspower\service\ReportService.class
+com\example\itspower\repository\GroupRoleRepository.class
 com\example\itspower\model\entity\TransferEntity.class
 com\example\itspower\component\enums\TransferType.class
 com\example\itspower\exception\ErrorCode.class

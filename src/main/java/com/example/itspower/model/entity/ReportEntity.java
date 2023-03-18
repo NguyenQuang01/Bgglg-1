@@ -24,6 +24,7 @@ import java.util.Date;
                         @ColumnResult(name = "partTimeNum", type = Integer.class),
                         @ColumnResult(name = "studentNum", type = Integer.class),
                         @ColumnResult(name = "totalRice", type = Integer.class),
+                        @ColumnResult(name = "reportDate", type = Date.class),
                 }
         )
 )
@@ -34,10 +35,10 @@ import java.util.Date;
                 "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) as transferNum,  " +
                 "(select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2) as supportNum, " +
                 "r.rest_num  as restNum, r.part_time_num  as partTimeNum, r.student_num  as studentNum," +
-                "(r3.rice_cus + r3.rice_emp +r3.rice_vip) as totalRice " +
+                "(r3.rice_cus + r3.rice_emp +r3.rice_vip) as totalRice,r.report_date as reportDate " +
                 "from report r  " +
                 "inner join rice r3 on r3.report_id = r.id  " +
-                "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') ",
+                "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') AND r.group_id = :groupId ",
         resultSetMapping = "report_dto"
 )
 public class ReportEntity {

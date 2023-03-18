@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class RiceRequest {
-    private Integer reportId;
-    private Integer riceCus;
-    private Integer riceEmp;
-    private Integer riceVip;
+    private int riceId;
+    private int reportId;
+    private int riceCus;
+    private int riceEmp;
+    private int riceVip;
 }

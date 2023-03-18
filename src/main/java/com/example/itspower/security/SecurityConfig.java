@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authenticationProvider(authenticationProvider);
         http.authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .anyRequest().authenticated();
