@@ -28,12 +28,13 @@ import javax.persistence.*;
 public class RestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id")
+    private int restId;
     @Column(name = "rest_name")
     private String restName;
     @Column(name = "reason_id")
-    private Integer reasonId;
+    private int reasonId;
     @Column(name = "reportId")
-    private Integer reportId;
+    private int reportId;
 
 }

@@ -2,10 +2,10 @@ package com.example.itspower.controller;
 
 import com.example.itspower.filter.JwtToken;
 import com.example.itspower.model.UserResponse;
-import com.example.itspower.model.entity.UserEntity;
+import com.example.itspower.model.resultset.UserDto;
 import com.example.itspower.response.SuccessResponse;
-import com.example.itspower.response.search.AddToUserForm;
 import com.example.itspower.response.search.UserAulogin;
+import com.example.itspower.response.search.UserRequest;
 import com.example.itspower.service.UserService;
 import com.example.itspower.service.impl.UserLoginConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,9 @@ public class UserController {
 
 
     @PostMapping("/api/save")
-    public ResponseEntity<Object> saveData(@Valid @RequestBody AddToUserForm addToUserForm) {
+    public ResponseEntity<Object> saveData(@Valid @RequestBody UserRequest userRequest) {
         try {
-            UserEntity data = userService.save(addToUserForm);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "register success", data));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", userService.save(userRequest)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
@@ -51,6 +50,7 @@ public class UserController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(),token)));
+        UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token)));
     }
 }

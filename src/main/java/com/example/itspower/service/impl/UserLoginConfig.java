@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -23,11 +24,11 @@ public class UserLoginConfig implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUser(username);
-        if (user.getUserLogin() == null) {
+        Optional<UserEntity> login = userRepository.findByUserLogin(username);
+        if (login.isEmpty()) {
             throw new UsernameNotFoundException("msg_userLoginNotExits_0");
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        return new User(user.getUserLogin(), user.getPassword(), authorities);
+        return new User(login.get().getUserLogin(), login.get().getPassword(), authorities);
     }
 }

@@ -19,10 +19,23 @@ public class RestRepository {
         return restJpaRepository.findByRest(reportId);
     }
 
-    public List<RestEntity> saveRest(List<RestRequest> requests,Integer reportId) {
+    public List<RestEntity> saveRest(List<RestRequest> requests, Integer reportId) {
         List<RestEntity> restEntities = new ArrayList<>();
         for (RestRequest request : requests) {
             RestEntity entity = new RestEntity();
+            entity.setRestName(request.getRestName());
+            entity.setReasonId(request.getReasonId());
+            entity.setReportId(reportId);
+            restEntities.add(entity);
+        }
+        return restJpaRepository.saveAll(restEntities);
+    }
+
+    public List<RestEntity> updateRest(List<RestRequest> requests, Integer reportId) {
+        List<RestEntity> restEntities = new ArrayList<>();
+        for (RestRequest request : requests) {
+            RestEntity entity = new RestEntity();
+            entity.setRestId(request.getRestId());
             entity.setRestName(request.getRestName());
             entity.setReasonId(request.getReasonId());
             entity.setReportId(reportId);

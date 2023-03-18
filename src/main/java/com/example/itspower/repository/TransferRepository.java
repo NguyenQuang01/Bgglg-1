@@ -31,4 +31,18 @@ public class TransferRepository {
         }
         return transferJpaRepository.saveAll(entities);
     }
+
+    public List<TransferEntity> updateTransfer(List<TransferRequest> requests, Integer reportId) {
+        List<TransferEntity> entities = new ArrayList<>();
+        for (TransferRequest transfer : requests) {
+            TransferEntity entity = new TransferEntity();
+            entity.setTransferId(transfer.getTransferId());
+            entity.setReportId(reportId);
+            entity.setGroupId(transfer.getGroupId());
+            entity.setTransferNum(transfer.getTransferNum());
+            entity.setType(transfer.getType());
+            entities.add(entity);
+        }
+        return transferJpaRepository.saveAll(entities);
+    }
 }

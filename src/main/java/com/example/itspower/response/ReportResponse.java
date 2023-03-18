@@ -1,5 +1,6 @@
 package com.example.itspower.response;
 
+import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.model.entity.RiceEntity;
 import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.model.resultset.ReportDto;
@@ -12,31 +13,35 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ReportResponse {
-    private Integer id;
-    private Integer demarcation;
-    private Integer laborProductivity;
-    private Integer transferNum;
-    private Integer supportNum;
-    private Integer restNum;
-    private Integer partTimeNum;
-    private Integer studentNum;
-    private Integer totalRice;
-    private RiceEntity riceEntity;
-    private List<RestDto> restDtos;
+    private int id;
+    private int demarcation;
+    private int laborProductivity;
+    private int transferNum;
+    private int supportNum;
+    private int restNum;
+    private int partTimeNum;
+    private int studentNum;
+    private int totalRice;
+    private String reportDate;
+    private int groupId;
+    private RiceEntity rice;
+    private List<RestDto> rests;
     private List<TransferEntity> transfers;
 
-    public ReportResponse(ReportDto reportDt, RiceEntity riceEntity, List<RestDto> restDtos, List<TransferEntity> transfers) {
-        this.id = reportDt.getId();
-        this.demarcation = reportDt.getDemarcation();
-        this.laborProductivity = reportDt.getLaborProductivity();
-        this.transferNum = reportDt.getTransferNum();
-        this.supportNum = reportDt.getSupportNum();
-        this.restNum = reportDt.getRestNum();
-        this.partTimeNum = reportDt.getPartTimeNum();
-        this.studentNum = reportDt.getStudentNum();
-        this.totalRice = reportDt.getTotalRice();
-        this.riceEntity = riceEntity;
-        this.restDtos = restDtos;
+    public ReportResponse(ReportDto reportDto, RiceEntity rice, List<RestDto> rests, List<TransferEntity> transfers) {
+        this.id = reportDto.getId();
+        this.reportDate = DateUtils.formatDate(reportDto.getReportDate());
+        this.demarcation = reportDto.getDemarcation();
+        this.laborProductivity = reportDto.getLaborProductivity();
+        this.transferNum = reportDto.getTransferNum();
+        this.supportNum = reportDto.getSupportNum();
+        this.restNum = reportDto.getRestNum();
+        this.partTimeNum = reportDto.getPartTimeNum();
+        this.studentNum = reportDto.getStudentNum();
+        this.totalRice = reportDto.getTotalRice();
+        this.groupId = reportDto.getGroupId();
+        this.rice = rice;
+        this.rests = rests;
         this.transfers = transfers;
     }
 

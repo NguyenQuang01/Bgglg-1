@@ -11,7 +11,8 @@ import javax.validation.constraints.Min;
 public class TransferEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id")
+    private Integer transferId;
     @Column(name = "transfer_num")
     private Integer transferNum;
     @Column(name = "report_id")
