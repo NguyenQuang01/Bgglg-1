@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping("/api/save")
     public ResponseEntity<Object> saveData(@Valid @RequestBody UserRequest userRequest) {
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(1, "register success", userService.save(userRequest)));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", userService.save(userRequest)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
