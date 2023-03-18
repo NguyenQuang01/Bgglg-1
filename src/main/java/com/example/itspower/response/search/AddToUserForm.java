@@ -15,4 +15,7 @@ public class AddToUserForm {
     @NotNull
     @Size(min = 6, max = 24)
     private String password;
+    private boolean isReset=false;
+    private boolean isReport=false;
+    private boolean isView=false;
 }
