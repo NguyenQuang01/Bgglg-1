@@ -38,8 +38,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
     }
 
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("Power2SME Pvt. Ltd.", "http://www.power2sme.com", "support@power2sme.com");
-        return new ApiInfo("NBFC API", "Information related to api exposed by NBFC system.", "1.0",
+        Contact contact = new Contact("POWER-MOR", "http://www.power2sme.com", "support@power2sme.com");
+        return new ApiInfo("POWER API", "Information related to api exposed by POWER system.", "1.0",
                 "https://www.power2sme.com/termsandconditions", contact, "License of API",
                 "https://www.power2sme.com/privacypolicy", new ArrayList<>());
     }
