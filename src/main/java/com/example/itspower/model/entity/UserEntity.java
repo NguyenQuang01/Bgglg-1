@@ -1,6 +1,9 @@
 package com.example.itspower.model.entity;
 
-import lombok.*;
+import com.example.itspower.model.resultset.UserDto;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -9,6 +12,31 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "user")
+@SqlResultSetMapping(
+        name = "user_dto",
+        classes = @ConstructorResult(
+                targetClass = UserDto.class,
+                columns = {
+                        @ColumnResult(name = "groupName", type = String.class),
+                        @ColumnResult(name = "isAdmin", type = Boolean.class),
+                        @ColumnResult(name = "isEdit", type = Boolean.class),
+                        @ColumnResult(name = "isReport", type = Boolean.class),
+                        @ColumnResult(name = "isView", type = Boolean.class),
+                        @ColumnResult(name = "groupId", type = Integer.class),
+
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "loginInfor",
+        query = "select u.is_admin as isAdmin ,gr.group_name as groupName, " +
+                "u.is_edit as isEdit,u.is_report as isReport, " +
+                "u.is_view as isView, ug.group_id as groupId " +
+                "from `user` u inner join user_group ug on ug.user_id = u.id  " +
+                "inner join group_role gr on ug.group_id = gr .id where u.user_login = :userLogin ",
+        resultSetMapping = "user_dto"
+)
 public class UserEntity {
     @Id
     @Column(name = "id")
@@ -18,14 +46,12 @@ public class UserEntity {
     private String userLogin;
     @Column(name = "password")
     private String password;
-    @Column(name = "user_name")
-    private String userName;
     @Column(name = "is_admin")
-    private Boolean isAdmin;
-    @Column(name = "read_report")
-    private Boolean readReport;
-    @Column(name = "edit_report")
-    private Boolean upDateReport;
-    @Column(name = "creat_report")
-    private Boolean creatReport;
+    private boolean isAdmin;
+    @Column(name = "is_report")
+    private boolean isReport;
+    @Column(name = "is_edit")
+    private boolean isEdit;
+    @Column(name = "is_view")
+    private boolean isView;
 }

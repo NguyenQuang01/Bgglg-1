@@ -13,8 +13,8 @@ public class ReportController {
     private ReportService reportService;
 
     @GetMapping("/report")
-    public ResponseEntity<Object> report(@RequestParam("reportDate") String reportDate) {
-        return ResponseEntity.status(HttpStatus.OK).body(reportService.reportDto(reportDate));
+    public ResponseEntity<Object> report(@RequestParam("reportDate") String reportDate, @RequestParam("groupId") int groupId) {
+        return ResponseEntity.status(HttpStatus.OK).body(reportService.reportDto(reportDate, groupId));
     }
 
     @GetMapping("/reportDetails")
@@ -23,7 +23,12 @@ public class ReportController {
     }
 
     @PostMapping("/report/save")
-    public ResponseEntity<Object> save(@RequestBody ReportRequest reportRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(reportService.save(reportRequest));
+    public ResponseEntity<Object> save(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
+        return ResponseEntity.status(HttpStatus.OK).body(reportService.save(reportRequest, groupId));
+    }
+
+    @PostMapping("/report/update")
+    public ResponseEntity<Object> update(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
+        return ResponseEntity.status(HttpStatus.OK).body(reportService.update(reportRequest, groupId));
     }
 }

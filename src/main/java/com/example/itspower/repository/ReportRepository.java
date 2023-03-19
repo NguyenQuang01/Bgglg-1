@@ -15,14 +15,27 @@ public class ReportRepository {
     @Autowired
     private ReportJpaRepository reportJpaRepository;
 
-    public ReportDto reportDto(String reportDate) {
-        return reportJpaRepository.findByReport(reportDate);
+    public ReportDto reportDto(String reportDate, int groupId) {
+        return reportJpaRepository.findByReport(reportDate, groupId);
     }
 
-    public ReportEntity saveReport(ReportRequest request) {
+    public ReportEntity saveReport(ReportRequest request, int groupId) {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setDemarcation(request.getDemarcation());
-        reportEntity.setGroupId(request.getGroupId());
+        reportEntity.setGroupId(groupId);
+        reportEntity.setRestNum(request.getRestNum());
+        reportEntity.setStudentNum(request.getStudentNum());
+        reportEntity.setLaborProductivity(request.getLaborProductivity());
+        reportEntity.setPartTimeNum(request.getPartTimeNum());
+        reportEntity.setReportDate(new Date());
+        return reportJpaRepository.save(reportEntity);
+    }
+
+    public ReportEntity updateReport(ReportRequest request, int groupId) {
+        ReportEntity reportEntity = new ReportEntity();
+        reportEntity.setId(request.getId());
+        reportEntity.setDemarcation(request.getDemarcation());
+        reportEntity.setGroupId(groupId);
         reportEntity.setRestNum(request.getRestNum());
         reportEntity.setStudentNum(request.getStudentNum());
         reportEntity.setLaborProductivity(request.getLaborProductivity());
@@ -33,5 +46,13 @@ public class ReportRepository {
 
     public Optional<ReportEntity> findByReportDate(String reportDate) {
         return reportJpaRepository.findByReportDate(reportDate);
+    }
+
+    public Optional<ReportEntity> findByReportDateAndGroupId(String reportDate, int groupId) {
+        return reportJpaRepository.findByReportDateAndGroupId(reportDate, groupId);
+    }
+
+    public Optional<ReportEntity> findByIdAndGroupId(int id, int groupId) {
+        return reportJpaRepository.findByIdAndGroupId(id, groupId);
     }
 }

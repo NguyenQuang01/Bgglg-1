@@ -25,10 +25,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
     @Autowired
     private JwtToken token;
-
     @Autowired
     private UserLoginConfig userService;
 

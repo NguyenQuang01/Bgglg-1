@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class RestRequest {
-    private Integer reasonId;
-    private Integer reportId;
+    private int restId ;
+    private int reasonId;
     private String restName;
 }

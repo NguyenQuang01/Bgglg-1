@@ -10,7 +10,8 @@ import javax.persistence.*;
 public class RiceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Column(name = "id")
+    private Integer riceId;
     @Column(name = "rice_emp")
     private Integer riceEmp;
     @Column(name = "rice_cus")
