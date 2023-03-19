@@ -4,7 +4,7 @@ services:
     volumes:
       - todo-mysql-data:/data/db
     environment:
-      MYSQL_DATABASE: tungdepzai
+      MYSQL_DATABASE: report_system
       MYSQL_ROOT_PASSWORD: root@123
     ports:
       - 3306:3306
