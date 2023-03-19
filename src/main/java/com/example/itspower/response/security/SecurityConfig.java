@@ -49,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/**").permitAll() // permit all the routers after swagger-ui.html
                 .anyRequest().authenticated();
         http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
