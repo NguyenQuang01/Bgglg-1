@@ -2,6 +2,7 @@ package com.example.itspower.service.impl;
 
 import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.exception.ResourceNotFoundException;
+import com.example.itspower.exception.ReportDetailsException;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.entity.RiceEntity;
 import com.example.itspower.model.entity.TransferEntity;
@@ -54,7 +55,7 @@ public class ReportServiceImpl implements ReportService {
             RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
             return new ReportResponse(reportDto, riceEntity, restDtoList, transferEntityList);
         } catch (Exception e) {
-            throw new ResourceNotFoundException(HttpStatus.EXPECTATION_FAILED.value(), "Report Details Expectation Failed ", HttpStatus.EXPECTATION_FAILED.name());
+            throw new ReportDetailsException(HttpStatus.EXPECTATION_FAILED.value(), "Report Details Expectation Failed ", HttpStatus.EXPECTATION_FAILED.name());
         }
     }
 
