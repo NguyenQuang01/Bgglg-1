@@ -17,6 +17,11 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.reportDto(reportDate));
     }
 
+    @GetMapping("/reportDetails")
+    public ResponseEntity<Object> reportDetails(@RequestParam("reportDate") String reportDate) {
+        return ResponseEntity.status(HttpStatus.OK).body(reportService.reportDtoDetails(reportDate));
+    }
+
     @PostMapping("/report/save")
     public ResponseEntity<Object> save(@RequestBody ReportRequest reportRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.save(reportRequest));

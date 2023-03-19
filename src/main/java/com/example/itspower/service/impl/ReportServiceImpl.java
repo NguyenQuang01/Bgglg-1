@@ -45,6 +45,19 @@ public class ReportServiceImpl implements ReportService {
         }
     }
 
+    @Override
+    public ReportResponse reportDtoDetails(String reportDate) {
+        try {
+            ReportDto reportDto = reportRepository.reportDto(reportDate);
+            List<RestDto> restDtoList = restRepository.getRests(reportDto.getId());
+            List<TransferEntity> transferEntityList = transferRepository.findByReportId(reportDto.getId());
+            RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
+            return new ReportResponse(reportDto, riceEntity, restDtoList, transferEntityList);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException(HttpStatus.EXPECTATION_FAILED.value(), "Report Details Expectation Failed ", HttpStatus.EXPECTATION_FAILED.name());
+        }
+    }
+
     public ReportResponse save(ReportRequest request) {
         Optional<ReportEntity> entity = reportRepository.findByReportDate(DateUtils.formatDate(new Date()));
         if (entity.isPresent()) {
