@@ -3,7 +3,6 @@ package com.example.itspower.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -43,11 +42,5 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 "https://www.power2sme.com/termsandconditions", contact, "License of API",
                 "https://www.power2sme.com/privacypolicy", new ArrayList<>());
     }
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addRedirectViewController("/**/v2/api-docs/**", "/v2/api-docs");
-        registry.addRedirectViewController("/**/swagger-resources/configuration/ui/**", "/swagger-resources/configuration/ui");
-        registry.addRedirectViewController("/**/swagger-resources/configuration/security/**", "/swagger-resources/configuration/security");
-        registry.addRedirectViewController("/**/swagger-resources/**", "/swagger-resources");
-    }
+
 }

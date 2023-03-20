@@ -5,7 +5,7 @@ services:
       - todo-mysql-data:/data/db
     environment:
       MYSQL_DATABASE: report_system
-      MYSQL_ROOT_PASSWORD: root@123
+      MYSQL_ROOT_PASSWORD: 123456
     ports:
       - 3306:3306
   api_service:
