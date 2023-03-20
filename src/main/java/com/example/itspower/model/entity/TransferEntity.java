@@ -22,7 +22,7 @@ public class TransferEntity {
     private Integer groupId;
     @Column(name = "is_access")
     private boolean isAccess;
-    @Column(name = "transferDate")
+    @Column(name = "transfer_date")
     private Date transferDate;
     @Column(name = "type")
     @Min(1)

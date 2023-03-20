@@ -17,6 +17,7 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.reportDto(reportDate, groupId));
     }
 
+
     @PostMapping("/report/save")
     public ResponseEntity<Object> save(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.save(reportRequest, groupId));

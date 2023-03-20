@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - todo-mysql-data:/data/db
+    environment:
+      MYSQL_DATABASE: report_system
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - 3306:3306
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 8989:8989
+    depends_on:
+      - mysql
+    command: sh -c './wait-for mysql_db:3306 -- npm start'
+volumes:
+  todo-mysql-data:
