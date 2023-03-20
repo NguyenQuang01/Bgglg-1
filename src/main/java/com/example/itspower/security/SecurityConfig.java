@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
+@Deprecated
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserLoginConfig userService;
@@ -55,6 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authenticationProvider(authenticationProvider);
         http.authorizeRequests()
                 .antMatchers("/api/login").permitAll()
+                .antMatchers("/**").permitAll() // permit all the routers after swagger-ui.html
                 .anyRequest().authenticated();
         http.csrf().disable().exceptionHandling();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
