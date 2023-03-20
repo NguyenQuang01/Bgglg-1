@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="api detail">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/repository/TransferRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/TransferResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/ReportEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/ReportEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/repository/repositoryjpa/TransferJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/repository/repositoryjpa/TransferJpaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/ReportResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/ReportResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/impl/ReportServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/impl/ReportServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/2/c/2cabb939da04d3de3a200bf2b575690e1a16316d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/6/863e0292fd7e9b3e74dafd6cc01f73ba76346482" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/2/c/2cabb939da04d3de3a200bf2b575690e1a16316d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/8/6/863e0292fd7e9b3e74dafd6cc01f73ba76346482" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/model/entity/ReportEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/model/entity/ReportEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/repositoryjpa/TransferJpaRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/repository/repositoryjpa/TransferJpaRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/response/ReportResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/response/ReportResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/ReportServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/service/impl/ReportServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +293,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678810105032</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="api detail">
+      <created>1678962212116</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1678962212116</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -324,7 +324,8 @@
     <MESSAGE value="git list result" />
     <MESSAGE value="add" />
     <MESSAGE value="api" />
-    <option name="LAST_COMMIT_MESSAGE" value="api" />
+    <MESSAGE value="api detail" />
+    <option name="LAST_COMMIT_MESSAGE" value="api detail" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
