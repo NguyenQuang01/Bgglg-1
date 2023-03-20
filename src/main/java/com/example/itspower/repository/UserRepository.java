@@ -1,20 +1,29 @@
 package com.example.itspower.repository;
 
 import com.example.itspower.model.entity.UserEntity;
-import com.example.itspower.repository.repositoryjpa.UserJPARepository;
-import lombok.RequiredArgsConstructor;
+import com.example.itspower.model.resultset.UserDto;
+import com.example.itspower.repository.repositoryjpa.UserJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@RequiredArgsConstructor
+import java.util.Optional;
+
 @Component
 public class UserRepository {
-    private final UserJPARepository userJPARepository;
+    @Autowired
+    private UserJpaRepository userJPARepository;
+
+
 
     public UserEntity save(UserEntity user) {
         return userJPARepository.save(user);
     }
 
-    public UserEntity findByUser(String userLogin)   {
-        return userJPARepository.findByUserName(userLogin);
+    public Optional<UserEntity> findByUserLogin(String userLogin) {
+        return userJPARepository.findByUserLogin(userLogin);
+    }
+
+    public UserDto loginInfor(String userLogin) {
+        return userJPARepository.loginInfor(userLogin);
     }
 }

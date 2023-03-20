@@ -15,6 +15,7 @@ import java.util.Date;
                 targetClass = ReportDto.class,
                 columns = {
                         @ColumnResult(name = "id", type = Integer.class),
+                        @ColumnResult(name = "groupId", type = Integer.class),
                         @ColumnResult(name = "demarcation", type = Integer.class),
                         @ColumnResult(name = "laborProductivity", type = Integer.class),
                         @ColumnResult(name = "transferNum", type = Integer.class),
@@ -23,23 +24,21 @@ import java.util.Date;
                         @ColumnResult(name = "partTimeNum", type = Integer.class),
                         @ColumnResult(name = "studentNum", type = Integer.class),
                         @ColumnResult(name = "totalRice", type = Integer.class),
+                        @ColumnResult(name = "reportDate", type = Date.class),
                 }
         )
 )
 
 @NamedNativeQuery(
         name = "find_by_report",
-        query = " select r.id,r.demarcation,r.labor_productivity as laborProductivity, " +
-                "(select tr.transfer_num  from transfer tr where tr.report_id = r.id and tr.`type` = 0) as transferNum,  " +
-                "(select tr1.transfer_num   from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 1) as supportNum, " +
-                "(select count(re.report_id)  from rest re " +
-                "inner join report rp on re.report_id = rp.id " +
-                "inner join reason rs on rs.id =re.reason_id  where re.report_id = r.id) as restNum, " +
-                "r.part_time_num  as partTimeNum, r.student_num  as studentNum, " +
-                "(r3.rice_cus +r3.rice_emp +r3.rice_vip) as totalRice from report r  " +
-                "inner join rest r2 on r2.report_id = r.id " +
-                "inner join reason r4 on r4.id =r2.id  inner join rice r3 on r3.report_id = r.id  " +
-                "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') ",
+        query = " select r.id,r.group_id as groupId,r.demarcation,r.labor_productivity as laborProductivity, " +
+                "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) as transferNum,  " +
+                "(select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2) as supportNum, " +
+                "r.rest_num  as restNum, r.part_time_num  as partTimeNum, r.student_num  as studentNum," +
+                "(r3.rice_cus + r3.rice_emp +r3.rice_vip) as totalRice,r.report_date as reportDate " +
+                "from report r  " +
+                "inner join rice r3 on r3.report_id = r.id  " +
+                "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') AND r.group_id = :groupId ",
         resultSetMapping = "report_dto"
 )
 public class ReportEntity {

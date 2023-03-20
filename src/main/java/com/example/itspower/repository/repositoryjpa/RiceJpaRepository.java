@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RiceJpaRepository extends JpaRepository<RiceEntity, Integer> {
+    RiceEntity findByReportId(Integer reportId);
 }

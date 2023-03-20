@@ -1,5 +1,6 @@
 package com.example.itspower.security;
 
+import com.example.itspower.filter.AjaxAuthenticationProvider;
 import com.example.itspower.filter.JwtAuthenticationEntryPoint;
 import com.example.itspower.filter.JwtAuthenticationFilter;
 import com.example.itspower.service.impl.UserLoginConfig;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -24,9 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    @Autowired
+    AjaxAuthenticationProvider authenticationProvider;
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider);
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 
@@ -46,13 +52,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .authorizeRequests()
+        http.authenticationProvider(authenticationProvider);
+        http.authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .anyRequest().authenticated();
-        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
+        http.csrf().disable().exceptionHandling();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.logout().disable();
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**");
     }
 }
