@@ -1,10 +1,12 @@
 package com.example.itspower.repository;
 
+import com.example.itspower.exception.ResourceNotFoundException;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.resultset.ReportDto;
 import com.example.itspower.repository.repositoryjpa.ReportJpaRepository;
 import com.example.itspower.request.ReportRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -35,6 +37,9 @@ public class ReportRepository {
     @Transactional
     public ReportEntity updateReport(ReportRequest request, int groupId) {
         ReportEntity reportEntity = new ReportEntity();
+        if (request.getId() == 0) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "is not exits", HttpStatus.BAD_REQUEST.name());
+        }
         reportEntity.setId(request.getId());
         reportEntity.setDemarcation(request.getDemarcation());
         reportEntity.setGroupId(groupId);
