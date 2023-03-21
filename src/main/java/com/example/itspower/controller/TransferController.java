@@ -20,8 +20,9 @@ public class TransferController {
     }
 
     @GetMapping("transfer/group")
-    public ResponseEntity<Object> transferGroup(@RequestParam("groupId") int groupId) {
-        transferService.updateTransferGroup(true, groupId);
+    public ResponseEntity<Object> transferGroup(@RequestParam("groupId") int groupId,
+                                                @RequestParam("transferDate") String transferDate) {
+        transferService.updateTransferGroup(true, groupId, transferDate);
         return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "transfer success", null));
     }
 }

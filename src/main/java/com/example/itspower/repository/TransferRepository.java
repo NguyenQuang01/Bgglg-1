@@ -32,6 +32,7 @@ public class TransferRepository {
             TransferEntity entity = new TransferEntity();
             entity.setReportId(reportId);
             entity.setGroupId(groupId);
+            entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
             entities.add(entity);
@@ -50,6 +51,7 @@ public class TransferRepository {
             entity.setTransferId(transfer.getTransferId());
             entity.setReportId(reportId);
             entity.setGroupId(groupId);
+            entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
             entities.add(entity);
@@ -66,7 +68,7 @@ public class TransferRepository {
         return transferResponseGroups;
     }
 
-    public void updateTransferGroup(boolean isAccess, int groupId) {
-        transferJpaRepository.updateTransfer(isAccess, groupId);
+    public void updateTransferGroup(boolean isAccess, int groupId, String transferDate) {
+        transferJpaRepository.updateTransfer(isAccess, groupId, transferDate);
     }
 }
