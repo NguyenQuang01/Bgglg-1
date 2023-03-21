@@ -32,12 +32,12 @@ import java.util.Date;
 @NamedNativeQuery(
         name = "find_by_report",
         query = " select r.id,r.group_id as groupId,r.demarcation,r.labor_productivity as laborProductivity, " +
-                "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) as transferNum,  " +
-                "(select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2) as supportNum, " +
+                "IFNULL((select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1),0) as transferNum,  " +
+                "IFNULL((select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2),0) as supportNum, " +
                 "r.rest_num  as restNum, r.part_time_num  as partTimeNum, r.student_num  as studentNum," +
-                "(r3.rice_cus + r3.rice_emp +r3.rice_vip) as totalRice,r.report_date as reportDate " +
+                "(IFNULL(r3.rice_cus,0) + IFNULL(r3.rice_emp,0) + IFNULL(r3.rice_vip,0)) as totalRice,r.report_date as reportDate " +
                 "from report r  " +
-                "inner join rice r3 on r3.report_id = r.id  " +
+                "left join rice r3 on r3.report_id = r.id  " +
                 "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') AND r.group_id = :groupId ",
         resultSetMapping = "report_dto"
 )

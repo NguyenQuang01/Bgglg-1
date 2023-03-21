@@ -4,14 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="api report">
+    <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="api detail">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/2/42478237a5b7c46bd532997dc8acffc5f1bca40a" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/b/4b088f3a949a68d454bb645188a585defc8ca543" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/c/5c55094a64a353212c9a2c7313ca0df30306a74d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/1/61656606714c8e70b819b9ea80b2ccbde90cbc77" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/a/6a46dee84eac9bba584da30acf78cba17a4fe96c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/5/a59a516709e5b2416f033e72351bfe3dbe794ec0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/6/b653f3290a231eac89ac27f11597e3be1749af57" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/8/b8e31ea4216c52710d463067cdc015f2b6c875bc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/c/bc43fb8f305242e19a25dac009a348c7fe3dff98" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/8/c8229bdcc78601ed99b6885a5029e8e06fb61d55" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/7/e75f436ba62a9adcf20e8578f62f6afa3dce3179" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/4/b/4b088f3a949a68d454bb645188a585defc8ca543" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/5/c/5c55094a64a353212c9a2c7313ca0df30306a74d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/6/1/61656606714c8e70b819b9ea80b2ccbde90cbc77" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/6/a/6a46dee84eac9bba584da30acf78cba17a4fe96c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/a/5/a59a516709e5b2416f033e72351bfe3dbe794ec0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/6/b653f3290a231eac89ac27f11597e3be1749af57" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/8/b8e31ea4216c52710d463067cdc015f2b6c875bc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/b/c/bc43fb8f305242e19a25dac009a348c7fe3dff98" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/c/8/c8229bdcc78601ed99b6885a5029e8e06fb61d55" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/e/7/e75f436ba62a9adcf20e8578f62f6afa3dce3179" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/securityhotspotstore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/config/SwaggerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/config/SwaggerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/ReportEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/ReportEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/UserEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/TransferController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/controller/TransferController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/model/entity/ReportEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/model/entity/ReportEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/model/entity/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/model/entity/UserEntity.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/itspower/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/itspower/security/SecurityConfig.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +122,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/cladia/its-system&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/Desktop/ITS-Power_By_DA&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -180,6 +204,7 @@
       <workItem from="1678932766134" duration="9446000" />
       <workItem from="1679099708551" duration="28595000" />
       <workItem from="1679295425718" duration="1762000" />
+      <workItem from="1679362540835" duration="1319000" />
     </task>
     <task id="LOCAL-00001" summary="creat api add user">
       <created>1678201874543</created>
@@ -384,7 +409,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679295474718</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="api detail">
+      <created>1679298617358</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1679298617358</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -410,7 +442,8 @@
     <MESSAGE value="api" />
     <MESSAGE value="api user and report done" />
     <MESSAGE value="api report" />
-    <option name="LAST_COMMIT_MESSAGE" value="api report" />
+    <MESSAGE value="api detail" />
+    <option name="LAST_COMMIT_MESSAGE" value="api detail" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
