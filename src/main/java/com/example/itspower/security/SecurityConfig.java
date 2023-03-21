@@ -18,22 +18,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-@Deprecated
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserLoginConfig userService;
+    UserLoginConfig userLoginConfig;
 
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-//    @Autowired
-//    AjaxAuthenticationProvider authenticationProvider;
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider);
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userLoginConfig).passwordEncoder(passwordEncoder());
     }
 
     @Override
