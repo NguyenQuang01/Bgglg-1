@@ -3,6 +3,8 @@ package com.example.itspower.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "group_role")

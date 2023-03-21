@@ -5,6 +5,8 @@ import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class GroupRoleRepository {
     @Autowired
@@ -15,5 +17,9 @@ public class GroupRoleRepository {
         entity.setGroupName(groupName);
         entity.setParentId(parentId);
         return groupJpaRepository.save(entity);
+    }
+
+    public List<GroupEntity> searchAll(){
+        return groupJpaRepository.findAll();
     }
 }

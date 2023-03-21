@@ -1,6 +1,4 @@
 
-s
-Csrc/main/java/com/example/itspower/controller/ReportController.java,4\b\4b088f3a949a68d454bb645188a585defc8ca543
 ‚
 Rsrc/main/java/com/example/itspower/repository/repositoryjpa/RestJpaRepository.java,e\e\ee4efc4e8dc042745a3bad89d235836ef3f9adff
 o
@@ -41,7 +39,3 @@ Csrc/main/java/com/example/itspower/model/entity/TransferEntity.java,2\1\2121b4
 Vsrc/main/java/com/example/itspower/repository/repositoryjpa/TransferJpaRepository.java,2\4\24550951355dab993307fa4eef6f01ff156b3a5d
 u
 Esrc/main/java/com/example/itspower/repository/TransferRepository.java,6\8\68a046f0e147ed2aa321fdfdbe4a228a1977dad9
-q
-Asrc/main/java/com/example/itspower/response/TransferResponse.java,6\a\6a46dee84eac9bba584da30acf78cba17a4fe96c
-v
-Fsrc/main/java/com/example/itspower/service/impl/ReportServiceImpl.java,4\2\42478237a5b7c46bd532997dc8acffc5f1bca40a
