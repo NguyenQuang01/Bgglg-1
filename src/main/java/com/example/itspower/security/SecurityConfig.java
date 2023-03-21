@@ -1,6 +1,5 @@
 package com.example.itspower.security;
 
-import com.example.itspower.filter.AjaxAuthenticationProvider;
 import com.example.itspower.filter.JwtAuthenticationEntryPoint;
 import com.example.itspower.filter.JwtAuthenticationFilter;
 import com.example.itspower.service.impl.UserLoginConfig;
@@ -19,22 +18,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-@Deprecated
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    UserLoginConfig userService;
+    UserLoginConfig userLoginConfig;
 
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    @Autowired
-    AjaxAuthenticationProvider authenticationProvider;
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider);
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userLoginConfig).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -53,11 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authenticationProvider(authenticationProvider);
+        http.cors().and().csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/api/login").permitAll()
                 .anyRequest().authenticated();
-        http.csrf().disable().exceptionHandling();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

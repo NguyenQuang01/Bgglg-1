@@ -8,6 +8,7 @@ import com.example.itspower.response.transfer.TransferResponseGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +22,7 @@ public class TransferRepository {
         List<TransferEntity> entities = transferJpaRepository.findByReportId(reportId);
         return entities;
     }
-
+    @Transactional
     public List<TransferEntity> saveTransfer(List<TransferRequest> requests, int reportId, int groupId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
@@ -34,7 +35,7 @@ public class TransferRepository {
         }
         return transferJpaRepository.saveAll(entities);
     }
-
+    @Transactional
     public List<TransferEntity> updateTransfer(List<TransferRequest> requests, int reportId, int groupId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
