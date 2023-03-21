@@ -7,6 +7,7 @@ import com.example.itspower.request.ReportRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class ReportRepository {
         return reportJpaRepository.save(reportEntity);
     }
 
+    @Transactional
     public ReportEntity updateReport(ReportRequest request, int groupId) {
         ReportEntity reportEntity = new ReportEntity();
         reportEntity.setId(request.getId());
