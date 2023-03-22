@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class ReasonServiceImpl implements ReasonService {
     @Autowired
-    private ReasonRepository reasonRepository;
+    private ReasonRepository repository;
 
     @Override
-    public List<ReasonEntity> getAll() {
-        return reasonRepository.getAll();
+    public List<ReasonEntity> searchALl() {
+        return repository.searchALL();
     }
 }
