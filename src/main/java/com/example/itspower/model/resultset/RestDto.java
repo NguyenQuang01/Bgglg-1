@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestDto {
-    private Integer restId;
+    private int restId;
     private String restName;
+    private int reasonId;
     private String reasonName;
 }

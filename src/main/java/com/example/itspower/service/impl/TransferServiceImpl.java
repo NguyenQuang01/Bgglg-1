@@ -19,7 +19,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public void updateTransferGroup(boolean isAccess, int groupId) {
-        transferRepository.updateTransferGroup(isAccess, groupId);
+    public void updateTransferGroup(boolean isAccess, int groupId,String transferDate) {
+        transferRepository.updateTransferGroup(isAccess, groupId,transferDate);
     }
 }

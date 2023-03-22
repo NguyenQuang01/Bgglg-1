@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -47,10 +48,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public ReportResponse save(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
         if (entity.isPresent()) {
-            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "report date is exits", HttpStatus.NOT_FOUND.name());
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "report date is exits", HttpStatus.BAD_REQUEST.name());
         }
         if (request.getRestNum() != request.getRestRequests().size()) {
             throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "size rest not equal size effective", HttpStatus.BAD_REQUEST.name());
@@ -63,10 +65,11 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public ReportResponse update(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
         if (!entity.isPresent()) {
-            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "", HttpStatus.NOT_FOUND.name());
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
         }
         ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
         riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
