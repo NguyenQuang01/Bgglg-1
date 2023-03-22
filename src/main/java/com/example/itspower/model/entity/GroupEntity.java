@@ -3,8 +3,6 @@ package com.example.itspower.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "group_role")
@@ -17,4 +15,5 @@ public class GroupEntity {
     private String groupName;
     @Column(name = "parent_id")
     private Integer parentId;
+
 }
