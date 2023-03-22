@@ -22,4 +22,12 @@ public class GroupRoleRepository {
     public List<GroupEntity> searchAll(){
         return groupJpaRepository.findAll();
     }
+
+    public List<GroupEntity> findAllByParentId(int parentId){
+        return groupJpaRepository.findAllByParentId(parentId);
+    }
+
+    public List<GroupEntity> findAllByParentIdNotNull(){
+        return groupJpaRepository.findAllByParentIdIsNull();
+    }
 }
