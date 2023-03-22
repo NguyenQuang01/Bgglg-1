@@ -17,14 +17,11 @@ public class ReportController {
     public ResponseEntity<Object> report(@RequestParam("reportDate") String reportDate, @RequestParam("groupId") int groupId) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.reportDto(reportDate, groupId));
     }
-
-
     @PostMapping("/report/save")
     @CrossOrigin
     public ResponseEntity<Object> save(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
         return ResponseEntity.status(HttpStatus.OK).body(reportService.save(reportRequest, groupId));
     }
-
     @PostMapping("/report/update")
     @CrossOrigin
     public ResponseEntity<Object> update(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
