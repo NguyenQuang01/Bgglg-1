@@ -19,7 +19,11 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public void updateTransferGroup(boolean isAccess, int groupId,String transferDate,int transferId) {
-        transferRepository.updateTransferGroup(isAccess, groupId,transferDate,transferId);
+    public void updateTransferGroup(boolean isAccess, int groupId, String transferDate, int transferId) {
+        try {
+            transferRepository.updateTransferGroup(isAccess, groupId, transferDate, transferId);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
