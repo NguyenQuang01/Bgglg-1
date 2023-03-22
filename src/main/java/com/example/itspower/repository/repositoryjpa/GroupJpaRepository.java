@@ -11,4 +11,5 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     List<GroupEntity> findAllByParentId(int parentId);
     List<GroupEntity> findAllByParentIdIsNull();
+
 }
