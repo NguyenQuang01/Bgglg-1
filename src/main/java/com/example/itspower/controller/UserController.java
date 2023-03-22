@@ -3,6 +3,8 @@ package com.example.itspower.controller;
 import com.example.itspower.filter.JwtToken;
 import com.example.itspower.model.UserResponse;
 import com.example.itspower.model.resultset.UserDto;
+import com.example.itspower.request.userrequest.UserDeleteRequest;
+import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.search.UserAulogin;
 import com.example.itspower.response.search.UserRequest;
@@ -43,6 +45,17 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @PostMapping("/api/update")
+    public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest)));
+    }
+
+    @PostMapping("/api/delete")
+    public ResponseEntity<Object> delete(@RequestBody UserDeleteRequest request) {
+        userService.delete(request.getIds());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", ""));
     }
 
     @PostMapping("/api/login")

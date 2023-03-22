@@ -11,6 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="its-power" target="11" />
       <module name="ITS-Power_By_DA" target="11" />
     </bytecodeTargetLevel>
   </component>

@@ -22,6 +22,9 @@ public class GroupRoleRepository {
         entity.setParentId(parentId);
         return groupJpaRepository.save(entity);
     }
+    public void deleteGroupRole(int groupId){
+        groupJpaRepository.deleteById(groupId);
+    }
 
     public List<GroupRoleResponse> searchAll() {
         return getSubListChirdlen(groupJpaRepository.findAll());
