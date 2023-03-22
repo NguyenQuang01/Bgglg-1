@@ -22,17 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserLoginConfig userLoginConfig;
-
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userLoginConfig).passwordEncoder(passwordEncoder());
     }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {

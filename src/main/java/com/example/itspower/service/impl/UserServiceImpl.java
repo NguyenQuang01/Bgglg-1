@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,8 @@ public class UserServiceImpl implements UserService {
         return new UserResponseSave(user, groupEntity, userGroupEntity);
     }
 
+    @Override
+    @Transactional
     public UserResponseSave update(UserUpdateRequest userUpdateRequest) {
         try {
             Optional<UserEntity> userEntity = userRepository.findByUserLogin(userUpdateRequest.getUserLogin());
@@ -72,9 +75,9 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new ResourceNotFoundException(ErrorCode.UNKNOWN_SERVER_ERROR);
         }
-
     }
 
+    @Override
     public void delete(List<Integer> ids) {
         try {
             for (int userId : ids) {
