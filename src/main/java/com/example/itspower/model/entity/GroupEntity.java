@@ -15,4 +15,5 @@ public class GroupEntity {
     private String groupName;
     @Column(name = "parent_id")
     private Integer parentId;
+
 }
