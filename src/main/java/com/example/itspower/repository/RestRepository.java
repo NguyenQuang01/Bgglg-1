@@ -22,7 +22,7 @@ public class RestRepository {
         return restJpaRepository.findByRest(reportId);
     }
 
-    @Transactional
+
     public List<RestEntity> saveRest(List<RestRequest> requests, Integer reportId) {
         List<RestEntity> restEntities = new ArrayList<>();
         for (RestRequest request : requests) {

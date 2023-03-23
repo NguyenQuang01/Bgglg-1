@@ -35,57 +35,43 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public ReportResponse reportDto(String reportDate, int groupId) {
-        try {
-            Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(reportDate, groupId);
-            if (!entity.isPresent()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
-            }
-            ReportDto reportDto = reportRepository.reportDto(reportDate, groupId);
-            List<RestDto> restDtos = restRepository.getRests(reportDto.getId());
-            List<TransferEntity> transferEntities = transferRepository.findByReportId(reportDto.getId());
-            RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
-            return new ReportResponse(reportDto, riceEntity, restDtos, transferEntities);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(reportDate, groupId);
+        if (entity.isEmpty()) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
         }
-
+        ReportDto reportDto = reportRepository.reportDto(reportDate, groupId);
+        List<RestDto> restDtos = restRepository.getRests(reportDto.getId());
+        List<TransferEntity> transferEntities = transferRepository.findByReportId(reportDto.getId());
+        RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
+        return new ReportResponse(reportDto, riceEntity, restDtos, transferEntities);
     }
 
     @Override
     public ReportResponse save(ReportRequest request, int groupId) {
-        try {
-            Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
-            if (entity.isPresent()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "report date is exits", HttpStatus.BAD_REQUEST.name());
-            }
-            if (request.getRestNum() != request.getRestRequests().size()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "size rest not equal size effective", HttpStatus.BAD_REQUEST.name());
-            }
-            ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
-            riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
-            restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
-            return reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId());
-        }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
+        Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
+        if (entity.isPresent()) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "report date is exits", HttpStatus.BAD_REQUEST.name());
         }
+        if (request.getRestNum() != request.getRestRequests().size()) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "size rest not equal size effective", HttpStatus.BAD_REQUEST.name());
+        }
+        ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
+        riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
+        restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
+        transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
+        return reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId());
     }
 
     @Override
     public ReportResponse update(ReportRequest request, int groupId) {
-        try {
-            Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
-            if (!entity.isPresent()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
-            }
-            ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
-            riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
-            restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
-            return reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId());
-        }catch (Exception e){
-            throw new RuntimeException(e.getMessage());
+        Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
+        if (entity.isEmpty()) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
         }
-
+        ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
+        riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
+        restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
+        transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
+        return reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId());
     }
 }

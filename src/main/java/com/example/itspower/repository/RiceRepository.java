@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-
 @Component
 public class RiceRepository {
     @Autowired
@@ -19,7 +17,7 @@ public class RiceRepository {
         return riceJpaRepository.findByReportId(reportId);
     }
 
-    @Transactional
+
     public RiceEntity saveRice(RiceRequest riceRequest, Integer reportId) {
         RiceEntity entity = new RiceEntity();
         entity.setReportId(reportId);
@@ -29,7 +27,6 @@ public class RiceRepository {
         return riceJpaRepository.save(entity);
     }
 
-    @Transactional
     public RiceEntity updateRice(RiceRequest riceRequest, Integer reportId) {
         RiceEntity entity = new RiceEntity();
         if (riceRequest.getRiceId() == 0) {
