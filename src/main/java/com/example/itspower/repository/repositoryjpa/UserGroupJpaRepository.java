@@ -18,6 +18,6 @@ public interface UserGroupJpaRepository extends JpaRepository<UserGroupEntity, I
     @Query(value = "DELETE FROM user_group WHERE userId =:userId", nativeQuery = true)
     void deleteGroupUser(@Param("userId") int userId);
 
-    @Query(value = "SELECT * FROM user_group ug WHERE ug.userId =:userId", nativeQuery = true)
+    @Query(value = "SELECT * FROM user_group ug WHERE ug.user_id =:userId", nativeQuery = true)
     Optional<UserGroupEntity> findByUserId(@Param("userId") int userId);
 }

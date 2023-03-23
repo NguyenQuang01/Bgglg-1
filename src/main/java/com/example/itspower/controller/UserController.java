@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/api/update")
-    public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("id") int id) {
+    public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
         return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest,id)));
     }
 

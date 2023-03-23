@@ -24,6 +24,10 @@ public class UserRepository {
         return userJPARepository.findByUserLogin(userLogin);
     }
 
+    public Optional<UserEntity> findByUserId(int id) {
+        return userJPARepository.findById(id);
+    }
+
     public void deleteIds(List<Integer> ids) {
          userJPARepository.deleteByIds(ids);
     }

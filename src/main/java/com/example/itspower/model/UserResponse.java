@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 public class UserResponse {
     @JsonProperty("isAdmin")
     private boolean isAdmin;
+
+    @JsonProperty("userId")
+    private int userId;
     @JsonProperty("isEdit")
     private boolean isEdit;
     @JsonProperty("isReport")
@@ -23,6 +26,7 @@ public class UserResponse {
     private String userLogin;
 
     public UserResponse(String userLogin, UserDto dto, String token) {
+        this.userId = dto.getUserId();
         this.userLogin = userLogin;
         this.isAdmin = dto.isAdmin();
         this.isEdit = dto.isEdit();

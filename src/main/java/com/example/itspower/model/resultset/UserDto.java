@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
+    private int userId;
     private String groupName;
     private boolean isAdmin;
     private boolean isEdit;

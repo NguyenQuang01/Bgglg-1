@@ -15,6 +15,7 @@ import com.example.itspower.response.search.UserRequest;
 import com.example.itspower.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UserGroupRepository userGroupRepository;
+    @Autowired
+    private UserLoginConfig userLoginConfig;
 
     @Override
     public UserResponseSave save(UserRequest userRequest) {
@@ -55,26 +58,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseSave update(UserUpdateRequest userUpdateRequest, int id) {
-        try {
-            Optional<UserEntity> userEntity = userRepository.findByUserLogin(userUpdateRequest.getUserLogin());
-            if (userEntity.isEmpty()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "User not is exits", HttpStatus.BAD_REQUEST.name());
-            }
-            UserEntity user = new UserEntity();
-            user.setId(id);
-            user.setUserLogin(userUpdateRequest.getUserLogin());
-            user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
-            user.setEdit(userUpdateRequest.isEdit());
-            user.setView(userUpdateRequest.isView());
-            user.setReport(userUpdateRequest.isReport());
-            user.setAdmin(userUpdateRequest.isAdmin());
-            user = userRepository.save(user);
-            Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
-            GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(), userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
-            return new UserResponseSave(user, groupEntity, userGroupEntity.get());
-        } catch (Exception e) {
-            throw new ResourceNotFoundException(ErrorCode.UNKNOWN_SERVER_ERROR);
-        }
+        UserDetails userEntity = userLoginConfig.loadUserById(id);
+        UserEntity user = new UserEntity();
+        user.setId(id);
+        user.setUserLogin(userEntity.getUsername());
+        user.setPassword(userEntity.getPassword());
+        user.setEdit(userUpdateRequest.isEdit());
+        user.setView(userUpdateRequest.isView());
+        user.setReport(userUpdateRequest.isReport());
+        user.setAdmin(userUpdateRequest.isAdmin());
+        user = userRepository.save(user);
+        Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
+        GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(), userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
+        return new UserResponseSave(user, groupEntity, userGroupEntity.get());
     }
 
     @Override
