@@ -24,10 +24,8 @@ public class TransferController {
     @GetMapping("transfer/group")
     @CrossOrigin
     public ResponseEntity<Object> transferGroup(@RequestParam("groupId") int groupId,
-                                                @RequestParam("transferDate") String transferDate,
-                                                @RequestParam("transferId") int transferId,
-                                                @RequestParam("type") int type) {
-        transferService.updateTransferGroup(true, groupId, transferDate, transferId, type);
+                                                @RequestParam("transferDate") String transferDate) {
+        transferService.updateTransferGroup(true, groupId, transferDate);
         return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "transfer success", null));
     }
 }

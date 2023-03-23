@@ -7,5 +7,5 @@ import java.util.List;
 public interface TransferService {
     List<TransferResponseGroup> findAll();
 
-    void updateTransferGroup(boolean isAccess, int groupId, String transferDate,int transferId,int type);
+    void updateTransferGroup(boolean isAccess, int groupId, String transferDate);
 }

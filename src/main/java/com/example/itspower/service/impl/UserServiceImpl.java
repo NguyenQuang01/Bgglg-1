@@ -69,7 +69,8 @@ public class UserServiceImpl implements UserService {
         user.setAdmin(userUpdateRequest.isAdmin());
         user = userRepository.save(user);
         Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
-        GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(), userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
+        GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(),
+                userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
         return new UserResponseSave(user, groupEntity, userGroupEntity.get());
     }
 
