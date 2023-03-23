@@ -24,6 +24,7 @@ public class UserResponse {
     private String token;
     private String groupName;
     private String userLogin;
+    private boolean isCheckReport;
 
     public UserResponse(String userLogin, UserDto dto, String token) {
         this.userId = dto.getUserId();
