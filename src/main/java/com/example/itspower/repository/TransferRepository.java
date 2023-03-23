@@ -56,8 +56,8 @@ public class TransferRepository {
         return transferJpaRepository.saveAll(entities);
     }
 
-    public List<TransferResponseGroup> findByTransferDate() {
-        List<TransferEntity> entities = transferJpaRepository.findTransferDate(DateUtils.formatDate(new Date()));
+    public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId) {
+        List<TransferEntity> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId,DateUtils.formatDate(new Date()));
         List<TransferResponseGroup> transferResponseGroups = new ArrayList<>();
         for (TransferEntity entity : entities) {
             transferResponseGroups.add(new TransferResponseGroup(entity.getTransferNum(), entity.getGroupId(), entity.getType()));

@@ -14,8 +14,8 @@ public class TransferServiceImpl implements TransferService {
     private TransferRepository transferRepository;
 
     @Override
-    public List<TransferResponseGroup> findAll() {
-        return transferRepository.findByTransferDate();
+    public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId) {
+        return transferRepository.findGroupIdAndTransferDate(groupId);
     }
 
     @Override

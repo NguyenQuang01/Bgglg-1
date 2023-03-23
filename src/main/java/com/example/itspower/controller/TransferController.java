@@ -1,5 +1,6 @@
 package com.example.itspower.controller;
 
+import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.service.TransferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 public class TransferController {
     @Autowired
@@ -17,15 +20,14 @@ public class TransferController {
 
     @GetMapping("transfer/now-date")
     @CrossOrigin
-    public ResponseEntity<Object> nowDate() {
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.findAll());
+    public ResponseEntity<Object> nowDate(@RequestParam("groupId") int groupId) {
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.findGroupIdAndTransferDate(groupId));
     }
 
-    @GetMapping("transfer/group")
+    @GetMapping("transfer/accept")
     @CrossOrigin
-    public ResponseEntity<Object> transferGroup(@RequestParam("groupId") int groupId,
-                                                @RequestParam("transferDate") String transferDate) {
-        transferService.updateTransferGroup(true, groupId, transferDate);
+    public ResponseEntity<Object> transferGroupAccept(@RequestParam("groupId") int groupId) {
+        transferService.updateTransferGroup(true, groupId, DateUtils.formatDate(new Date()));
         return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "transfer success", null));
     }
 }
