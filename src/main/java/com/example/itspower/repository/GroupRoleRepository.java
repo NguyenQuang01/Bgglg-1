@@ -22,7 +22,16 @@ public class GroupRoleRepository {
         entity.setParentId(parentId);
         return groupJpaRepository.save(entity);
     }
-    public void deleteGroupRole(int groupId){
+
+    public GroupEntity update(int groupRoleId, String groupName, int parentId) {
+        GroupEntity entity = new GroupEntity();
+        entity.setId(groupRoleId);
+        entity.setGroupName(groupName);
+        entity.setParentId(parentId);
+        return groupJpaRepository.save(entity);
+    }
+
+    public void deleteGroupRole(int groupId) {
         groupJpaRepository.deleteById(groupId);
     }
 
@@ -40,12 +49,11 @@ public class GroupRoleRepository {
 
     public List<GroupRoleResponse> getSubListChirdlen(List<GroupEntity> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
-        groups.forEach(i->{
+        groups.forEach(i -> {
             GroupRoleResponse groupRoleResponse = new GroupRoleResponse(i);
             groupRoleResponses.add(groupRoleResponse);
         });
-        Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream()
-                .collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
+        Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
         groupRoleResponses.forEach(p -> p.setGroups(parentIdToChildren.get(p.getId())));
 
         return parentIdToChildren.get(0);

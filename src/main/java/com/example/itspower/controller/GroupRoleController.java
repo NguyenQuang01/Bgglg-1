@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class GroupRoleController {
     @Autowired
     private GroupRoleService groupRoleService;
+
     @GetMapping("/groupRole")
     @CrossOrigin
     public ResponseEntity<Object> searchAll() {
         return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.searchAll());
     }
+
     @GetMapping("/groupRoleDetails")
     @CrossOrigin
     public ResponseEntity<Object> searchDetails(@Param("parentId") int parentId) {

@@ -8,8 +8,6 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UserUpdateRequest {
-    @NotNull
-    private int id;
     @NotBlank
     private String userLogin;
     @NotBlank

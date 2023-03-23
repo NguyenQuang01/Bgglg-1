@@ -54,14 +54,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserResponseSave update(UserUpdateRequest userUpdateRequest) {
+    public UserResponseSave update(UserUpdateRequest userUpdateRequest, int id) {
         try {
             Optional<UserEntity> userEntity = userRepository.findByUserLogin(userUpdateRequest.getUserLogin());
             if (userEntity.isEmpty()) {
                 throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "User not is exits", HttpStatus.BAD_REQUEST.name());
             }
             UserEntity user = new UserEntity();
-            user.setId(userUpdateRequest.getId());
+            user.setId(id);
             user.setUserLogin(userUpdateRequest.getUserLogin());
             user.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
             user.setEdit(userUpdateRequest.isEdit());
@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService {
             user.setReport(userUpdateRequest.isReport());
             user.setAdmin(userUpdateRequest.isAdmin());
             user = userRepository.save(user);
-            GroupEntity groupEntity = groupRoleRepository.save(userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
-            UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
-            return new UserResponseSave(user, groupEntity, userGroupEntity);
+            Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
+            GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(), userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
+            return new UserResponseSave(user, groupEntity, userGroupEntity.get());
         } catch (Exception e) {
             throw new ResourceNotFoundException(ErrorCode.UNKNOWN_SERVER_ERROR);
         }

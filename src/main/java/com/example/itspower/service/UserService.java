@@ -10,7 +10,7 @@ import java.util.List;
 public interface UserService {
     UserResponseSave save(UserRequest userRequest);
 
-    UserResponseSave update(UserUpdateRequest userUpdateRequest);
+    UserResponseSave update(UserUpdateRequest userUpdateRequest, int id);
 
     UserDto loginInfor(String userLogin);
 
