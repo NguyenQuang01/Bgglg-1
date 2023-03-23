@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransferResponseGroup {
-    private int transferNum;
     private int groupId;
+    private int transferNum;
 }
