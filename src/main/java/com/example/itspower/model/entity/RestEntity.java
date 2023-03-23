@@ -33,10 +33,10 @@ public class RestEntity {
     @Column(name = "id")
     private int restId;
     @Column(name = "rest_name")
-    private String restName;
+    private String restName = "";
     @Column(name = "reason_id")
-    private int reasonId;
+    private int reasonId = 0;
     @Column(name = "reportId")
-    private int reportId;
+    private int reportId = 0;
 
 }

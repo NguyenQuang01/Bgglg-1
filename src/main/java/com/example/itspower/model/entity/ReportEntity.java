@@ -44,7 +44,7 @@ import java.util.Date;
 public class ReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id = 0;
     @Column(name = "report_date")
     private Date reportDate;
     @Column(name = "part_time_num")

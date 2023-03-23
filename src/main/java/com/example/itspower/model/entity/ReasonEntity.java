@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class ReasonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id = 0;
     @Column(name = "name")
-    private String name;
+    private String name = "";
 }

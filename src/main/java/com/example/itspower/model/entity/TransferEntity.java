@@ -15,16 +15,16 @@ public class TransferEntity {
     @Column(name = "id")
     private Integer transferId;
     @Column(name = "transfer_num")
-    private Integer transferNum;
+    private Integer transferNum = 0;
     @Column(name = "report_id")
-    private Integer reportId;
+    private Integer reportId = 0;
     @Column(name = "group_id")
-    private Integer groupId;
+    private Integer groupId = 0;
     @Column(name = "is_access")
     private boolean isAccess;
     @Column(name = "transfer_date")
     private Date transferDate;
     @Column(name = "type")
     @Min(1)
-    private Integer type;
+    private Integer type = 0;
 }

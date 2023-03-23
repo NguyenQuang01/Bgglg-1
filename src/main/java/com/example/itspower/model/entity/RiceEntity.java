@@ -13,11 +13,11 @@ public class RiceEntity {
     @Column(name = "id")
     private Integer riceId;
     @Column(name = "rice_emp")
-    private Integer riceEmp;
+    private Integer riceEmp = 0;
     @Column(name = "rice_cus")
-    private Integer riceCus;
+    private Integer riceCus = 0;
     @Column(name = "rice_vip")
-    private Integer riceVip;
+    private Integer riceVip = 0;
     @Column(name = "report_id")
-    private Integer reportId;
+    private Integer reportId = 0;
 }

@@ -12,8 +12,8 @@ public class GroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "group_name")
-    private String groupName;
+    private String groupName = "";
     @Column(name = "parent_id")
-    private Integer parentId;
+    private Integer parentId = 0;
 
 }
