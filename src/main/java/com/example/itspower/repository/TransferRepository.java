@@ -24,12 +24,12 @@ public class TransferRepository {
         return entities;
     }
 
-    public List<TransferEntity> saveTransfer(List<TransferRequest> requests, int reportId, int groupId) {
+    public List<TransferEntity> saveTransfer(List<TransferRequest> requests, int reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
             TransferEntity entity = new TransferEntity();
             entity.setReportId(reportId);
-            entity.setGroupId(groupId);
+            entity.setGroupId(transfer.getGroupId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
