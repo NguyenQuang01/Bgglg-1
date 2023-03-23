@@ -27,17 +27,20 @@ public class ReasonController {
 
     @PutMapping("/reason/edit")
     public ResponseEntity<Object> edit(@RequestParam("id") int id, @RequestBody ReasonRequest reasonRequest) {
+        if (reasonService.edit(reasonRequest,id) ==null){
+            return ResponseEntity.status(HttpStatus.OK).body("id no exits");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(reasonService.edit(reasonRequest,id));
     }
 
     @DeleteMapping("/reason/deleteALl")
     public ResponseEntity<Object> deleteAll() {
         reasonService.deleteAll();
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body("thanh cong");
     }
     @DeleteMapping("/reason/delete")
     public ResponseEntity<Object> delete(@RequestParam("id") int id) {
         reasonService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        return ResponseEntity.status(HttpStatus.OK).body("thanh cong");
     }
 }
