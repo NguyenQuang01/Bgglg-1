@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-
 @RestController
 @CrossOrigin
 public class UserController {
@@ -51,6 +50,6 @@ public class UserController {
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
         UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token)));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), null, token)));
     }
 }
