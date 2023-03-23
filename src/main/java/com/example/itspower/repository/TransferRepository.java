@@ -57,10 +57,10 @@ public class TransferRepository {
     }
 
     public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId) {
-        List<TransferEntity> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId,DateUtils.formatDate(new Date()));
+        List<TransferEntity> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId, DateUtils.formatDate(new Date()));
         List<TransferResponseGroup> transferResponseGroups = new ArrayList<>();
         for (TransferEntity entity : entities) {
-            transferResponseGroups.add(new TransferResponseGroup(entity.getTransferNum(), entity.getGroupId(), entity.getType()));
+            transferResponseGroups.add(new TransferResponseGroup(entity.getTransferNum(), entity.getGroupId()));
         }
         return transferResponseGroups;
     }

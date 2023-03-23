@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class TransferResponseGroup {
     private int transferNum;
     private int groupId;
-    private int type;
 }
