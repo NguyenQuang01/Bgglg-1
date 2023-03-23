@@ -68,7 +68,7 @@ public class TransferRepository {
         return transferResponseGroups;
     }
 
-    public void updateTransferGroup(boolean isAccess, int groupId, String transferDate, int transferId) {
-        transferJpaRepository.updateTransfer(isAccess, groupId, transferDate, transferId);
+    public void updateTransferGroup(boolean isAccess, int groupId, String transferDate, int transferId,int type) {
+        transferJpaRepository.updateTransfer(isAccess, groupId, transferDate, transferId,type);
     }
 }

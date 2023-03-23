@@ -19,6 +19,10 @@ public interface TransferJpaRepository extends JpaRepository<TransferEntity, Int
 
     @Modifying
     @Transactional
-    @Query(value = "update transfer t set t.is_access = :isAccess where t.group_id = :groupId AND DATE_FORMAT(t.transfer_date , '%Y%m%d') = DATE_FORMAT(:transferDate, '%Y%m%d') AND t.id = :transferId", nativeQuery = true)
-    void updateTransfer(@Param("isAccess") boolean isAccess, @Param("groupId") int groupId, @Param("transferDate") String transferDate, @Param("transferId") int transferId);
+    @Query(value = "update transfer t set t.is_access = :isAccess where t.group_id =:groupId AND DATE_FORMAT(t.transfer_date , '%Y%m%d') = DATE_FORMAT(:transferDate, '%Y%m%d') AND t.id =:transferId AND t.type =:type ", nativeQuery = true)
+    void updateTransfer(@Param("isAccess") boolean isAccess,
+                        @Param("groupId") int groupId,
+                        @Param("transferDate") String transferDate,
+                        @Param("transferId") int transferId,
+                        @Param("type") int type);
 }

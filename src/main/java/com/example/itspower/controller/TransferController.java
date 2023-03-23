@@ -25,8 +25,9 @@ public class TransferController {
     @CrossOrigin
     public ResponseEntity<Object> transferGroup(@RequestParam("groupId") int groupId,
                                                 @RequestParam("transferDate") String transferDate,
-                                                @RequestParam("transferId") int transferId) {
-        transferService.updateTransferGroup(true, groupId, transferDate, transferId);
+                                                @RequestParam("transferId") int transferId,
+                                                @RequestParam("type") int type) {
+        transferService.updateTransferGroup(true, groupId, transferDate, transferId, type);
         return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "transfer success", null));
     }
 }
