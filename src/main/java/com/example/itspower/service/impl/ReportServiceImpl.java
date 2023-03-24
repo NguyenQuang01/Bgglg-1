@@ -70,7 +70,7 @@ public class ReportServiceImpl implements ReportService {
     public ReportResponse update(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
         if (entity.isEmpty()) {
-            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "report is not Exits", HttpStatus.BAD_REQUEST.name());
         }
         ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
         riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());

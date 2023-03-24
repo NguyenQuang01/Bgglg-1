@@ -1,5 +1,6 @@
 package com.example.itspower.service.impl;
 
+import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.exception.ErrorCode;
 import com.example.itspower.exception.ResourceNotFoundException;
 import com.example.itspower.model.entity.GroupEntity;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,40 +48,52 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserResponseSave save(UserRequest userRequest) {
-        Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
-        if (userEntity.isPresent()) {
-            throw new ResourceNotFoundException(HttpStatus.FOUND.value(), "User is exits", HttpStatus.FOUND.name());
+        try {
+            Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
+            if (userEntity.isPresent()) {
+                throw new ResourceNotFoundException(HttpStatus.FOUND.value(), "User is exits", HttpStatus.FOUND.name());
+            }
+            UserEntity user = new UserEntity();
+            user.setUserLogin(userRequest.getUserLogin());
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+            user.setEdit(userRequest.isEdit());
+            user.setView(userRequest.isView());
+            user.setReport(userRequest.isReport());
+            user.setAdmin(userRequest.isAdmin());
+            user = userRepository.save(user);
+            GroupEntity groupEntity = groupRoleRepository.save(userRequest.getGroupName(), userRequest.getParentId());
+            UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
+            return new UserResponseSave(user, groupEntity, userGroupEntity);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
         }
-        UserEntity user = new UserEntity();
-        user.setUserLogin(userRequest.getUserLogin());
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        user.setEdit(userRequest.isEdit());
-        user.setView(userRequest.isView());
-        user.setReport(userRequest.isReport());
-        user.setAdmin(userRequest.isAdmin());
-        user = userRepository.save(user);
-        GroupEntity groupEntity = groupRoleRepository.save(userRequest.getGroupName(), userRequest.getParentId());
-        UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
-        return new UserResponseSave(user, groupEntity, userGroupEntity);
+
     }
 
     @Override
     @Transactional
     public UserResponseSave update(UserUpdateRequest userUpdateRequest, int id) {
-        UserDetails userEntity = userLoginConfig.loadUserById(id);
-        UserEntity user = new UserEntity();
-        user.setId(id);
-        user.setUserLogin(userEntity.getUsername());
-        user.setPassword(userEntity.getPassword());
-        user.setEdit(userUpdateRequest.isEdit());
-        user.setView(userUpdateRequest.isView());
-        user.setReport(userUpdateRequest.isReport());
-        user.setAdmin(userUpdateRequest.isAdmin());
-        user = userRepository.save(user);
-        Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
-        GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(),
-                userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
-        return new UserResponseSave(user, groupEntity, userGroupEntity.get());
+        try {
+            UserDetails userEntity = userLoginConfig.loadUserById(id);
+            UserEntity user = new UserEntity();
+            user.setId(id);
+            user.setUserLogin(userEntity.getUsername());
+            user.setPassword(userEntity.getPassword());
+            user.setEdit(userUpdateRequest.isEdit());
+            user.setView(userUpdateRequest.isView());
+            user.setReport(userUpdateRequest.isReport());
+            user.setAdmin(userUpdateRequest.isAdmin());
+            user = userRepository.save(user);
+            Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
+            if (userGroupEntity.isEmpty()) {
+                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
+            }
+            GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(),
+                    userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
+            return new UserResponseSave(user, groupEntity, userGroupEntity.get());
+        } catch (Exception e) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
+        }
     }
 
     @Override
@@ -106,11 +120,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean isCheckReport(int groupId) {
-        Optional<ReportEntity> reportEntity = reportRepository.findByGroupId(groupId);
-        if (reportEntity.isPresent()) {
-            return true;
-        }
-        return false;
+        Optional<ReportEntity> reportEntity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
+        return reportEntity.isPresent();
     }
 
     public UserDto loginInfor(String userLogin) {
