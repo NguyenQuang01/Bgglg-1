@@ -4,6 +4,7 @@ import com.example.itspower.service.impl.UserLoginConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,10 +52,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         } catch (Exception e) {
             log.error("Error logging in : {} " + e.getMessage());
-            response.setHeader("erorr", e.getMessage());
-            response.setStatus(404);
+            response.setHeader("api/login",HttpStatus.BAD_REQUEST.name());
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
             Map<String, String> error = new HashMap<>();
-            error.put("error_message", e.getMessage());
+            error.put("message", "user login or password is not correct");
             response.setContentType(APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), error);
         }

@@ -24,10 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     UserLoginConfig userLoginConfig;
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userLoginConfig).passwordEncoder(passwordEncoder());
     }
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
