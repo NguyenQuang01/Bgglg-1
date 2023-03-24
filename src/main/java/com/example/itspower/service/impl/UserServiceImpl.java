@@ -49,9 +49,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserResponseSave save(UserRequest userRequest) {
         try {
-            Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
-            if (userEntity.isPresent()) {
-                throw new ResourceNotFoundException(HttpStatus.FOUND.value(), "User is exits", HttpStatus.FOUND.name());
+            UserDetails userDetails = userLoginConfig.loadUserByUsername(userRequest.getUserLogin());
+            if (!userDetails.getUsername().isEmpty()) {
+                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "UserLogin is exits", HttpStatus.BAD_REQUEST.name());
             }
             UserEntity user = new UserEntity();
             user.setUserLogin(userRequest.getUserLogin());
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
             UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
             return new UserResponseSave(user, groupEntity, userGroupEntity);
         } catch (Exception e) {
-            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
+            throw new ResourceNotFoundException(HttpStatus.BAD_GATEWAY.value(), "", HttpStatus.BAD_GATEWAY.name());
         }
 
     }
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
                     userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
             return new UserResponseSave(user, groupEntity, userGroupEntity.get());
         } catch (Exception e) {
-            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
+            throw new ResourceNotFoundException(HttpStatus.BAD_GATEWAY.value(), "", HttpStatus.BAD_GATEWAY.name());
         }
     }
 
