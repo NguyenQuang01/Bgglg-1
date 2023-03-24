@@ -11,7 +11,10 @@ import java.util.List;
 public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> {
 
     List<GroupEntity> findAllByParentId(int parentId);
+
     List<GroupEntity> findAllByParentIdIsNull();
-    @Query(value = "select id from group_role where parent_id is null",nativeQuery = true)
+
+    @Query(value = "select id from group_role where parent_id is null", nativeQuery = true)
     List<Integer> getAllRoot();
+
 }

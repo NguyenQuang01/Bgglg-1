@@ -43,14 +43,7 @@ import java.util.Date;
                 }
         )
 )
-@NamedNativeQuery(
-        name = "get_view_report",
-        query = " SELECT  sum(demarcation) as totalEmp,sum(labor_productivity) as laborProductivityTeam,sum(rest_num) as restEmp,\n" +
-                "sum(part_time_num) as partTimeEmp, (sum(labor_productivity)/sum(demarcation)*100) as ratio ,sum(student_num) as student" +
-                " FROM report_system.report r where group_id in (SELECT id FROM report_system.group_role where parent_id =:parentId) " +
-                "and DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d')",
-        resultSetMapping = "ViewDetailResponse"
-)
+
 @NamedNativeQuery(
         name = "find_by_report",
         query = " select r.id,r.group_id as groupId,r.demarcation,r.labor_productivity as laborProductivity, " +
@@ -62,6 +55,14 @@ import java.util.Date;
                 "left join rice r3 on r3.report_id = r.id  " +
                 "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') AND r.group_id = :groupId ",
         resultSetMapping = "report_dto"
+)
+@NamedNativeQuery(
+        name = "get_view_report",
+        query = " SELECT  sum(demarcation) as totalEmp,sum(labor_productivity) as laborProductivityTeam,sum(rest_num) as restEmp, " +
+                "sum(part_time_num) as partTimeEmp, (sum(labor_productivity)/sum(demarcation)*100) as ratio " +
+                "FROM report_system.report where group_id in (SELECT id FROM report_system.group_role where parent_id =:parentId) " +
+                "and DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d')",
+        resultSetMapping = "ViewDetailResponse"
 )
 public class ReportEntity {
     @Id

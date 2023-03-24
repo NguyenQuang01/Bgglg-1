@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,7 +36,7 @@ public class UserController {
 
 
     @PostMapping("/api/save")
-    public ResponseEntity<Object> saveData(@Valid @RequestBody UserRequest userRequest) {
+    public ResponseEntity<Object> saveData(@Validated @RequestBody UserRequest userRequest) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", userService.save(userRequest)));
         } catch (Exception e) {
@@ -45,21 +46,22 @@ public class UserController {
 
     @PostMapping("/api/update")
     public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest,id)));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest, id)));
     }
 
     @PostMapping("/api/delete")
-    public ResponseEntity<Object> delete(@RequestBody UserDeleteRequest request) {
+    public ResponseEntity<Object> delete(@Validated @RequestBody UserDeleteRequest request) {
         userService.delete(request.getIds());
         return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", ""));
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<Object> login(@Valid @RequestBody UserAulogin userAulogin) {
+    public ResponseEntity<Object> login(@Validated @RequestBody UserAulogin userAulogin) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
         UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token)));
+        boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
     }
 }

@@ -62,4 +62,12 @@ public class ReportRepository {
     public Optional<ReportEntity> findByIdAndGroupId(int id, int groupId) {
         return reportJpaRepository.findByIdAndGroupId(id, groupId);
     }
+
+    public Optional<ReportEntity> findByGroupId(int groupId) {
+        return reportJpaRepository.findByGroupId(groupId);
+    }
+
+    public void deleteByGroupId(int groupId) {
+        reportJpaRepository.deleteById(groupId);
+    }
 }

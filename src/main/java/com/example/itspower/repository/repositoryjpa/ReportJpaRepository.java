@@ -18,7 +18,6 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
 
     @Query(name = "get_view_report", nativeQuery = true)
     ViewDetailResponse viewRootReport(@Param("reportDate") String reportDate, @Param("parentId") int parentId);
-
     @Query(value = "select * from report r where  DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:#{#reportDate}, '%Y%m%d') ", nativeQuery = true)
     Optional<ReportEntity> findByReportDate(String reportDate);
 
@@ -27,5 +26,5 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
 
     Optional<ReportEntity> findByIdAndGroupId(int id, int groupId);
 
-
+    Optional<ReportEntity> findByGroupId( int groupId);
 }
