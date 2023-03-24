@@ -12,7 +12,7 @@ public class UserRequest {
     private String userLogin;
     @NotBlank
     private String groupName;
-    private Integer parentId = 0;
+    private Integer parentId ;
     @NotNull
     @Size(min = 6, max = 24)
     private String password;
