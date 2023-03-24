@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,7 @@ public class ReportServiceImpl implements ReportService {
     private RiceRepository riceRepository;
 
     @Override
+    @Transactional
     public ReportResponse reportDto(String reportDate, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(reportDate, groupId);
         if (entity.isEmpty()) {
@@ -47,6 +49,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public ReportResponse save(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
         if (entity.isPresent()) {
@@ -63,6 +66,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public ReportResponse update(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
         if (entity.isEmpty()) {

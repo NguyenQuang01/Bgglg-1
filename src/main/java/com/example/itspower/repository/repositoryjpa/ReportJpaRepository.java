@@ -25,4 +25,6 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
     Optional<ReportEntity> findByReportDateAndGroupId(@Param("reportDate") String reportDate, @Param("groupId") int groupId);
 
     Optional<ReportEntity> findByIdAndGroupId(int id, int groupId);
+
+    Optional<ReportEntity> findByGroupId( int groupId);
 }

@@ -68,4 +68,8 @@ public class TransferRepository {
     public void updateTransferGroup(boolean isAccess, int groupId, String transferDate) {
         transferJpaRepository.updateTransfer(isAccess, groupId, transferDate);
     }
+
+    public void deleteTransferReportId(int reportId) {
+        transferJpaRepository.deleteById(reportId);
+    }
 }
