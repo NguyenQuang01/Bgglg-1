@@ -17,6 +17,7 @@ import javax.persistence.*;
         classes = @ConstructorResult(
                 targetClass = UserDto.class,
                 columns = {
+                        @ColumnResult(name = "userId", type = Integer.class),
                         @ColumnResult(name = "groupName", type = String.class),
                         @ColumnResult(name = "isAdmin", type = Boolean.class),
                         @ColumnResult(name = "isEdit", type = Boolean.class),
@@ -30,11 +31,12 @@ import javax.persistence.*;
 
 @NamedNativeQuery(
         name = "loginInfor",
-        query = "select u.is_admin as isAdmin ,gr.group_name as groupName, " +
+        query = "select u.id as userId, u.is_admin as isAdmin ,IFNULL(gr.group_name,'') as groupName, " +
                 "u.is_edit as isEdit,u.is_report as isReport, " +
-                "u.is_view as isView, ug.group_id as groupId " +
-                "from `user` u inner join user_group ug on ug.user_id = u.id  " +
-                "inner join group_role gr on ug.group_id = gr .id where u.user_login = :userLogin ",
+                "u.is_view as isView, IFNULL(ug.group_id,0) as groupId " +
+                "from `user` u " +
+                "left join user_group ug on ug.user_id = u.id  " +
+                "left join group_role gr on ug.group_id = gr .id where u.user_login = :userLogin ",
         resultSetMapping = "user_dto"
 )
 public class UserEntity {

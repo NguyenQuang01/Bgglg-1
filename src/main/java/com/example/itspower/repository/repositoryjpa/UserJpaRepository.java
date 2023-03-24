@@ -4,10 +4,13 @@ import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.model.resultset.UserDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -16,4 +19,9 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Integer>, J
 
     @Query(name = "loginInfor", nativeQuery = true)
     UserDto loginInfor(@Param("userLogin") String userLogin);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM user WHERE id in(:#{#ids})", nativeQuery = true)
+    void deleteByIds(List<Integer> ids);
 }

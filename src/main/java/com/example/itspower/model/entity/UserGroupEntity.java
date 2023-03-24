@@ -12,8 +12,8 @@ public class UserGroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer userId = 0;
     @Column(name = "group_id")
-    private Integer groupId;
+    private Integer groupId = 0;
 
 }

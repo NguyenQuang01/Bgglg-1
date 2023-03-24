@@ -46,8 +46,8 @@ import java.util.Date;
 @NamedNativeQuery(
         name = "get_view_report",
         query = " SELECT  sum(demarcation) as totalEmp,sum(labor_productivity) as laborProductivityTeam,sum(rest_num) as restEmp,\n" +
-                "sum(part_time_num) as partTimeEmp, (sum(labor_productivity)/sum(demarcation)*100) as ratio " +
-                " FROM report_system.report where group_id in (SELECT id FROM report_system.group_role where parent_id =:parentId) " +
+                "sum(part_time_num) as partTimeEmp, (sum(labor_productivity)/sum(demarcation)*100) as ratio ,sum(student_num) as student" +
+                " FROM report_system.report r where group_id in (SELECT id FROM report_system.group_role where parent_id =:parentId) " +
                 "and DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d')",
         resultSetMapping = "ViewDetailResponse"
 )
@@ -57,16 +57,16 @@ import java.util.Date;
                 "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) as transferNum,  " +
                 "(select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2) as supportNum, " +
                 "r.rest_num  as restNum, r.part_time_num  as partTimeNum, r.student_num  as studentNum," +
-                "(r3.rice_cus + r3.rice_emp +r3.rice_vip) as totalRice,r.report_date as reportDate " +
+                "(IFNULL(r3.rice_cus,0) + IFNULL(r3.rice_emp,0) + IFNULL(r3.rice_vip,0)) as totalRice,r.report_date as reportDate " +
                 "from report r  " +
-                "inner join rice r3 on r3.report_id = r.id  " +
+                "left join rice r3 on r3.report_id = r.id  " +
                 "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') AND r.group_id = :groupId ",
         resultSetMapping = "report_dto"
 )
 public class ReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id = 0;
     @Column(name = "report_date")
     private Date reportDate;
     @Column(name = "part_time_num")

@@ -3,6 +3,8 @@ package com.example.itspower.controller;
 import com.example.itspower.filter.JwtToken;
 import com.example.itspower.model.UserResponse;
 import com.example.itspower.model.resultset.UserDto;
+import com.example.itspower.request.userrequest.UserDeleteRequest;
+import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.search.UserAulogin;
 import com.example.itspower.response.search.UserRequest;
@@ -14,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 @RestController
@@ -44,12 +43,23 @@ public class UserController {
         }
     }
 
+    @PostMapping("/api/update")
+    public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest,id)));
+    }
+
+    @PostMapping("/api/delete")
+    public ResponseEntity<Object> delete(@RequestBody UserDeleteRequest request) {
+        userService.delete(request.getIds());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", ""));
+    }
+
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@Valid @RequestBody UserAulogin userAulogin) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
         UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), null, token)));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token)));
     }
 }

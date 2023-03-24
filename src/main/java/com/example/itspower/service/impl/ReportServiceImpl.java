@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public ReportResponse reportDto(String reportDate, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(reportDate, groupId);
-        if (!entity.isPresent()) {
+        if (entity.isEmpty()) {
             throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
         }
         ReportDto reportDto = reportRepository.reportDto(reportDate, groupId);
@@ -50,7 +50,7 @@ public class ReportServiceImpl implements ReportService {
     public ReportResponse save(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
         if (entity.isPresent()) {
-            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "report date is exits", HttpStatus.NOT_FOUND.name());
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "report date is exits", HttpStatus.BAD_REQUEST.name());
         }
         if (request.getRestNum() != request.getRestRequests().size()) {
             throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "size rest not equal size effective", HttpStatus.BAD_REQUEST.name());
@@ -58,15 +58,15 @@ public class ReportServiceImpl implements ReportService {
         ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
         riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
         restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
-        transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
+        transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
         return reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId());
     }
 
     @Override
     public ReportResponse update(ReportRequest request, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
-        if (!entity.isPresent()) {
-            throw new ResourceNotFoundException(HttpStatus.NOT_FOUND.value(), "", HttpStatus.NOT_FOUND.name());
+        if (entity.isEmpty()) {
+            throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
         }
         ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
         riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());

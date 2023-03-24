@@ -1,11 +1,13 @@
 package com.example.itspower.repository;
 
 import com.example.itspower.component.util.DateUtils;
+import com.example.itspower.exception.ResourceNotFoundException;
 import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.repository.repositoryjpa.TransferJpaRepository;
 import com.example.itspower.request.TransferRequest;
 import com.example.itspower.response.transfer.TransferResponseGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,12 +24,13 @@ public class TransferRepository {
         return entities;
     }
 
-    public List<TransferEntity> saveTransfer(List<TransferRequest> requests, int reportId, int groupId) {
+    public List<TransferEntity> saveTransfer(List<TransferRequest> requests, int reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
             TransferEntity entity = new TransferEntity();
             entity.setReportId(reportId);
-            entity.setGroupId(groupId);
+            entity.setGroupId(transfer.getGroupId());
+            entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
             entities.add(entity);
@@ -39,9 +42,13 @@ public class TransferRepository {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
             TransferEntity entity = new TransferEntity();
+            if (transfer.getTransferId() == 0) {
+                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "transferId not exits", HttpStatus.BAD_REQUEST.name());
+            }
             entity.setTransferId(transfer.getTransferId());
             entity.setReportId(reportId);
             entity.setGroupId(groupId);
+            entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
             entities.add(entity);
@@ -49,16 +56,16 @@ public class TransferRepository {
         return transferJpaRepository.saveAll(entities);
     }
 
-    public List<TransferResponseGroup> findByTransferDate() {
-        List<TransferEntity> entities = transferJpaRepository.findTransferDate(DateUtils.formatDate(new Date()));
+    public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId) {
+        List<TransferEntity> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId, DateUtils.formatDate(new Date()));
         List<TransferResponseGroup> transferResponseGroups = new ArrayList<>();
         for (TransferEntity entity : entities) {
-            transferResponseGroups.add(new TransferResponseGroup(entity.getTransferNum(), entity.getGroupId(), entity.getType()));
+            transferResponseGroups.add(new TransferResponseGroup(entity.getGroupId(), entity.getTransferNum()));
         }
         return transferResponseGroups;
     }
 
-    public void updateTransferGroup(boolean isAccess, int groupId) {
-        transferJpaRepository.updateTransfer(isAccess, groupId);
+    public void updateTransferGroup(boolean isAccess, int groupId, String transferDate) {
+        transferJpaRepository.updateTransfer(isAccess, groupId, transferDate);
     }
 }

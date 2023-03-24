@@ -14,12 +14,16 @@ public class TransferServiceImpl implements TransferService {
     private TransferRepository transferRepository;
 
     @Override
-    public List<TransferResponseGroup> findAll() {
-        return transferRepository.findByTransferDate();
+    public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId) {
+        return transferRepository.findGroupIdAndTransferDate(groupId);
     }
 
     @Override
-    public void updateTransferGroup(boolean isAccess, int groupId) {
-        transferRepository.updateTransferGroup(isAccess, groupId);
+    public void updateTransferGroup(boolean isAccess, int groupId, String transferDate) {
+        try {
+            transferRepository.updateTransferGroup(isAccess, groupId, transferDate);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
