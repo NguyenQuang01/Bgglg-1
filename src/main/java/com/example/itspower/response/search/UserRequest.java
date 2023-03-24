@@ -11,10 +11,10 @@ public class UserRequest {
     @NotBlank
     private String userLogin;
     @NotBlank
-    private String groupName;
-    private Integer parentId ;
-    @NotNull
-    @Size(min = 6, max = 24)
+    private Integer groupId;
+    private Integer parentId;
+    @NotNull(message = "password > 6 char ")
+    @Size(min = 6)
     private String password;
     private boolean isEdit;
     private boolean isView;

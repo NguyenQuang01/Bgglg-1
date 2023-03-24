@@ -67,7 +67,8 @@ public class ReportRepository {
         return reportJpaRepository.findByGroupId(groupId);
     }
 
-    public void deleteByGroupId(int groupId) {
-        reportJpaRepository.deleteById(groupId);
+
+    public void deleteByGroupId(Integer groupId) {
+        reportJpaRepository.deleteByGroupId(groupId);
     }
 }

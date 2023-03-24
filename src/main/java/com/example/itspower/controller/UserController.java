@@ -37,12 +37,9 @@ public class UserController {
 
 
     @PostMapping("/api/save")
-    public ResponseEntity<Object> saveData(@Validated @RequestBody UserRequest userRequest) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", userService.save(userRequest)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<SuccessResponse<Object>> saveData(@Validated @RequestBody UserRequest userRequest) {
+        return userService.save(userRequest);
+
     }
 
     @PostMapping("/api/update")
@@ -52,8 +49,8 @@ public class UserController {
 
     @PostMapping("/api/delete")
     public ResponseEntity<Object> delete(@Validated @RequestBody UserDeleteRequest request) {
-        userService.delete(request.getIds());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", ""));
+        userService.delete(request.getIds(), request.getUserLogin());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "delete success", ""));
     }
 
     @PostMapping("/api/login")

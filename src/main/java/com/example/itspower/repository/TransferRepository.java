@@ -9,9 +9,11 @@ import com.example.itspower.repository.repositoryjpa.TransferJpaRepository;
 import com.example.itspower.request.TransferRequest;
 import com.example.itspower.response.transfer.TransferResponseGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +77,9 @@ public class TransferRepository {
         transferJpaRepository.updateTransfer(isAccess, groupId, transferDate);
     }
 
-    public void deleteTransferReportId(int reportId) {
-        transferJpaRepository.deleteById(reportId);
+    @Transactional
+    @Modifying
+    public void deleteTransferReportId(Integer reportId) {
+        transferJpaRepository.deleteByReportId(reportId);
     }
 }

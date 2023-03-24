@@ -1,7 +1,6 @@
 package com.example.itspower.service.impl;
 
 import com.example.itspower.component.util.DateUtils;
-import com.example.itspower.exception.ErrorCode;
 import com.example.itspower.exception.ResourceNotFoundException;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.ReportEntity;
@@ -10,11 +9,13 @@ import com.example.itspower.model.entity.UserGroupEntity;
 import com.example.itspower.model.resultset.UserDto;
 import com.example.itspower.repository.*;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
+import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.UserResponseSave;
 import com.example.itspower.response.search.UserRequest;
 import com.example.itspower.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,12 +47,11 @@ public class UserServiceImpl implements UserService {
     private UserLoginConfig userLoginConfig;
 
     @Override
-    @Transactional
-    public UserResponseSave save(UserRequest userRequest) {
+    public ResponseEntity<SuccessResponse<Object>> save(UserRequest userRequest) {
         try {
-            UserDetails userDetails = userLoginConfig.loadUserByUsername(userRequest.getUserLogin());
-            if (!userDetails.getUsername().isEmpty()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "UserLogin is exits", HttpStatus.BAD_REQUEST.name());
+            Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
+            if (userEntity.isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "UserLogin is exits", null));
             }
             UserEntity user = new UserEntity();
             user.setUserLogin(userRequest.getUserLogin());
@@ -61,13 +61,12 @@ public class UserServiceImpl implements UserService {
             user.setReport(userRequest.isReport());
             user.setAdmin(userRequest.isAdmin());
             user = userRepository.save(user);
-            GroupEntity groupEntity = groupRoleRepository.save(userRequest.getGroupName(), userRequest.getParentId());
+            GroupEntity groupEntity = groupRoleRepository.save(userRequest.getGroupId(), userRequest.getParentId());
             UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
-            return new UserResponseSave(user, groupEntity, userGroupEntity);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", new UserResponseSave(user, groupEntity, userGroupEntity)));
         } catch (Exception e) {
-            throw new ResourceNotFoundException(HttpStatus.BAD_GATEWAY.value(), "", HttpStatus.BAD_GATEWAY.name());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "register not success", null));
         }
-
     }
 
     @Override
@@ -88,8 +87,7 @@ public class UserServiceImpl implements UserService {
             if (userGroupEntity.isEmpty()) {
                 throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
             }
-            GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(),
-                    userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
+            GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(), userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
             return new UserResponseSave(user, groupEntity, userGroupEntity.get());
         } catch (Exception e) {
             throw new ResourceNotFoundException(HttpStatus.BAD_GATEWAY.value(), "", HttpStatus.BAD_GATEWAY.name());
@@ -97,25 +95,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(List<Integer> ids) {
+    public void delete(List<Integer> ids, String userName) {
         try {
-            for (int userId : ids) {
-                Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(userId);
-                if (userGroupEntity.isPresent()) {
-                    Optional<ReportEntity> reportEntity = reportRepository.findByGroupId(userGroupEntity.get().getGroupId());
-                    if (reportEntity.isPresent()) {
-                        restRepository.deleteRestReportId(reportEntity.get().getId());
-                        riceRepository.deleteReportId(reportEntity.get().getId());
-                        transferRepository.deleteTransferReportId(reportEntity.get().getId());
+            UserDetails userDetails = userLoginConfig.loadUserByUsername("admin");
+            if (userName.equals(userDetails.getUsername())) {
+                for (int userId : ids) {
+                    Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(userId);
+                    if (userGroupEntity.isPresent()) {
+                        Optional<ReportEntity> reportEntity = reportRepository.findByGroupId(userGroupEntity.get().getGroupId());
+                        if (reportEntity.isPresent()) {
+                            restRepository.deleteRestReportId(reportEntity.get().getId());
+                            riceRepository.deleteReportId(reportEntity.get().getId());
+                            transferRepository.deleteTransferReportId(reportEntity.get().getId());
+                            reportRepository.deleteByGroupId(userGroupEntity.get().getGroupId());
+                        }
+                        userGroupRepository.deleteGroupUser(userId);
                     }
-                    reportRepository.deleteByGroupId(userGroupEntity.get().getGroupId());
-                    groupRoleRepository.deleteGroupRole(userGroupEntity.get().getGroupId());
-                    userGroupRepository.deleteGroupUser(userId);
                 }
+                userRepository.deleteIds(ids);
             }
-            userRepository.deleteIds(ids);
         } catch (Exception e) {
-            throw new ResourceNotFoundException(ErrorCode.UNKNOWN_SERVER_ERROR);
+            throw new RuntimeException("delete not success");
         }
     }
 

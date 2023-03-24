@@ -40,7 +40,7 @@ public class RiceRepository {
         return riceJpaRepository.save(entity);
     }
 
-    public void deleteReportId(int reportId) {
-        riceJpaRepository.deleteById(reportId);
+    public void deleteReportId(Integer reportId) {
+        riceJpaRepository.deleteByReportId(reportId);
     }
 }

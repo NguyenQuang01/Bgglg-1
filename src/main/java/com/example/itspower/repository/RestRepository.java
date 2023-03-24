@@ -52,7 +52,7 @@ public class RestRepository {
         return restJpaRepository.saveAll(restEntities);
     }
 
-    public void deleteRestReportId(int reportId) {
-        restJpaRepository.deleteById(reportId);
+    public void deleteRestReportId(Integer reportId) {
+        restJpaRepository.deleteByReportId(reportId);
     }
 }
