@@ -31,6 +31,10 @@ public class GroupRoleRepository {
         return groupJpaRepository.save(entity);
     }
 
+    public GroupEntity findById(Integer groupRoleId) {
+        return groupJpaRepository.findById(groupRoleId).get();
+    }
+
     public List<GroupRoleResponse> searchAll() {
         return getSubListChirdlen(groupJpaRepository.findAll());
     }

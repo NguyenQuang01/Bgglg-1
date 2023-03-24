@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
             user.setReport(userRequest.isReport());
             user.setAdmin(userRequest.isAdmin());
             user = userRepository.save(user);
-            GroupEntity groupEntity = groupRoleRepository.update(userRequest.getGroupId(), userRequest.getGroupName(), userRequest.getParentId());
+            GroupEntity groupEntity = groupRoleRepository.findById(userRequest.getGroupId());
             UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", new UserResponseSave(user, groupEntity, userGroupEntity)));
         } catch (Exception e) {
