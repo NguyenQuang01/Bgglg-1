@@ -31,8 +31,6 @@ w
 G.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec,8\6\863e0292fd7e9b3e74dafd6cc01f73ba76346482
 Å
 Q.idea/sonarlint/securityhotspotstore/0/a/0a1c19a0ca9cd03fa722aeb9ce921031943ca24c,3\7\37f207200b7f3f6829bcad2a8cacae3ae5e5ff33
-q
-Asrc/main/java/com/example/itspower/model/entity/ReportEntity.java,b\8\b8e31ea4216c52710d463067cdc015f2b6c875bc
 o
 ?src/main/java/com/example/itspower/response/ReportResponse.java,e\7\e75f436ba62a9adcf20e8578f62f6afa3dce3179
 s
@@ -43,5 +41,3 @@ u
 Esrc/main/java/com/example/itspower/repository/TransferRepository.java,6\8\68a046f0e147ed2aa321fdfdbe4a228a1977dad9
 q
 Asrc/main/java/com/example/itspower/response/TransferResponse.java,6\a\6a46dee84eac9bba584da30acf78cba17a4fe96c
-v
-Fsrc/main/java/com/example/itspower/service/impl/ReportServiceImpl.java,4\2\42478237a5b7c46bd532997dc8acffc5f1bca40a

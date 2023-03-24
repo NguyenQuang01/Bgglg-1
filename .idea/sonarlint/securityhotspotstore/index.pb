@@ -19,8 +19,6 @@ q
 Asrc/main/java/com/example/itspower/model/resultset/ReportDto.java,5\4\547375c4ee03e73d0cda42fe83f3a204943be234
 Å
 Q.idea/sonarlint/securityhotspotstore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec,2\c\2cabb939da04d3de3a200bf2b575690e1a16316d
-v
-Fsrc/main/java/com/example/itspower/service/impl/ReportServiceImpl.java,4\2\42478237a5b7c46bd532997dc8acffc5f1bca40a
 Ü
 Vsrc/main/java/com/example/itspower/repository/repositoryjpa/TransferJpaRepository.java,2\4\24550951355dab993307fa4eef6f01ff156b3a5d
 Å
@@ -41,7 +39,5 @@ q
 Asrc/main/java/com/example/itspower/response/TransferResponse.java,6\a\6a46dee84eac9bba584da30acf78cba17a4fe96c
 w
 G.idea/sonarlint/issuestore/4/4/442292b8a7efeabbe4cc176709b833b1792140ec,8\6\863e0292fd7e9b3e74dafd6cc01f73ba76346482
-q
-Asrc/main/java/com/example/itspower/model/entity/ReportEntity.java,b\8\b8e31ea4216c52710d463067cdc015f2b6c875bc
 Å
 Q.idea/sonarlint/securityhotspotstore/0/a/0a1c19a0ca9cd03fa722aeb9ce921031943ca24c,3\7\37f207200b7f3f6829bcad2a8cacae3ae5e5ff33
