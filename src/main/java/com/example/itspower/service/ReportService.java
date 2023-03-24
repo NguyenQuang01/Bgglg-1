@@ -4,7 +4,7 @@ import com.example.itspower.request.ReportRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface ReportService {
-    ResponseEntity<Object> reportDto(String reportDate, int groupId);
+    Object reportDto(String reportDate, int groupId);
 
     ResponseEntity<Object> save(ReportRequest request, int groupId);
 

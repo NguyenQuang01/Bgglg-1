@@ -13,7 +13,7 @@ public class ReportController {
 
     @GetMapping("/report")
     @CrossOrigin
-    public ResponseEntity<Object> report(@RequestParam("reportDate") String reportDate, @RequestParam("groupId") int groupId) {
+    public Object report(@RequestParam("reportDate") String reportDate, @RequestParam("groupId") int groupId) {
         return reportService.reportDto(reportDate, groupId);
     }
 

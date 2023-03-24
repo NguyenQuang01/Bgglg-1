@@ -35,16 +35,16 @@ public class ReportServiceImpl implements ReportService {
     private RiceRepository riceRepository;
 
     @Override
-    public ResponseEntity<Object> reportDto(String reportDate, int groupId) {
+    public Object reportDto(String reportDate, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(reportDate, groupId);
         if (entity.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse(HttpStatus.BAD_REQUEST.value(), "report is not exits now date", HttpStatus.BAD_REQUEST.name()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "report is not exits now date", HttpStatus.BAD_REQUEST.name()));
         }
         ReportDto reportDto = reportRepository.reportDto(reportDate, groupId);
         List<RestDto> restDtos = restRepository.getRests(reportDto.getId());
         List<TransferEntity> transferEntities = transferRepository.findByReportId(reportDto.getId());
         RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
-        return ResponseEntity.status(HttpStatus.OK).body(new ReportResponse(reportDto, riceEntity, restDtos, transferEntities));
+        return new ReportResponse(reportDto, riceEntity, restDtos, transferEntities);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ReportServiceImpl implements ReportService {
             riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
             restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
             transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId()));
+            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
             throw new RuntimeException(HttpStatus.BAD_GATEWAY.name());
         }
@@ -78,7 +78,7 @@ public class ReportServiceImpl implements ReportService {
             riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
             restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
             transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
-            return ResponseEntity.status(HttpStatus.OK).body(reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId()));
+            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "update report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
             throw new RuntimeException(HttpStatus.BAD_GATEWAY.name());
         }
