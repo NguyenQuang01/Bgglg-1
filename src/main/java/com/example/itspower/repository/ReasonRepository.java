@@ -19,6 +19,11 @@ public class ReasonRepository {
         return repository.findAll();
     }
 
+    public List<ReasonEntity> searchById(int id) {
+        return repository.findAllById(id);
+    }
+
+
     public List<ReasonEntity> save(List<ReasonEntity> reasonEntityList) {
         return repository.saveAll(reasonEntityList);
     }
