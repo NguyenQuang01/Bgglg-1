@@ -2,7 +2,9 @@ package com.example.itspower.repository;
 
 import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.exception.ResourceNotFoundException;
+import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.TransferEntity;
+import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.TransferJpaRepository;
 import com.example.itspower.request.TransferRequest;
 import com.example.itspower.response.transfer.TransferResponseGroup;
@@ -13,11 +15,14 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TransferRepository {
     @Autowired
     private TransferJpaRepository transferJpaRepository;
+    @Autowired
+    private GroupJpaRepository groupJpaRepository;
 
     public List<TransferEntity> findByReportId(Integer reportId) {
         List<TransferEntity> entities = transferJpaRepository.findByReportId(reportId);
@@ -60,12 +65,17 @@ public class TransferRepository {
         List<TransferEntity> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId, DateUtils.formatDate(new Date()));
         List<TransferResponseGroup> transferResponseGroups = new ArrayList<>();
         for (TransferEntity entity : entities) {
-            transferResponseGroups.add(new TransferResponseGroup(entity.getGroupId(), entity.getTransferNum()));
+            Optional<GroupEntity> groupEntity = groupJpaRepository.findById(entity.getGroupId());
+            transferResponseGroups.add(new TransferResponseGroup(entity.getGroupId(), groupEntity.get().getGroupName(), entity.getTransferNum()));
         }
         return transferResponseGroups;
     }
 
     public void updateTransferGroup(boolean isAccess, int groupId, String transferDate) {
         transferJpaRepository.updateTransfer(isAccess, groupId, transferDate);
+    }
+
+    public void deleteTransferReportId(int reportId) {
+        transferJpaRepository.deleteById(reportId);
     }
 }

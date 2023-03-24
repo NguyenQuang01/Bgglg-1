@@ -39,4 +39,8 @@ public class RiceRepository {
         entity.setRiceVip(riceRequest.getRiceVip());
         return riceJpaRepository.save(entity);
     }
+
+    public void deleteReportId(int reportId) {
+        riceJpaRepository.deleteById(reportId);
+    }
 }

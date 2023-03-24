@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ReasonService {
     List<ReasonEntity> searchALl();
+    List<ReasonEntity> searchById(int id);
 
     List<ReasonEntity> save(List<ReasonRequest> reasonRequest);
 

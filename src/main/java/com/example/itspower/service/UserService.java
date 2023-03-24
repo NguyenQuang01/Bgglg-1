@@ -16,4 +16,6 @@ public interface UserService {
 
     void delete(List<Integer> ids);
 
+    boolean isCheckReport(int groupId);
+
 }

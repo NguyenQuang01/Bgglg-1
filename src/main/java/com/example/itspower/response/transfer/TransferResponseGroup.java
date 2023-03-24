@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TransferResponseGroup {
     private int groupId;
+    private String groupName;
     private int transferNum;
 }

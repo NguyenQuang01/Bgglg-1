@@ -2,6 +2,7 @@ package com.example.itspower.repository.repositoryjpa;
 
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.resultset.ReportDto;
+import com.example.itspower.response.ViewDetailResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,8 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
     @Query(name = "find_by_report", nativeQuery = true)
     ReportDto findByReport(@Param("reportDate") String reportDate, @Param("groupId") int groupId);
 
+    @Query(name = "get_view_report", nativeQuery = true)
+    ViewDetailResponse viewRootReport(@Param("reportDate") String reportDate, @Param("parentId") int parentId);
     @Query(value = "select * from report r where  DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:#{#reportDate}, '%Y%m%d') ", nativeQuery = true)
     Optional<ReportEntity> findByReportDate(String reportDate);
 
@@ -22,4 +25,6 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
     Optional<ReportEntity> findByReportDateAndGroupId(@Param("reportDate") String reportDate, @Param("groupId") int groupId);
 
     Optional<ReportEntity> findByIdAndGroupId(int id, int groupId);
+
+    Optional<ReportEntity> findByGroupId( int groupId);
 }

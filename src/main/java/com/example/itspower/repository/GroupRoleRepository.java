@@ -16,14 +16,14 @@ public class GroupRoleRepository {
     @Autowired
     private GroupJpaRepository groupJpaRepository;
 
-    public GroupEntity save(String groupName, int parentId) {
+    public GroupEntity save(String groupName, Integer parentId) {
         GroupEntity entity = new GroupEntity();
         entity.setGroupName(groupName);
         entity.setParentId(parentId);
         return groupJpaRepository.save(entity);
     }
 
-    public GroupEntity update(int groupRoleId, String groupName, int parentId) {
+    public GroupEntity update(int groupRoleId, String groupName, Integer parentId) {
         GroupEntity entity = new GroupEntity();
         entity.setId(groupRoleId);
         entity.setGroupName(groupName);
