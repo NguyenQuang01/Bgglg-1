@@ -16,16 +16,19 @@ public class ReasonController {
     private ReasonService reasonService;
 
     @GetMapping("/reason")
+    @CrossOrigin
     public ResponseEntity<Object> searchALl() {
         return ResponseEntity.status(HttpStatus.OK).body(reasonService.searchALl());
     }
 
     @PostMapping("/reason/save")
+    @CrossOrigin
     public ResponseEntity<Object> save(@RequestBody List<ReasonRequest> reasonRequest) {
         return ResponseEntity.status(HttpStatus.OK).body(reasonService.save(reasonRequest));
     }
 
     @PutMapping("/reason/edit")
+    @CrossOrigin
     public ResponseEntity<Object> edit(@RequestParam("id") int id, @RequestBody ReasonRequest reasonRequest) {
         if (reasonService.edit(reasonRequest,id) ==null){
             return ResponseEntity.status(HttpStatus.OK).body("id no exits");
