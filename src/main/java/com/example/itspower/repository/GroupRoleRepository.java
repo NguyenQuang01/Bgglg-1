@@ -4,10 +4,8 @@ import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.response.GroupRoleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +29,6 @@ public class GroupRoleRepository {
         entity.setGroupName(groupName);
         entity.setParentId(parentId);
         return groupJpaRepository.save(entity);
-    }
-    @Transactional
-    @Modifying
-    public void deleteGroupRole(Integer groupId) {
-        groupJpaRepository.deleteById(groupId);
     }
 
     public List<GroupRoleResponse> searchAll() {
