@@ -13,7 +13,7 @@ import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.UserResponseSave;
 import com.example.itspower.response.search.UserRequest;
 import com.example.itspower.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,25 +26,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private GroupRoleRepository groupRoleRepository;
-    @Autowired
-    private ReportRepository reportRepository;
-    @Autowired
-    private RestRepository restRepository;
-    @Autowired
-    private RiceRepository riceRepository;
-    @Autowired
-    private TransferRepository transferRepository;
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private UserGroupRepository userGroupRepository;
-    @Autowired
-    private UserLoginConfig userLoginConfig;
+    private final UserRepository userRepository;
+    private final GroupRoleRepository groupRoleRepository;
+    private final ReportRepository reportRepository;
+    private final RestRepository restRepository;
+    private final RiceRepository riceRepository;
+    private final TransferRepository transferRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserGroupRepository userGroupRepository;
+    private final UserLoginConfig userLoginConfig;
 
     @Override
     public ResponseEntity<SuccessResponse<Object>> save(UserRequest userRequest) {
@@ -63,20 +55,27 @@ public class UserServiceImpl implements UserService {
             user = userRepository.save(user);
             GroupEntity groupEntity = groupRoleRepository.findById(userRequest.getGroupId());
             UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", new UserResponseSave(user, groupEntity, userGroupEntity)));
+            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", new UserResponseSave(user, groupEntity, userGroupEntity)));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "register not success", null));
+            return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "register not success", null));
         }
     }
 
+    // chua can toi
     @Override
     @Transactional
-    public UserResponseSave update(UserUpdateRequest userUpdateRequest, int id) {
+    public ResponseEntity<Object> update(UserUpdateRequest userUpdateRequest, int id) {
         try {
             UserDetails userEntity = userLoginConfig.loadUserById(id);
             UserEntity user = new UserEntity();
             user.setId(id);
             user.setUserLogin(userEntity.getUsername());
+            if (userEntity.getPassword().equals(userUpdateRequest.getPasswordOld())) {
+                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "password present is not correct", ""));
+            }
+            if (userUpdateRequest.getPasswordOld().equals(userUpdateRequest.getPassword())) {
+                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "new password is not current password present", HttpStatus.BAD_REQUEST.name()));
+            }
             user.setPassword(userEntity.getPassword());
             user.setEdit(userUpdateRequest.isEdit());
             user.setView(userUpdateRequest.isView());
@@ -85,10 +84,10 @@ public class UserServiceImpl implements UserService {
             user = userRepository.save(user);
             Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
             if (userGroupEntity.isEmpty()) {
-                throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "", HttpStatus.BAD_REQUEST.name());
+                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "user group is not exits", HttpStatus.BAD_REQUEST.name()));
             }
-            GroupEntity groupEntity = groupRoleRepository.update(userGroupEntity.get().getGroupId(), userUpdateRequest.getGroupName(), userUpdateRequest.getParentId());
-            return new UserResponseSave(user, groupEntity, userGroupEntity.get());
+            GroupEntity groupEntity = groupRoleRepository.findById(userGroupEntity.get().getGroupId());
+            return ResponseEntity.ok().body(new UserResponseSave(user, groupEntity, userGroupEntity.get()));
         } catch (Exception e) {
             throw new ResourceNotFoundException(HttpStatus.BAD_GATEWAY.value(), "", HttpStatus.BAD_GATEWAY.name());
         }
