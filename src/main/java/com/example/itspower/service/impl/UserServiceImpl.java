@@ -3,12 +3,11 @@ package com.example.itspower.service.impl;
 import com.example.itspower.exception.ErrorCode;
 import com.example.itspower.exception.ResourceNotFoundException;
 import com.example.itspower.model.entity.GroupEntity;
+import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.model.entity.UserGroupEntity;
 import com.example.itspower.model.resultset.UserDto;
-import com.example.itspower.repository.GroupRoleRepository;
-import com.example.itspower.repository.UserGroupRepository;
-import com.example.itspower.repository.UserRepository;
+import com.example.itspower.repository.*;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.UserResponseSave;
 import com.example.itspower.response.search.UserRequest;
@@ -30,6 +29,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private GroupRoleRepository groupRoleRepository;
     @Autowired
+    private ReportRepository reportRepository;
+    @Autowired
+    private RestRepository restRepository;
+    @Autowired
+    private RiceRepository riceRepository;
+    @Autowired
+    private TransferRepository transferRepository;
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UserGroupRepository userGroupRepository;
@@ -37,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private UserLoginConfig userLoginConfig;
 
     @Override
+    @Transactional
     public UserResponseSave save(UserRequest userRequest) {
         Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
         if (userEntity.isPresent()) {
@@ -80,6 +88,13 @@ public class UserServiceImpl implements UserService {
             for (int userId : ids) {
                 Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(userId);
                 if (userGroupEntity.isPresent()) {
+                    Optional<ReportEntity> reportEntity = reportRepository.findByGroupId(userGroupEntity.get().getGroupId());
+                    if (reportEntity.isPresent()) {
+                        restRepository.deleteRestReportId(reportEntity.get().getId());
+                        riceRepository.deleteReportId(reportEntity.get().getId());
+                        transferRepository.deleteTransferReportId(reportEntity.get().getId());
+                    }
+                    reportRepository.deleteByGroupId(userGroupEntity.get().getGroupId());
                     groupRoleRepository.deleteGroupRole(userGroupEntity.get().getGroupId());
                     userGroupRepository.deleteGroupUser(userId);
                 }
@@ -88,6 +103,14 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             throw new ResourceNotFoundException(ErrorCode.UNKNOWN_SERVER_ERROR);
         }
+    }
+
+    public boolean isCheckReport(int groupId) {
+        Optional<ReportEntity> reportEntity = reportRepository.findByGroupId(groupId);
+        if (reportEntity.isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     public UserDto loginInfor(String userLogin) {

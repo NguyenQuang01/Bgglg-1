@@ -14,6 +14,6 @@ public class GroupEntity {
     @Column(name = "group_name")
     private String groupName = "";
     @Column(name = "parent_id")
-    private Integer parentId = 0;
+    private Integer parentId ;
 
 }

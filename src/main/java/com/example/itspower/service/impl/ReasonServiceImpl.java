@@ -22,6 +22,11 @@ public class ReasonServiceImpl implements ReasonService {
     }
 
     @Override
+    public List<ReasonEntity> searchById(int id) {
+        return repository.searchById(id);
+    }
+
+    @Override
     public List<ReasonEntity> save(List<ReasonRequest> reasonRequest) {
         List<ReasonEntity> reasonEntityList = new ArrayList<>();
         reasonRequest.forEach(i-> reasonEntityList.add(new ReasonEntity(i)));

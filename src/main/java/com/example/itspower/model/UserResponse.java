@@ -26,7 +26,7 @@ public class UserResponse {
     private String userLogin;
     private boolean isCheckReport;
 
-    public UserResponse(String userLogin, UserDto dto, String token) {
+    public UserResponse(String userLogin, UserDto dto, String token, boolean isCheckReport) {
         this.userId = dto.getUserId();
         this.userLogin = userLogin;
         this.isAdmin = dto.isAdmin();
@@ -36,5 +36,6 @@ public class UserResponse {
         this.groupId = dto.getGroupId();
         this.token = token;
         this.groupName = dto.getGroupName();
+        this.isCheckReport = isCheckReport;
     }
 }

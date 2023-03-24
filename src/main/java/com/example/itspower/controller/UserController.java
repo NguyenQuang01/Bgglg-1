@@ -36,7 +36,7 @@ public class UserController {
 
 
     @PostMapping("/api/save")
-    public ResponseEntity<Object> saveData(@Valid @RequestBody UserRequest userRequest) {
+    public ResponseEntity<Object> saveData(@RequestBody UserRequest userRequest) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", userService.save(userRequest)));
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class UserController {
 
     @PostMapping("/api/update")
     public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest,id)));
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest, id)));
     }
 
     @PostMapping("/api/delete")
@@ -61,6 +61,7 @@ public class UserController {
         UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
         String token = jwtToken.generateToken(userDetails);
         UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token)));
+        boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
     }
 }
