@@ -1,6 +1,6 @@
 package com.example.itspower.service.impl;
 
-import com.example.itspower.repository.ReportRepository;
+import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.ReportJpaRepository;
 import com.example.itspower.response.ViewDetailResponse;
@@ -20,15 +20,26 @@ public class ViewServiceImpl  implements ViewService {
     GroupJpaRepository groupJpaRepository;
     @Override
     public ViewRootResponse getView(String date) {
-        date="2023-03-23";
-        List<Integer> getIdRoot = groupJpaRepository.getAllRoot();
+        List<RootNameDto> getIdRoot = groupJpaRepository.getAllRoot();
         ViewRootResponse response = new ViewRootResponse();
         List<ViewDetailResponse> detailResponses = new ArrayList<>();
-        for (Integer idRoot : getIdRoot){
-            detailResponses.add(repository.viewRootReport(date,idRoot));
+        int totalWorkActualWork =0;
+        int laborProductivity =0;
+        double totalRatio = 0.0;
+        for (RootNameDto idRoot : getIdRoot){
+            ViewDetailResponse departmentReport= repository.viewRootReport(date,idRoot.getId());
+            departmentReport.setDepartment(idRoot.getName());
+            detailResponses.add(departmentReport);
         }
         response.setResponseList(detailResponses);
-
+        for (int i = 0 ; i < detailResponses.size();i++){
+            totalWorkActualWork +=detailResponses.get(i).getTotalEmp();
+            laborProductivity += detailResponses.get(i).getLaborProductivityTeam();
+            totalRatio += detailResponses.get(i).getRatio();
+        }
+        response.setActualWork(totalWorkActualWork);
+        response.setLaborProductivity(laborProductivity);
+        response.setTotalratio((double) Math.round(totalRatio/getIdRoot.size()));
         return response;
     }
 }
