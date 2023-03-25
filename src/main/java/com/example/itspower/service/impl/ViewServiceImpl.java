@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ViewServiceImpl  implements ViewService {
@@ -34,13 +35,9 @@ public class ViewServiceImpl  implements ViewService {
             departmentReport.setDepartment(idRoot.getName());
             detailResponses.add(departmentReport);
         }
-        ViewDetailResponse studentGroup=
-                new ViewDetailResponse("Học sinh chưa báo năng suất",0,0.0);
-        ViewDetailResponse partTimeSewingTeam=
-                new ViewDetailResponse("Thời vụ tổ may",0,0.0);
-        ViewDetailResponse partTimeOddUnit=
-                new ViewDetailResponse("Thời vụ đơn vị lẻ",0,0.0);
-        response.setResponseList(detailResponses);
+        List<Integer> totalStudent = detailResponses.stream().map(i -> i.getStudent()).collect(Collectors.toList());
+        int studentDoNotReportProductivity = totalStudent.stream().mapToInt(Integer::intValue).sum();
+
         for (int i = 0 ; i < detailResponses.size();i++){
             if(detailResponses.get(i).getTotalEmp() !=null){
                 totalWorkActualWork +=detailResponses.get(i).getTotalEmp();
@@ -61,6 +58,12 @@ public class ViewServiceImpl  implements ViewService {
                 riceCus += detailResponses.get(i).getRiceCus();
             }
         }
+        Double ratioStudent =Double.valueOf(studentDoNotReportProductivity/totalWorkActualWork)*100;
+        detailResponses.add(new ViewDetailResponse("Học sinh chưa báo năng suất",
+                studentDoNotReportProductivity,ratioStudent));
+        detailResponses.add( new ViewDetailResponse("Thời vụ tổ may",0,0.0));
+        detailResponses.add( new ViewDetailResponse("Thời vụ đơn vị lẻ",0,0.0));
+        response.setResponseList(detailResponses);
         response.setTotalRiceEmp(riceEmp);
         response.setTotalRiceCus(riceCus);
         response.setTotalRiceVip(riceVip);
