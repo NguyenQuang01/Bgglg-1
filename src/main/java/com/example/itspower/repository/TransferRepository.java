@@ -45,7 +45,7 @@ public class TransferRepository {
         return transferJpaRepository.saveAll(entities);
     }
 
-    public List<TransferEntity> updateTransfer(List<TransferRequest> requests, int reportId, int groupId) {
+    public List<TransferEntity> updateTransfer(List<TransferRequest> requests, int reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
             TransferEntity entity = new TransferEntity();
@@ -54,7 +54,7 @@ public class TransferRepository {
             }
             entity.setTransferId(transfer.getTransferId());
             entity.setReportId(reportId);
-            entity.setGroupId(groupId);
+            entity.setGroupId(transfer.getGroupId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());

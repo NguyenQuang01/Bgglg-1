@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
         try {
             Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
             if (userEntity.isPresent()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST.value()).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "UserLogin is exits", null));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "UserLogin is exits", null));
             }
             UserEntity user = new UserEntity();
             user.setUserLogin(userRequest.getUserLogin());
@@ -71,10 +71,10 @@ public class UserServiceImpl implements UserService {
             user.setId(id);
             user.setUserLogin(userEntity.getUsername());
             if (userEntity.getPassword().equals(userUpdateRequest.getPasswordOld())) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "password present is not correct", ""));
+                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "password present is not correct", ""));
             }
             if (userUpdateRequest.getPasswordOld().equals(userUpdateRequest.getPassword())) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "new password is not current password present", HttpStatus.BAD_REQUEST.name()));
+                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "new password is not current password present", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
             user.setPassword(userEntity.getPassword());
             user.setEdit(userUpdateRequest.isEdit());
@@ -84,12 +84,12 @@ public class UserServiceImpl implements UserService {
             user = userRepository.save(user);
             Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
             if (userGroupEntity.isEmpty()) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "user group is not exits", HttpStatus.BAD_REQUEST.name()));
+                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "user group is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
             GroupEntity groupEntity = groupRoleRepository.findById(userGroupEntity.get().getGroupId());
             return ResponseEntity.ok().body(new UserResponseSave(user, groupEntity, userGroupEntity.get()));
         } catch (Exception e) {
-            throw new ResourceNotFoundException(HttpStatus.BAD_GATEWAY.value(), "", HttpStatus.BAD_GATEWAY.name());
+            throw new ResourceNotFoundException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "", HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
     }
 

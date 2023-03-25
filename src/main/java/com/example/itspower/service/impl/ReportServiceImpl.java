@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
     public Object reportDto(String reportDate, int groupId) {
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(reportDate, groupId);
         if (entity.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "report is not exits now date", HttpStatus.BAD_REQUEST.name()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report is not exits now date", HttpStatus.INTERNAL_SERVER_ERROR.name()));
         }
         ReportDto reportDto = reportRepository.reportDto(reportDate, groupId);
         List<RestDto> restDtos = restRepository.getRests(reportDto.getId());
@@ -52,10 +52,10 @@ public class ReportServiceImpl implements ReportService {
         try {
             Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
             if (entity.isPresent()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "report date is exits", HttpStatus.BAD_REQUEST.name()));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report date is exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
             if (request.getRestNum() != request.getRestRequests().size()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "size rest not equal size effective", HttpStatus.BAD_REQUEST.name()));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
             ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
             riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
@@ -63,7 +63,7 @@ public class ReportServiceImpl implements ReportService {
             transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
-            throw new RuntimeException(HttpStatus.BAD_GATEWAY.name());
+            throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
     }
 
@@ -72,15 +72,15 @@ public class ReportServiceImpl implements ReportService {
         try {
             Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
             if (entity.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "report is not Exits", HttpStatus.BAD_REQUEST.name()));
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report is not Exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
             ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
             riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
             restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
+            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId());
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "update report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
-            throw new RuntimeException(HttpStatus.BAD_GATEWAY.name());
+            throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
     }
 }

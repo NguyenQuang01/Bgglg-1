@@ -55,11 +55,15 @@ public class UserController {
 
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@Validated @RequestBody UserAulogin userAulogin) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
-        UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
-        String token = jwtToken.generateToken(userDetails);
-        UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-        boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
+            UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
+            String token = jwtToken.generateToken(userDetails);
+            UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
+            boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
+        } catch (Exception e) {
+            throw new RuntimeException(HttpStatus.BAD_REQUEST.name());
+        }
     }
 }
