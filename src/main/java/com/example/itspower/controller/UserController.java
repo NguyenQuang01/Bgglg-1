@@ -36,9 +36,9 @@ public class UserController {
 
 
     @PostMapping("/api/save")
+    @CrossOrigin
     public ResponseEntity<SuccessResponse<Object>> saveData(@Validated @RequestBody UserRequest userRequest) {
         return userService.save(userRequest);
-
     }
 
     @PostMapping("/api/update")
