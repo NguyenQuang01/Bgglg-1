@@ -1,4 +1,4 @@
-package com.example.itspower.response;
+package com.example.itspower.response.view;
 
 import lombok.Data;
 

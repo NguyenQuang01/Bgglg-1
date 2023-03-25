@@ -12,7 +12,7 @@ import com.example.itspower.repository.RiceRepository;
 import com.example.itspower.repository.TransferRepository;
 import com.example.itspower.request.ReportRequest;
 import com.example.itspower.request.TransferRequest;
-import com.example.itspower.response.ReportResponse;
+import com.example.itspower.response.report.ReportResponse;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;

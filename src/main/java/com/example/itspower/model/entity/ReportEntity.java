@@ -1,7 +1,7 @@
 package com.example.itspower.model.entity;
 
 import com.example.itspower.model.resultset.ReportDto;
-import com.example.itspower.response.ViewDetailResponse;
+import com.example.itspower.response.view.ViewDetailResponse;
 import lombok.Data;
 
 import javax.persistence.*;

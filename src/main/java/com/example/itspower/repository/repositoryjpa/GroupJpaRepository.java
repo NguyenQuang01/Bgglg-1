@@ -16,5 +16,4 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(value = "select id from group_role where parent_id is null", nativeQuery = true)
     List<Integer> getAllRoot();
-
 }

@@ -1,10 +1,9 @@
 package com.example.itspower.service.impl;
 
-import com.example.itspower.repository.ReportRepository;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.ReportJpaRepository;
-import com.example.itspower.response.ViewDetailResponse;
-import com.example.itspower.response.ViewRootResponse;
+import com.example.itspower.response.view.ViewDetailResponse;
+import com.example.itspower.response.view.ViewRootResponse;
 import com.example.itspower.service.ViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

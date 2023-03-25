@@ -2,7 +2,7 @@ package com.example.itspower.repository.repositoryjpa;
 
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.resultset.ReportDto;
-import com.example.itspower.response.ViewDetailResponse;
+import com.example.itspower.response.view.ViewDetailResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
