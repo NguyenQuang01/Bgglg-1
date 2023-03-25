@@ -60,7 +60,7 @@ public class ReportServiceImpl implements ReportService {
             ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
             riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
             restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
+            transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
             throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.name());
@@ -77,7 +77,7 @@ public class ReportServiceImpl implements ReportService {
             ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
             riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
             restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId());
+            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "update report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
             throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.name());
