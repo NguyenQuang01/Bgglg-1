@@ -25,6 +25,9 @@ public class ViewServiceImpl  implements ViewService {
         List<ViewDetailResponse> detailResponses = new ArrayList<>();
         int totalWorkActualWork =0;
         int laborProductivity =0;
+        int riceCus =0;
+        int riceEmp =0;
+        int riceVip =0;
         double totalRatio = 0.0;
         for (RootNameDto idRoot : getIdRoot){
             ViewDetailResponse departmentReport= repository.viewRootReport(date,idRoot.getId());
@@ -36,7 +39,13 @@ public class ViewServiceImpl  implements ViewService {
             totalWorkActualWork +=detailResponses.get(i).getTotalEmp();
             laborProductivity += detailResponses.get(i).getLaborProductivityTeam();
             totalRatio += detailResponses.get(i).getRatio();
+            riceEmp += detailResponses.get(i).getRiceEmp();
+            riceVip += detailResponses.get(i).getRiceVip();
+            riceCus += detailResponses.get(i).getRiceCus();
         }
+        response.setTotalRiceEmp(riceEmp);
+        response.setTotalRiceCus(riceCus);
+        response.setTotalRiceVip(riceVip);
         response.setActualWork(totalWorkActualWork);
         response.setLaborProductivity(laborProductivity);
         response.setTotalratio((double) Math.round(totalRatio/getIdRoot.size()));
