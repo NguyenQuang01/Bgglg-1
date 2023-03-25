@@ -20,8 +20,8 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Integer>, J
     @Query(name = "loginInfor", nativeQuery = true)
     UserDto loginInfor(@Param("userLogin") String userLogin);
 
-    @Modifying
     @Transactional
-    @Query(value = "DELETE FROM user WHERE id in(:#{#ids})", nativeQuery = true)
-    void deleteByIds(List<Integer> ids);
+    @Modifying
+    @Query(value = "DELETE FROM user WHERE id in(:ids)", nativeQuery = true)
+    void deleteByIds(@Param("ids") List<Integer> ids);
 }

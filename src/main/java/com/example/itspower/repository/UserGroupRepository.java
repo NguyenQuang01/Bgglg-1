@@ -12,7 +12,7 @@ public class UserGroupRepository {
     @Autowired
     private UserGroupJpaRepository userGroupJpaRepository;
 
-    public void deleteGroupUser(int userId) {
+    public void deleteGroupUser(Integer userId) {
         userGroupJpaRepository.deleteGroupUser(userId);
     }
 

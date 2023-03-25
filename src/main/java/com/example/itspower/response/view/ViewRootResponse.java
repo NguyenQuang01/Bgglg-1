@@ -1,5 +1,6 @@
-package com.example.itspower.response;
+package com.example.itspower.response.view;
 
+import com.example.itspower.response.view.ViewDetailResponse;
 import lombok.Data;
 
 import java.util.List;

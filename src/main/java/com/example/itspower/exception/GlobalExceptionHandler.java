@@ -31,7 +31,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             ResourceNotFoundException ex) {
         List<String> details = new ArrayList<>();
         details.add(ex.getDetailsMessage());
-
         ErrorResponse errorResponse = new ErrorResponse(
                 LocalDateTime.now(),
                 ex.getErrorCode(),

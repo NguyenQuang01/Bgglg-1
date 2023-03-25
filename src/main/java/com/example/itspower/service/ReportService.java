@@ -1,12 +1,12 @@
 package com.example.itspower.service;
 
 import com.example.itspower.request.ReportRequest;
-import com.example.itspower.response.ReportResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface ReportService {
-    ReportResponse reportDto(String reportDate, int groupId);
+    Object reportDto(String reportDate, int groupId);
 
-    ReportResponse save(ReportRequest request, int groupId);
+    ResponseEntity<Object> save(ReportRequest request, int groupId);
 
-    ReportResponse update(ReportRequest request, int groupId);
+    ResponseEntity<Object> update(ReportRequest request, int groupId);
 }

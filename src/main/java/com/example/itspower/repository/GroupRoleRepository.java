@@ -2,37 +2,42 @@ package com.example.itspower.repository;
 
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
-import com.example.itspower.response.GroupRoleResponse;
+import com.example.itspower.response.SuccessResponse;
+import com.example.itspower.response.group.GroupRoleDemarcationRes;
+import com.example.itspower.response.group.GroupRoleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 public class GroupRoleRepository {
     @Autowired
     private GroupJpaRepository groupJpaRepository;
+//
+//    public GroupEntity save(Integer groupId, Integer parentId) {
+//        GroupEntity entity = new GroupEntity();
+//        entity.setId(groupId);
+//        entity.setParentId(parentId);
+//        return groupJpaRepository.save(entity);
+//    }
 
-    public GroupEntity save(String groupName, Integer parentId) {
-        GroupEntity entity = new GroupEntity();
-        entity.setGroupName(groupName);
-        entity.setParentId(parentId);
-        return groupJpaRepository.save(entity);
-    }
-
-    public GroupEntity update(int groupRoleId, String groupName, Integer parentId) {
+    public GroupEntity update(Integer groupRoleId, String groupName, Integer parentId, Integer demarcation) {
         GroupEntity entity = new GroupEntity();
         entity.setId(groupRoleId);
         entity.setGroupName(groupName);
         entity.setParentId(parentId);
+        entity.setDemarcationAvailable(demarcation);
         return groupJpaRepository.save(entity);
     }
 
-    public void deleteGroupRole(int groupId) {
-        groupJpaRepository.deleteById(groupId);
+    public Optional<GroupEntity> findById(Integer groupRoleId) {
+        return groupJpaRepository.findById(groupRoleId);
     }
 
     public List<GroupRoleResponse> searchAll() {
@@ -57,5 +62,13 @@ public class GroupRoleRepository {
         groupRoleResponses.forEach(p -> p.setGroups(parentIdToChildren.get(p.getId())));
 
         return parentIdToChildren.get(0);
+    }
+
+    public Object getDemarcationRes(Integer groupId) {
+        Optional<GroupEntity> groupEntity = groupJpaRepository.findById(groupId);
+        if (groupEntity.isPresent()) {
+            return new SuccessResponse<>(HttpStatus.OK.value(), "success", new GroupRoleDemarcationRes(groupEntity.get()));
+        }
+        return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group id is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name());
     }
 }

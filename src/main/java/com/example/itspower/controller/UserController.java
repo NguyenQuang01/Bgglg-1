@@ -36,32 +36,33 @@ public class UserController {
 
 
     @PostMapping("/api/save")
-    public ResponseEntity<Object> saveData(@Validated @RequestBody UserRequest userRequest) {
-        try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", userService.save(userRequest)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<SuccessResponse<Object>> saveData(@Validated @RequestBody UserRequest userRequest) {
+        return userService.save(userRequest);
+
     }
 
     @PostMapping("/api/update")
     public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", userService.update(userRequest, id)));
+        return userService.update(userRequest, id);
     }
 
     @PostMapping("/api/delete")
     public ResponseEntity<Object> delete(@Validated @RequestBody UserDeleteRequest request) {
-        userService.delete(request.getIds());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "update success", ""));
+        userService.delete(request.getIds(), request.getUserLogin());
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "delete success", ""));
     }
 
     @PostMapping("/api/login")
     public ResponseEntity<Object> login(@Validated @RequestBody UserAulogin userAulogin) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
-        UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
-        String token = jwtToken.generateToken(userDetails);
-        UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-        boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
-        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
+            UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
+            String token = jwtToken.generateToken(userDetails);
+            UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
+            boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
+        }
     }
 }

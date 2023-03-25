@@ -1,4 +1,4 @@
-package com.example.itspower.response;
+package com.example.itspower.response.report;
 
 import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.model.entity.RiceEntity;

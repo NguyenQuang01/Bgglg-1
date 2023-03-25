@@ -26,7 +26,7 @@ public class UserLoginConfig implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserEntity> login = userRepository.findByUserLogin(username);
         if (login.isEmpty()) {
-            throw new UsernameNotFoundException("msg_userLoginNotExits_0");
+            throw new UsernameNotFoundException("user login khong ton tai");
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         return new User(login.get().getUserLogin(), login.get().getPassword(), authorities);
@@ -35,7 +35,7 @@ public class UserLoginConfig implements UserDetailsService {
     public UserDetails loadUserById(int id) throws UsernameNotFoundException {
         Optional<UserEntity> login = userRepository.findByUserId(id);
         if (login.isEmpty()) {
-            throw new UsernameNotFoundException("msg_userLoginNotExits_0");
+            throw new UsernameNotFoundException("user login khong ton tai");
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         return new User(login.get().getUserLogin(), login.get().getPassword(), authorities);
