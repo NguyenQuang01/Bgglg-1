@@ -52,23 +52,27 @@ public class ReportServiceImpl implements ReportService {
     @Override
     @Transactional
     public ResponseEntity<Object> save(ReportRequest request, int groupId) {
-        Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
-        if (entity.isPresent()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report date is exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-        }
-        if (request.getRestNum() != request.getRestRequests().size()) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-        }
-        for (TransferRequest transferRequests : request.getTransferRequests()) {
-            if (groupId == transferRequests.getGroupId()) {
-                return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "groupId is not crrurent groupId user", null));
+        try {
+            Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
+            if (entity.isPresent()) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report date is exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
+            if (request.getRestNum() != request.getRestRequests().size()) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
+            }
+            for (TransferRequest transferRequests : request.getTransferRequests()) {
+                if (groupId == transferRequests.getGroupId()) {
+                    return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "groupId is not crrurent groupId user", null));
+                }
+            }
+            ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
+            riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
+            restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
+            transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
+            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report not success", null));
         }
-        ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
-        riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
-        restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
-        transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
-        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
     }
 
     @Override
