@@ -6,11 +6,9 @@ import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.TransferJpaRepository;
 import com.example.itspower.request.TransferRequest;
-import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.transfer.TransferResponseGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -31,12 +29,9 @@ public class TransferRepository {
         return entities;
     }
 
-    public Object saveTransfer(List<TransferRequest> requests, Integer reportId, Integer groupId) {
+    public Object saveTransfer(List<TransferRequest> requests, Integer reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
-            if (groupId != null && groupId == transfer.getGroupId()) {
-                return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "groupId is not crrurent groupId user", null);
-            }
             TransferEntity entity = new TransferEntity();
             entity.setReportId(reportId);
             entity.setGroupId(transfer.getGroupId());
@@ -48,16 +43,11 @@ public class TransferRepository {
         return transferJpaRepository.saveAll(entities);
     }
 
-    public Object updateTransfer(List<TransferRequest> requests, Integer reportId, Integer groupId) {
+    @Transactional
+    public Object updateTransfer(List<TransferRequest> requests, Integer reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
             TransferEntity entity = new TransferEntity();
-            if (transfer.getTransferId() == 0) {
-                return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null);
-            }
-            if (groupId != null && groupId == transfer.getGroupId()) {
-                return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "groupId is not crrurent groupId user", null);
-            }
             entity.setTransferId(transfer.getTransferId());
             entity.setReportId(reportId);
             entity.setGroupId(transfer.getGroupId());

@@ -11,6 +11,7 @@ import com.example.itspower.repository.RestRepository;
 import com.example.itspower.repository.RiceRepository;
 import com.example.itspower.repository.TransferRepository;
 import com.example.itspower.request.ReportRequest;
+import com.example.itspower.request.TransferRequest;
 import com.example.itspower.response.ReportResponse;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.service.ReportService;
@@ -19,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -48,39 +50,50 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Object> save(ReportRequest request, int groupId) {
-        try {
-            Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
-            if (entity.isPresent()) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report date is exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-            }
-            if (request.getRestNum() != request.getRestRequests().size()) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-            }
-            ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
-            riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
-            restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
-            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
-        } catch (Exception e) {
-            throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.name());
+        Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
+        if (entity.isPresent()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report date is exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
         }
+        if (request.getRestNum() != request.getRestRequests().size()) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
+        }
+        for (TransferRequest transferRequests : request.getTransferRequests()) {
+            if (groupId == transferRequests.getGroupId()) {
+                return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "groupId is not crrurent groupId user", null));
+            }
+        }
+        ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
+        riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
+        restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
+        transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
+        return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
     }
 
     @Override
+    @Transactional
     public ResponseEntity<Object> update(ReportRequest request, int groupId) {
         try {
             Optional<ReportEntity> entity = reportRepository.findByIdAndGroupId(request.getId(), groupId);
             if (entity.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report is not Exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
+            for (TransferRequest transferRequests : request.getTransferRequests()) {
+                if (transferRequests.getTransferId() == 0) {
+                    return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null));
+                }
+                if (groupId == transferRequests.getGroupId()) {
+                    return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "groupId is not crrurent groupId user", null));
+                }
+            }
             ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
             riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
             restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
-            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId(), groupId);
+            transferRepository.updateTransfer(request.getTransferRequests(), reportEntity.getId());
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.OK.value(), "update report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
-            throw new RuntimeException(HttpStatus.INTERNAL_SERVER_ERROR.name());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "update report not success", null));
         }
     }
 }

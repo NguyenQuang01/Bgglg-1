@@ -63,7 +63,7 @@ public class UserController {
             boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
             return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
         } catch (Exception e) {
-            throw new RuntimeException(HttpStatus.BAD_REQUEST.name());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
         }
     }
 }
