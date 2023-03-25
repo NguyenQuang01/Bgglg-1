@@ -20,17 +20,22 @@ public class ViewDetailResponse {
     private Integer riceEmp=0;
     private Integer riceCus=0;
 
+    public ViewDetailResponse(String department, Integer totalEmp, Double ratio) {
+        this.department =department;
+        this.totalEmp = totalEmp !=null ? totalEmp:0;
+        this.ratio =  ratio !=null ? ratio:0;
+    }
 
-    public ViewDetailResponse( Integer totalEmp,Integer laborProductivityTeam,Integer restEmp,Integer partTimeEmp
-            ,  Double ratio,Integer student,Integer riceCus,Integer riceVip,Integer riceEmp) {
-        this.student = student;
-        this.restEmp = restEmp;
-        this.totalEmp = totalEmp;
-        this.laborProductivityTeam = laborProductivityTeam;
-        this.ratio = ratio;
-        this.partTimeEmp = partTimeEmp;
-        this.riceEmp=riceEmp;
-        this.riceCus=riceCus;
-        this.riceVip=riceVip;
+    public ViewDetailResponse(Integer totalEmp, Integer laborProductivityTeam, Integer restEmp, Integer partTimeEmp
+            , Double ratio, Integer student, Integer riceCus, Integer riceVip, Integer riceEmp) {
+        this.student =student !=null ? student :0;
+        this.restEmp = restEmp !=null ? restEmp :0;
+        this.totalEmp = totalEmp != null ? totalEmp:0;
+        this.laborProductivityTeam = laborProductivityTeam != null ? laborProductivityTeam :0;
+        this.ratio =ratio !=null ? ratio:0;
+        this.partTimeEmp =ratio !=null ?  partTimeEmp:0;
+        this.riceEmp=riceEmp !=null ? riceEmp :0;
+        this.riceCus=riceCus !=null  ? riceVip :0;
+        this.riceVip=riceVip  !=null ? riceVip:0 ;
     }
 }

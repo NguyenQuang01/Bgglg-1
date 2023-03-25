@@ -34,14 +34,32 @@ public class ViewServiceImpl  implements ViewService {
             departmentReport.setDepartment(idRoot.getName());
             detailResponses.add(departmentReport);
         }
+        ViewDetailResponse studentGroup=
+                new ViewDetailResponse("Học sinh chưa báo năng suất",0,0.0);
+        ViewDetailResponse partTimeSewingTeam=
+                new ViewDetailResponse("Thời vụ tổ may",0,0.0);
+        ViewDetailResponse partTimeOddUnit=
+                new ViewDetailResponse("Thời vụ đơn vị lẻ",0,0.0);
         response.setResponseList(detailResponses);
         for (int i = 0 ; i < detailResponses.size();i++){
-            totalWorkActualWork +=detailResponses.get(i).getTotalEmp();
-            laborProductivity += detailResponses.get(i).getLaborProductivityTeam();
-            totalRatio += detailResponses.get(i).getRatio();
-            riceEmp += detailResponses.get(i).getRiceEmp();
-            riceVip += detailResponses.get(i).getRiceVip();
-            riceCus += detailResponses.get(i).getRiceCus();
+            if(detailResponses.get(i).getTotalEmp() !=null){
+                totalWorkActualWork +=detailResponses.get(i).getTotalEmp();
+            }
+            if(detailResponses.get(i).getLaborProductivityTeam() !=null){
+                laborProductivity += detailResponses.get(i).getLaborProductivityTeam();
+            }
+            if( detailResponses.get(i).getRatio() !=null){
+                totalRatio += detailResponses.get(i).getRatio();
+            }
+            if( detailResponses.get(i).getRiceEmp() !=null){
+                riceEmp += detailResponses.get(i).getRiceEmp();
+            }
+            if( detailResponses.get(i).getRiceVip() !=null){
+                riceVip += detailResponses.get(i).getRiceVip();
+            }
+            if(detailResponses.get(i).getRiceCus() !=null){
+                riceCus += detailResponses.get(i).getRiceCus();
+            }
         }
         response.setTotalRiceEmp(riceEmp);
         response.setTotalRiceCus(riceCus);
