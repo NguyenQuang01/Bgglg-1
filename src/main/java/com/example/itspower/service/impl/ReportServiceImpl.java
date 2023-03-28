@@ -1,15 +1,13 @@
 package com.example.itspower.service.impl;
 
 import com.example.itspower.component.util.DateUtils;
+import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.entity.RiceEntity;
 import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.model.resultset.ReportDto;
 import com.example.itspower.model.resultset.RestDto;
-import com.example.itspower.repository.ReportRepository;
-import com.example.itspower.repository.RestRepository;
-import com.example.itspower.repository.RiceRepository;
-import com.example.itspower.repository.TransferRepository;
+import com.example.itspower.repository.*;
 import com.example.itspower.request.ReportRequest;
 import com.example.itspower.request.TransferRequest;
 import com.example.itspower.response.report.ReportResponse;
@@ -34,6 +32,8 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private TransferRepository transferRepository;
     @Autowired
+    private GroupRoleRepository groupRoleRepository;
+    @Autowired
     private RiceRepository riceRepository;
 
     @Override
@@ -45,6 +45,10 @@ public class ReportServiceImpl implements ReportService {
         ReportDto reportDto = reportRepository.reportDto(reportDate, groupId);
         List<RestDto> restDtos = restRepository.getRests(reportDto.getId());
         List<TransferEntity> transferEntities = transferRepository.findByReportId(reportDto.getId());
+        for (TransferEntity transfer : transferEntities) {
+            Optional<GroupEntity> groupEntity = groupRoleRepository.findById(transfer.getGroupId());
+            transfer.setParentId(groupEntity.get().getParentId());
+        }
         RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
         return new ReportResponse(reportDto, riceEntity, restDtos, transferEntities);
     }

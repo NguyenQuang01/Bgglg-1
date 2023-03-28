@@ -27,21 +27,21 @@ import javax.persistence.*;
 
 @NamedNativeQuery(
         name = "findDetails",
-        query = "select gr.id                as groupId,\n" +
-                "       gr.group_name        as groupName,\n" +
-                "       gr.parent_id         as parentId,\n" +
-                "       gr.demarcation_available         as demarcationAvailable,\n" +
-                "       ug.id                as userGroupId,\n" +
-                "       ug.user_id           as userId,\n" +
-                "       r.id                 as reportId,\n" +
-                "       r.demarcation        as reportDemarcation,\n" +
-                "       r.labor_productivity as laborProductivity,\n" +
-                "       r.part_time_num      as partTimeNum,\n" +
-                "       r.report_date        as reportDate,\n" +
-                "       r.rest_num           as restNum,\n" +
-                "       r.student_num        as studentNum\n" +
-                "from group_role gr\n" +
-                "         left join user_group ug on gr.id = ug.id\n" +
+        query = "select gr.id                as groupId, " +
+                "       gr.group_name        as groupName, " +
+                "       gr.parent_id         as parentId, " +
+                "       gr.demarcation_available  as demarcationAvailable, " +
+                "       ug.id                as userGroupId, " +
+                "       ug.user_id           as userId, " +
+                "       r.id                 as reportId, " +
+                "       r.demarcation        as reportDemarcation, " +
+                "       r.labor_productivity as laborProductivity, " +
+                "       r.part_time_num      as partTimeNum, " +
+                "       r.report_date        as reportDate, " +
+                "       r.rest_num           as restNum, " +
+                "       r.student_num        as studentNum " +
+                "from group_role gr " +
+                "         left join user_group ug on gr.id = ug.id " +
                 "         left join report r on ug.group_id = r.group_id",
         resultSetMapping = "GroupRoleAndReportDetailsRes"
 )

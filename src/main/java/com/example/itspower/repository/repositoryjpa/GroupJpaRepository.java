@@ -18,8 +18,12 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(name = "findAllRoot", nativeQuery = true)
     List<RootNameDto> getAllRoot();
-    @Query(value = "SELECT gr.id as groupId ,gr.parentId as parentId, ug.id  as userGroupId ,ug.userId  as  userId,r.id   as reportId,gr.groupName as groupName,r.demarcation as reportDemarcation," +
-            "r.laborProductivity  as laborProductivity,   r.partTimeNum as partTimeNum, r.reportDate  as reportDate,r.restNum  as restNum, r.studentNum  as studentNum, gr.demarcationAvailable as demarcationAvailable \n" +
-            "from GroupEntity as  gr left join UserGroupEntity as ug on gr.id = ug.id left join ReportEntity as r on ug.groupId = r.groupId")
+
+    @Query(value = "SELECT gr.id as groupId,gr.group_name as groupName, gr.parent_id as parentId , " +
+            "r.demarcation as totalEmpDemarcation,  " +
+            "r.labor_productivity as laborProductivity, r.rest_num as restEmp, " +
+            "r.part_time_num as partTimeEmp, r.student_num as studentNum , " +
+            "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp " +
+            "FROM group_role gr left join report_system.report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id ", nativeQuery = true)
     List<InterfaceReportDetails> findDetails();
 }

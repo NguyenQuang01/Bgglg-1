@@ -38,14 +38,17 @@ public class GroupRoleRepository {
     public List<GroupRoleResponse> searchAll() {
         return getSubListChirdlen(groupJpaRepository.findAll());
     }
+
     public List<GroupRoleAndReportDetailsRes> getDetails() {
-        List<InterfaceReportDetails> a =groupJpaRepository.findDetails();
+        List<InterfaceReportDetails> mapReport = groupJpaRepository.findDetails();
         List<GroupRoleAndReportDetailsRes> groupRoleAndReportDetailsResList = new ArrayList<>();
-        for(InterfaceReportDetails interfaceReportDetail: a){
+        for (InterfaceReportDetails interfaceReportDetail : mapReport) {
             GroupRoleAndReportDetailsRes item = new GroupRoleAndReportDetailsRes(interfaceReportDetail);
             groupRoleAndReportDetailsResList.add(item);
         }
-        Map<Integer, List<GroupRoleAndReportDetailsRes>> parentIdToChildren = groupRoleAndReportDetailsResList.stream().collect(Collectors.groupingBy(GroupRoleAndReportDetailsRes::getParentId));
+        Map<Integer, List<GroupRoleAndReportDetailsRes>> parentIdToChildren =
+                groupRoleAndReportDetailsResList.stream()
+                        .collect(Collectors.groupingBy(GroupRoleAndReportDetailsRes::getParentId));
         groupRoleAndReportDetailsResList.forEach(p -> p.setChildren(parentIdToChildren.get(p.getGroupId())));
         return parentIdToChildren.get(0);
     }

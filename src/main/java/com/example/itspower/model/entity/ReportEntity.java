@@ -69,7 +69,7 @@ import java.util.Date;
                 "sum(student_num) as student ," +
                 "sum(ifNull(ri.rice_Cus,0)) as riceCus,sum(ifNull(rice_vip,0)) as riceVip,sum(ifNull(rice_emp,0)) as riceEmp" +
                 " FROM report_system.report  r  left join rice ri on ri.report_id=r.id" +
-                " where group_id in (SELECT gr.id FROM report_system.group_role gr where parent_id =:parentId or gr.id=:parentId )  " +
+                " where group_id in (SELECT gr.id FROM report_system.group_role gr where parent_id =:parentId or gr.id=:parentId ) " +
                 "and DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d')",
         resultSetMapping = "ViewDetailResponse"
 )
