@@ -18,6 +18,11 @@ public class GroupRoleController {
     public ResponseEntity<Object> searchAll() {
         return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.searchAll());
     }
+    @GetMapping("/groupRoleReport")
+    @CrossOrigin
+    public ResponseEntity<Object> getReport() {
+        return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.getDetailsReport());
+    }
 
     @GetMapping("/groupRoleDetails")
     @CrossOrigin

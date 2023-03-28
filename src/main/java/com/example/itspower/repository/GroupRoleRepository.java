@@ -3,8 +3,10 @@ package com.example.itspower.repository;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.response.SuccessResponse;
+import com.example.itspower.response.group.GroupRoleAndReportDetailsRes;
 import com.example.itspower.response.group.GroupRoleDemarcationRes;
 import com.example.itspower.response.group.GroupRoleResponse;
+import com.example.itspower.response.group.InterfaceReportDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -19,13 +21,6 @@ import java.util.stream.Collectors;
 public class GroupRoleRepository {
     @Autowired
     private GroupJpaRepository groupJpaRepository;
-//
-//    public GroupEntity save(Integer groupId, Integer parentId) {
-//        GroupEntity entity = new GroupEntity();
-//        entity.setId(groupId);
-//        entity.setParentId(parentId);
-//        return groupJpaRepository.save(entity);
-//    }
 
     public GroupEntity update(Integer groupRoleId, String groupName, Integer parentId, Integer demarcation) {
         GroupEntity entity = new GroupEntity();
@@ -42,6 +37,17 @@ public class GroupRoleRepository {
 
     public List<GroupRoleResponse> searchAll() {
         return getSubListChirdlen(groupJpaRepository.findAll());
+    }
+    public List<GroupRoleAndReportDetailsRes> getDetails() {
+        List<InterfaceReportDetails> a =groupJpaRepository.findDetails();
+        List<GroupRoleAndReportDetailsRes> groupRoleAndReportDetailsResList = new ArrayList<>();
+        for(InterfaceReportDetails interfaceReportDetail: a){
+            GroupRoleAndReportDetailsRes item = new GroupRoleAndReportDetailsRes(interfaceReportDetail);
+            groupRoleAndReportDetailsResList.add(item);
+        }
+        Map<Integer, List<GroupRoleAndReportDetailsRes>> parentIdToChildren = groupRoleAndReportDetailsResList.stream().collect(Collectors.groupingBy(GroupRoleAndReportDetailsRes::getParentId));
+        groupRoleAndReportDetailsResList.forEach(p -> p.setChildren(parentIdToChildren.get(p.getGroupId())));
+        return parentIdToChildren.get(0);
     }
 
     public List<GroupEntity> findAllByParentId(int parentId) {
@@ -60,7 +66,6 @@ public class GroupRoleRepository {
         });
         Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
         groupRoleResponses.forEach(p -> p.setGroups(parentIdToChildren.get(p.getId())));
-
         return parentIdToChildren.get(0);
     }
 
