@@ -40,5 +40,6 @@ public class ViewDetailGroups {
         this.riceCus = response.getRiceCus();
         this.riceVip = response.getRiceVip();
         this.riceEmp = response.getRiceEmp();
+        this.numberRice = response.getTotalRiceNum();
     }
 }

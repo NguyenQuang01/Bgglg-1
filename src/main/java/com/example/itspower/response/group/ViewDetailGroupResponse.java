@@ -17,8 +17,9 @@ public class ViewDetailGroupResponse {
     private Integer riceCus;
     private Integer riceVip;
     private Integer riceEmp;
+    private Integer totalRiceNum;
 
-    public ViewDetailGroupResponse(Integer groupKey, String name, Integer parentId, Integer demarcation, Integer laborProductivity, Integer restEmp, Integer partTimeEmp, Integer studentNum, Integer riceCus, Integer riceVip, Integer riceEmp) {
+    public ViewDetailGroupResponse(Integer groupKey, String name, Integer parentId, Integer demarcation, Integer laborProductivity, Integer restEmp, Integer partTimeEmp, Integer studentNum, Integer riceCus, Integer riceVip, Integer riceEmp, Integer totalRiceNum) {
         this.groupKey = groupKey;
         this.name = name;
         this.parentId = parentId == null ? 0 : parentId;
@@ -30,5 +31,6 @@ public class ViewDetailGroupResponse {
         this.riceCus = riceCus;
         this.riceVip = riceVip;
         this.riceEmp = riceEmp;
+        this.totalRiceNum = totalRiceNum;
     }
 }
