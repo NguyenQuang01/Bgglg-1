@@ -1,7 +1,9 @@
 package com.example.itspower.service;
 
-import com.example.itspower.response.view.ViewRootResponse;
+import com.example.itspower.response.view.ViewDetailResponse;
+
+import java.util.List;
 
 public interface ViewService {
-   ViewRootResponse getView(String date);
+   List<ViewDetailResponse> getView(String date);
 }

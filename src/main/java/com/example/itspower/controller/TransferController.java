@@ -1,5 +1,4 @@
 package com.example.itspower.controller;
-
 import com.example.itspower.component.util.DateUtils;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.service.TransferService;
@@ -10,9 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Date;
-
 @RestController
 public class TransferController {
     @Autowired
