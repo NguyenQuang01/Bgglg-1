@@ -1,6 +1,7 @@
 package com.example.itspower.model.entity;
 
 import com.example.itspower.model.resultset.RootNameDto;
+import com.example.itspower.response.group.ViewDetailGroupResponse;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -25,60 +26,37 @@ import javax.persistence.*;
         resultSetMapping = "RootNameDto"
 )
 
-@NamedNativeQuery(
-        name = "findDetails",
-        query = "select gr.id                as groupId,\n" +
-                "       gr.group_name        as groupName,\n" +
-                "       gr.parent_id         as parentId,\n" +
-                "       gr.demarcation_available         as demarcationAvailable,\n" +
-                "       ug.id                as userGroupId,\n" +
-                "       ug.user_id           as userId,\n" +
-                "       r.id                 as reportId,\n" +
-                "       r.demarcation        as reportDemarcation,\n" +
-                "       r.labor_productivity as laborProductivity,\n" +
-                "       r.part_time_num      as partTimeNum,\n" +
-                "       r.report_date        as reportDate,\n" +
-                "       r.rest_num           as restNum,\n" +
-                "       r.student_num        as studentNum\n" +
-                "from group_role gr\n" +
-                "         left join user_group ug on gr.id = ug.id\n" +
-                "         left join report r on ug.group_id = r.group_id",
-        resultSetMapping = "GroupRoleAndReportDetailsRes"
-)
+
+
 @SqlResultSetMapping(
-        name = "GroupRoleAndReportDetailsRes",
-        entities = {
-                @EntityResult(
-                        entityClass = GroupEntity.class,
-                        fields = {
-                                @FieldResult(name = "id", column = "groupId"),
-                                @FieldResult(name = "groupName", column = "groupName"),
-                                @FieldResult(name = "parentId", column = "parentId"),
-                                @FieldResult(name = "demarcationAvailable", column = "demarcationAvailable")
-                        }
-                ),
-                @EntityResult(
-                        entityClass = ReportEntity.class,
-                        fields = {
-                                @FieldResult(name = "id", column = "reportId"),
-                                @FieldResult(name = "reportDate", column = "reportDate"),
-                                @FieldResult(name = "partTimeNum", column = "partTimeNum"),
-                                @FieldResult(name = "studentNum", column = "studentNum"),
-                                @FieldResult(name = "restNum", column = "restNum"),
-                                @FieldResult(name = "groupId", column = "groupId"),
-                                @FieldResult(name = "demarcation", column = "reportDemarcation"),
-                                @FieldResult(name = "laborProductivity", column = "laborProductivity")
-                        }
-                ),
-                @EntityResult(
-                        entityClass = UserGroupEntity.class,
-                        fields = {
-                                @FieldResult(name = "id", column = "userGroupId"),
-                                @FieldResult(name = "userId", column = "userId"),
-                                @FieldResult(name = "groupId", column = "groupId")
-                        }
-                )
-        }
+        name = "viewDetailDto",
+        classes = @ConstructorResult(
+                targetClass = ViewDetailGroupResponse.class,
+                columns = {
+                        @ColumnResult(name = "groupKey", type = Integer.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "parentId", type = Integer.class),
+                        @ColumnResult(name = "demarcation", type = Integer.class),
+                        @ColumnResult(name = "laborProductivity", type = Integer.class),
+                        @ColumnResult(name = "restEmp", type = Integer.class),
+                        @ColumnResult(name = "partTimeEmp", type = Integer.class),
+                        @ColumnResult(name = "studentNum", type = Integer.class),
+                        @ColumnResult(name = "riceCus", type = Integer.class),
+                        @ColumnResult(name = "riceVip", type = Integer.class),
+                        @ColumnResult(name = "riceEmp", type = Integer.class),
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "findByViewDetail",
+        query = "SELECT gr.id as groupKey ,gr.group_name as name, gr.parent_id as parentId , " +
+                "r.demarcation as demarcation,  " +
+                "r.labor_productivity as laborProductivity, r.rest_num as restEmp, " +
+                "r.part_time_num as partTimeEmp, r.student_num as studentNum , " +
+                "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp " +
+                "FROM group_role gr left join report_system.report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id ",
+        resultSetMapping = "viewDetailDto"
 )
 
 public class GroupEntity {

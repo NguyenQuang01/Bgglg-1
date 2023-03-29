@@ -1,17 +1,28 @@
 package com.example.itspower.response.group;
 
 public interface InterfaceReportDetails {
-     Integer getGroupId();
-     Integer getParentId();
-     Integer getUserGroupId();
-     Integer getUserId();
-     Integer getReportId();
-     String getGroupName();
-     Integer getReportDemarcation ();
-     Integer getLaborProductivity() ;
-     Integer getPartTimeNum() ;
-     String getReportDate ();
-     Integer getRestNum() ;
-     Integer getStudentNum ();
-     Integer getDemarcationAvailable ();
+    Integer getGroupId();
+
+    Integer getParentId();
+
+    String getGroupName();
+
+    Integer getTotalEmpDemarcation();
+
+    Integer getLaborProductivityTeam();
+
+    Integer getRestEmp();
+
+    Integer getPartTimeEmp();
+
+    Integer getLaborProductivity();
+
+    Integer getRiceCus();
+
+    Integer getRiceVip();
+
+    Integer getRiceEmp();
+
+    Integer getStudentNum();
+
 }

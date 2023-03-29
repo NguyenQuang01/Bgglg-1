@@ -2,7 +2,7 @@ package com.example.itspower.repository.repositoryjpa;
 
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.RootNameDto;
-import com.example.itspower.response.group.InterfaceReportDetails;
+import com.example.itspower.response.group.ViewDetailGroupResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,8 +18,10 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(name = "findAllRoot", nativeQuery = true)
     List<RootNameDto> getAllRoot();
-    @Query(value = "SELECT gr.id as groupId ,gr.parentId as parentId, ug.id  as userGroupId ,ug.userId  as  userId,r.id   as reportId,gr.groupName as groupName,r.demarcation as reportDemarcation," +
-            "r.laborProductivity  as laborProductivity,   r.partTimeNum as partTimeNum, r.reportDate  as reportDate,r.restNum  as restNum, r.studentNum  as studentNum, gr.demarcationAvailable as demarcationAvailable \n" +
-            "from GroupEntity as  gr left join UserGroupEntity as ug on gr.id = ug.id left join ReportEntity as r on ug.groupId = r.groupId")
-    List<InterfaceReportDetails> findDetails();
+
+    @Query(value = "select distinct gr.parent_id from group_role gr where parent_id is not null ", nativeQuery = true)
+    List<Integer> getAllParentId();
+
+    @Query(name = "findByViewDetail", nativeQuery = true)
+    List<ViewDetailGroupResponse> getDetail();
 }

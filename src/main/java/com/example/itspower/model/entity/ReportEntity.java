@@ -2,6 +2,7 @@ package com.example.itspower.model.entity;
 
 import com.example.itspower.model.resultset.ReportDto;
 import com.example.itspower.response.view.ViewDetailResponse;
+import com.example.itspower.response.view.ViewDetailResponseDto;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -59,6 +60,7 @@ import java.util.Date;
                 "where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') AND r.group_id = :groupId ",
         resultSetMapping = "report_dto"
 )
+
 @NamedNativeQuery(
         name = "get_view_report",
         query = " SELECT  sum(ifNull(demarcation,0)) as totalEmp,sum(ifNull(labor_productivity,0)) as laborProductivityTeam," +
@@ -67,9 +69,25 @@ import java.util.Date;
                 "sum(student_num) as student ," +
                 "sum(ifNull(ri.rice_Cus,0)) as riceCus,sum(ifNull(rice_vip,0)) as riceVip,sum(ifNull(rice_emp,0)) as riceEmp" +
                 " FROM report_system.report  r  left join rice ri on ri.report_id=r.id" +
-                " where group_id in (SELECT gr.id FROM report_system.group_role gr where parent_id =:parentId or gr.id=:parentId )  " +
+                " where group_id in (SELECT gr.id FROM report_system.group_role gr where parent_id =:parentId or gr.id=:parentId ) " +
                 "and DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d')",
         resultSetMapping = "ViewDetailResponse"
+)
+@SqlResultSetMapping(
+        name = "view_detail_dto",
+        classes = @ConstructorResult(
+                targetClass = ViewDetailResponseDto.class,
+                columns = {
+                        @ColumnResult(name = "totalDemercation", type = Integer.class),
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "find_by_view_detail",
+        query = "SELECT sum(r.demarcation) as totalDemercation  FROM report r left join group_role gr on gr.id =r.group_id " +
+                "where gr.id in (select gr2 .id  from group_role gr2 where gr2.parent_id = :groupId) ",
+        resultSetMapping = "view_detail_dto"
 )
 public class ReportEntity {
     @Id

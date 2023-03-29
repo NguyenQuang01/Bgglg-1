@@ -3,6 +3,7 @@ package com.example.itspower.repository.repositoryjpa;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.resultset.ReportDto;
 import com.example.itspower.response.view.ViewDetailResponse;
+import com.example.itspower.response.view.ViewDetailResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,6 +21,10 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
 
     @Query(name = "get_view_report", nativeQuery = true)
     ViewDetailResponse viewRootReport(@Param("reportDate") String reportDate, @Param("parentId") int parentId);
+
+    @Query(name = "find_by_view_detail", nativeQuery = true)
+    ViewDetailResponseDto findByViewDetailDto(@Param("groupId") int groupId);
+
     @Query(value = "select * from report r where  DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:#{#reportDate}, '%Y%m%d') ", nativeQuery = true)
     Optional<ReportEntity> findByReportDate(String reportDate);
 
@@ -28,7 +33,8 @@ public interface ReportJpaRepository extends JpaRepository<ReportEntity, Integer
 
     Optional<ReportEntity> findByIdAndGroupId(int id, int groupId);
 
-    Optional<ReportEntity> findByGroupId( int groupId);
+    Optional<ReportEntity> findByGroupId(int groupId);
+
     @Transactional
     @Modifying
     void deleteByGroupId(Integer groupId);

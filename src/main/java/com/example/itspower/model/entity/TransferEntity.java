@@ -27,4 +27,6 @@ public class TransferEntity {
     @Column(name = "type")
     @Min(1)
     private Integer type = 0;
+    @Transient
+    private Integer parentId;
 }
