@@ -8,7 +8,7 @@ import java.util.List;
 public interface GroupRoleService {
     List<GroupRoleResponse> searchAll();
 
-    Object getDetailsReport(String reportDate);
+    Object getDetailsReport();
 
     List<GroupEntity> searchAllByParentId(int parentId);
 

@@ -57,8 +57,7 @@ import javax.persistence.*;
                 "r.part_time_num as partTimeEmp, r.student_num as studentNum , " +
                 "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp, " +
                 "(ri.rice_Cus + ri.rice_vip + ri.rice_emp) as totalRiceNum " +
-                "FROM group_role gr left join report_system.report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
-                "WHERE DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d')",
+                "FROM group_role gr left join report_system.report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " ,
         resultSetMapping = "viewDetailDto"
 )
 
