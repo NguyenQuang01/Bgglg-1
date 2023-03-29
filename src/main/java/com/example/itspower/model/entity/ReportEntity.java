@@ -39,7 +39,6 @@ import java.util.Date;
                         @ColumnResult(name = "laborProductivityTeam", type = Integer.class),
                         @ColumnResult(name = "restEmp", type = Integer.class),
                         @ColumnResult(name = "partTimeEmp", type = Integer.class),
-                        @ColumnResult(name = "ratio", type = Double.class),
                         @ColumnResult(name = "student", type = Integer.class),
                         @ColumnResult(name = "riceCus", type = Integer.class),
                         @ColumnResult(name = "riceVip", type = Integer.class),
@@ -66,8 +65,7 @@ import java.util.Date;
         name = "get_view_report",
         query = " SELECT  sum(ifNull(demarcation,0)) as totalEmp,sum(ifNull(labor_productivity,0)) as laborProductivityTeam," +
                 "sum(ifNull(rest_num,0)) as restEmp, " +
-                "sum(ifNull(part_time_num,0)) as partTimeEmp, ROUND((sum(ifNull(labor_productivity,0))/sum(ifNull(demarcation,0))*100),2) " +
-                "as ratio," +
+                "sum(ifNull(part_time_num,0)) as partTimeEmp,  " +
                 "sum(student_num) as student ," +
                 "sum(ifNull(ri.rice_Cus,0)) as riceCus,sum(ifNull(rice_vip,0)) as riceVip,sum(ifNull(rice_emp,0)) as riceEmp" +
                 " FROM report_system.report  r  left join rice ri on ri.report_id=r.id" +
