@@ -3,10 +3,10 @@ package com.example.itspower.repository;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.response.SuccessResponse;
-import com.example.itspower.response.group.GroupRoleAndReportDetailsRes;
 import com.example.itspower.response.group.GroupRoleDemarcationRes;
 import com.example.itspower.response.group.GroupRoleResponse;
-import com.example.itspower.response.group.InterfaceReportDetails;
+import com.example.itspower.response.group.ViewDetailGroupResponse;
+import com.example.itspower.response.group.ViewDetailGroups;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -39,17 +39,48 @@ public class GroupRoleRepository {
         return getSubListChirdlen(groupJpaRepository.findAll());
     }
 
-    public List<GroupRoleAndReportDetailsRes> getDetails() {
-        List<InterfaceReportDetails> mapReport = groupJpaRepository.findDetails();
-        List<GroupRoleAndReportDetailsRes> groupRoleAndReportDetailsResList = new ArrayList<>();
-        for (InterfaceReportDetails interfaceReportDetail : mapReport) {
-            GroupRoleAndReportDetailsRes item = new GroupRoleAndReportDetailsRes(interfaceReportDetail);
-            groupRoleAndReportDetailsResList.add(item);
+    public Object getDetails() {
+        List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetail();
+        List<ViewDetailGroups> mapData = new ArrayList<>();
+        List<ViewDetailGroups> root = new ArrayList<>();
+        for (ViewDetailGroupResponse map : mapReport) {
+            mapData.add(new ViewDetailGroups(map));
         }
-        Map<Integer, List<GroupRoleAndReportDetailsRes>> parentIdToChildren =
-                groupRoleAndReportDetailsResList.stream()
-                        .collect(Collectors.groupingBy(GroupRoleAndReportDetailsRes::getParentId));
-        groupRoleAndReportDetailsResList.forEach(p -> p.setChildren(parentIdToChildren.get(p.getGroupId())));
+        for (Integer parentId : groupJpaRepository.getAllParentId()) {
+            root.add(mapData.stream().filter(map -> map.getKey().intValue() == parentId.intValue()).collect(Collectors.toList()).get(0));
+        }
+        for (ViewDetailGroups viewDetailGroups : root) {
+            int demarcation = 0;
+            int restNum = 0;
+            int labor = 0;
+            int partTime = 0;
+            int studentNum = 0;
+            int riceNum = 0;
+            List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey()).collect(Collectors.toList());
+            for (ViewDetailGroups item : children) {
+                if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
+                    demarcation += item.getEnterprise();
+                    restNum += item.getNumberLeave();
+                    labor += item.getLaborProductivity();
+                    partTime += item.getPartTimeEmp();
+                    studentNum += item.getStudentNum();
+                    riceNum += item.getRiceVip() + item.getRiceEmp() + item.getRiceCus();
+                }
+            }
+            if (viewDetailGroups.getName().equals("office")) {
+                viewDetailGroups.setOffice(demarcation);
+            } else {
+                viewDetailGroups.setEnterprise(demarcation);
+            }
+            viewDetailGroups.setNumberLeave(restNum);
+            viewDetailGroups.setTotalLaborProductivity(labor);
+            viewDetailGroups.setPartTimeEmp(partTime);
+            viewDetailGroups.setStudentNum(studentNum);
+            viewDetailGroups.setNumberRice(riceNum);
+        }
+        Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
+                mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
+        mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
         return parentIdToChildren.get(0);
     }
 
