@@ -21,7 +21,7 @@ public class GroupRoleController {
     @GetMapping("/groupRoleReport")
     @CrossOrigin
     public ResponseEntity<Object> getReport(@RequestParam("reportDate")String reportDate) {
-        return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.getDetailsReport());
+        return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.getDetailsReport(reportDate));
     }
 
     @GetMapping("/groupRoleDetails")

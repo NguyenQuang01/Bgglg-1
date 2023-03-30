@@ -5,6 +5,7 @@ import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,5 +24,8 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
     List<Integer> getAllParentId();
 
     @Query(name = "findByViewDetail", nativeQuery = true)
-    List<ViewDetailGroupResponse> getDetail();
+    List<ViewDetailGroupResponse> getDetail(@Param("reportDate") String reportDate);
+    @Query(name = "findByViewDetailParent", nativeQuery = true)
+    List<ViewDetailGroupResponse> getDetailParent();
+
 }

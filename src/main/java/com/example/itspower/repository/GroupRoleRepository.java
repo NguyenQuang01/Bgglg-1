@@ -38,8 +38,13 @@ public class GroupRoleRepository {
         return getSubListChirdlen(groupJpaRepository.findAll());
     }
 
-    public  List<ViewDetailGroupResponse> getDetails() {
-        List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetail();
+    public  List<ViewDetailGroupResponse> getDetails(String reportDate) {
+        List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetail(reportDate);
+        return mapReport;
+    }
+
+    public  List<ViewDetailGroupResponse> getDetailParent() {
+        List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetailParent();
         return mapReport;
     }
 
