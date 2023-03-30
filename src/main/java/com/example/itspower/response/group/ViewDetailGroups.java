@@ -15,7 +15,7 @@ public class ViewDetailGroups {
     private Integer parentId;
     private Integer office;
     private Integer enterprise;
-    private Integer laborProductivity;
+    private float laborProductivity;
     private Integer totalLaborProductivity;
     private Integer numberLeave;
     private Integer partTimeEmp;
@@ -27,7 +27,7 @@ public class ViewDetailGroups {
     private Integer riceEmp;
     List<ViewDetailGroups> children;
 
-    public ViewDetailGroups viewDetailGroups(Integer numberLeave, Integer laborProductivity, Integer partTimeEmp, Integer studentNum, Integer numberRice, Integer riceCus, Integer riceVip, Integer riseEmp) {
+    public ViewDetailGroups viewDetailGroups(Integer numberLeave, float laborProductivity, Integer partTimeEmp, Integer studentNum, Integer numberRice, Integer riceCus, Integer riceVip, Integer riseEmp) {
         this.laborProductivity = laborProductivity;
         this.numberLeave = numberLeave;
         this.partTimeEmp = partTimeEmp;
@@ -39,7 +39,6 @@ public class ViewDetailGroups {
         this.riceEmp = riseEmp;
         return this;
     }
-
     public ViewDetailGroups(ViewDetailGroupResponse response) {
         this.key = response.getGroupKey();
         this.name = response.getName();
