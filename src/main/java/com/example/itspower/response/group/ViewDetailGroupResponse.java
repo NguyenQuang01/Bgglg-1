@@ -17,18 +17,20 @@ public class ViewDetailGroupResponse {
     private Integer riceCus;
     private Integer riceVip;
     private Integer riceEmp;
+    private Integer totalRiceNum;
 
-    public ViewDetailGroupResponse(Integer groupKey, String name, Integer parentId, Integer demarcation, Integer laborProductivity, Integer restEmp, Integer partTimeEmp, Integer studentNum, Integer riceCus, Integer riceVip, Integer riceEmp) {
+    public ViewDetailGroupResponse(Integer groupKey, String name, Integer parentId, Integer demarcation, Integer laborProductivity, Integer restEmp, Integer partTimeEmp, Integer studentNum, Integer riceCus, Integer riceVip, Integer riceEmp, Integer totalRiceNum) {
         this.groupKey = groupKey;
         this.name = name;
         this.parentId = parentId == null ? 0 : parentId;
         this.demarcation = demarcation == null ? 0 : demarcation;
-        this.laborProductivity = laborProductivity;
-        this.restEmp = restEmp;
-        this.partTimeEmp = partTimeEmp;
-        this.studentNum = studentNum;
-        this.riceCus = riceCus;
-        this.riceVip = riceVip;
-        this.riceEmp = riceEmp;
+        this.laborProductivity = laborProductivity == null ? 0 : laborProductivity;
+        this.restEmp = restEmp == null ? 0 : restEmp;
+        this.partTimeEmp = partTimeEmp == null ? 0 : partTimeEmp;
+        this.studentNum = studentNum == null ? 0 : studentNum;
+        this.riceCus = riceCus == null ? 0 : riceCus;
+        this.riceVip = riceVip == null ? 0 : riceVip;
+        this.riceEmp = riceEmp == null ? 0 : riceEmp;
+        this.totalRiceNum = totalRiceNum == null ? 0 : totalRiceNum;
     }
 }

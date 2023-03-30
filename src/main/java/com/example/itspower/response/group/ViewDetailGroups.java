@@ -27,6 +27,19 @@ public class ViewDetailGroups {
     private Integer riceEmp;
     List<ViewDetailGroups> children;
 
+    public ViewDetailGroups viewDetailGroups(Integer numberLeave, Integer laborProductivity, Integer partTimeEmp, Integer studentNum, Integer numberRice, Integer riceCus, Integer riceVip, Integer riseEmp) {
+        this.laborProductivity = laborProductivity;
+        this.numberLeave = numberLeave;
+        this.partTimeEmp = partTimeEmp;
+        this.ratio = 0;
+        this.studentNum = studentNum;
+        this.numberRice = numberRice;
+        this.riceCus = riceCus;
+        this.riceVip = riceVip;
+        this.riceEmp = riseEmp;
+        return this;
+    }
+
     public ViewDetailGroups(ViewDetailGroupResponse response) {
         this.key = response.getGroupKey();
         this.name = response.getName();
@@ -40,5 +53,6 @@ public class ViewDetailGroups {
         this.riceCus = response.getRiceCus();
         this.riceVip = response.getRiceVip();
         this.riceEmp = response.getRiceEmp();
+        this.numberRice = response.getTotalRiceNum();
     }
 }
