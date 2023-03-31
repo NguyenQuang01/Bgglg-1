@@ -79,6 +79,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 totalLaborReportsProductivity += labor;
             }
             for (ViewDetailGroups viewDetail : root) {
+                viewDetail.setTotalLaborProductivity(totalLaborReportsProductivity);
                 if (viewDetail.getName().equals("Office") || viewDetail.getName().equals("Văn Phòng")) {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 } else {

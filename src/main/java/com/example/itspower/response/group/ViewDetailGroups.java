@@ -16,7 +16,7 @@ public class ViewDetailGroups {
     private Integer office;
     private Integer enterprise;
     private float laborProductivity;
-    private Integer totalLaborProductivity;
+    private float totalLaborProductivity;
     private Integer numberLeave;
     private Integer partTimeEmp;
     private float ratio;
