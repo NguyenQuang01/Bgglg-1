@@ -42,15 +42,13 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 root.add(mapData.stream().filter(map -> map.getKey().intValue() == parentId.intValue()).collect(Collectors.toList()).get(0));
             }
             float totalLaborReportsProductivity = 0;
+            int totalRiseNumAll = 0;
             for (ViewDetailGroups viewDetailGroups : root) {
                 int restNum = 0;
                 float labor = 0;
                 int partTime = 0;
                 int studentNum = 0;
-                int totalRiceNum = 0;
-                int totalRiceCus = 0;
-                int totalRiceVip = 0;
-                int totalRiceEmp = 0;
+                int totalRiseChild = 0;
                 List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
                 for (ViewDetailGroups item : children) {
                     if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
@@ -63,24 +61,25 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                         labor += item.getLaborProductivity();
                         partTime += item.getPartTimeEmp();
                         studentNum += item.getStudentNum();
-                        totalRiceNum += item.getRiceVip() + item.getRiceEmp() + item.getRiceCus();
-                        totalRiceCus += item.getRiceCus();
-                        totalRiceVip += item.getRiceVip();
-                        totalRiceEmp += item.getRiceEmp();
+                        totalRiseChild += item.getTotalRiseNum();
                     }
+                    item.setTotalRiseNum(null);
                 }
                 if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
                     viewDetailGroups.setOffice((int) labor);
-                    viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, totalRiceNum, totalRiceCus, totalRiceVip, totalRiceEmp);
+                    viewDetailGroups.setEnterprise(null);
+                    viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null);
                 } else {
                     viewDetailGroups.setEnterprise((int) labor);
-                    viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, totalRiceNum, totalRiceCus, totalRiceVip, totalRiceEmp);
+                    viewDetailGroups.setOffice(null);
+                    viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null);
                 }
                 totalLaborReportsProductivity += labor;
+                totalRiseNumAll += totalRiseChild;
             }
             for (ViewDetailGroups viewDetail : root) {
-                viewDetail.setTotalLaborProductivity(totalLaborReportsProductivity);
                 if (viewDetail.getName().equals("Office") || viewDetail.getName().equals("Văn Phòng")) {
+                    viewDetail.setTotalRiseNum(totalRiseNumAll);
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 } else {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
