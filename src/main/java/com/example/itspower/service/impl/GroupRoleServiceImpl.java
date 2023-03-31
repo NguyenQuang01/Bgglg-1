@@ -53,6 +53,11 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 int totalRiceEmp = 0;
                 List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
                 for (ViewDetailGroups item : children) {
+                    if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
+                        item.setEnterprise(0);
+                    } else {
+                        item.setOffice(0);
+                    }
                     if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
                         restNum += item.getNumberLeave();
                         labor += item.getLaborProductivity();
@@ -64,7 +69,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                         totalRiceEmp += item.getRiceEmp();
                     }
                 }
-                if (viewDetailGroups.getName().equals("office") || viewDetailGroups.getName().equals("Văn phòng")) {
+                if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
                     viewDetailGroups.setOffice((int) labor);
                     viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, totalRiceNum, totalRiceCus, totalRiceVip, totalRiceEmp);
                 } else {
@@ -74,7 +79,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 totalLaborReportsProductivity += labor;
             }
             for (ViewDetailGroups viewDetail : root) {
-                if (viewDetail.getName().equals("office") || viewDetail.getName().equals("Văn Phòng")) {
+                if (viewDetail.getName().equals("Office") || viewDetail.getName().equals("Văn Phòng")) {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 } else {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
