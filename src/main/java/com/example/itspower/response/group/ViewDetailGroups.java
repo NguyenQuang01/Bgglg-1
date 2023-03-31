@@ -21,16 +21,20 @@ public class ViewDetailGroups {
     private Integer partTimeEmp;
     private float ratio;
     private Integer studentNum;
-    private Integer totalRiseNum;
+    private Integer totalRiceCus;
+    private Integer totalRiceVip;
+    private Integer totalRiceEmp;
     List<ViewDetailGroups> children;
 
-    public ViewDetailGroups viewDetailGroups(Integer numberLeave, float laborProductivity, Integer partTimeEmp, Integer studentNum, Integer totalRiseNum) {
+    public ViewDetailGroups viewDetailGroups(Integer numberLeave, float laborProductivity, Integer partTimeEmp, Integer studentNum, Integer totalRiceCus, Integer totalRiceVip, Integer totalRiceEmp) {
         this.laborProductivity = laborProductivity;
         this.numberLeave = numberLeave;
         this.partTimeEmp = partTimeEmp;
         this.ratio = 0;
         this.studentNum = studentNum;
-        this.totalRiseNum = totalRiseNum;
+        this.totalRiceVip = totalRiceVip;
+        this.totalRiceCus = totalRiceCus;
+        this.totalRiceEmp = totalRiceEmp;
         return this;
     }
 
@@ -44,6 +48,8 @@ public class ViewDetailGroups {
         this.numberLeave = response.getRestEmp();
         this.partTimeEmp = response.getPartTimeEmp();
         this.studentNum = response.getStudentNum();
-        this.totalRiseNum = response.getTotalRiceNum();
+        this.totalRiceVip = response.getRiceCus();
+        this.totalRiceEmp = response.getRiceEmp();
+        this.totalRiceCus = response.getRiceCus();
     }
 }
