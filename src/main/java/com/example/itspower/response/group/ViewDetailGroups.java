@@ -21,37 +21,29 @@ public class ViewDetailGroups {
     private Integer partTimeEmp;
     private float ratio;
     private Integer studentNum;
-    private Integer numberRice;
-    private Integer riceCus;
-    private Integer riceVip;
-    private Integer riceEmp;
+    private Integer totalRiseNum;
     List<ViewDetailGroups> children;
 
-    public ViewDetailGroups viewDetailGroups(Integer numberLeave, float laborProductivity, Integer partTimeEmp, Integer studentNum, Integer numberRice, Integer riceCus, Integer riceVip, Integer riseEmp) {
+    public ViewDetailGroups viewDetailGroups(Integer numberLeave, float laborProductivity, Integer partTimeEmp, Integer studentNum, Integer totalRiseNum) {
         this.laborProductivity = laborProductivity;
         this.numberLeave = numberLeave;
         this.partTimeEmp = partTimeEmp;
         this.ratio = 0;
         this.studentNum = studentNum;
-        this.numberRice = numberRice;
-        this.riceCus = riceCus;
-        this.riceVip = riceVip;
-        this.riceEmp = riseEmp;
+        this.totalRiseNum = totalRiseNum;
         return this;
     }
+
     public ViewDetailGroups(ViewDetailGroupResponse response) {
         this.key = response.getGroupKey();
         this.name = response.getName();
         this.parentId = response.getParentId();
         this.enterprise = response.getDemarcation();
         this.office = response.getDemarcation();
-        this.laborProductivity = response.getLaborProductivity();
+        this.laborProductivity = response.getLaborProductivity() == null ? 0 : response.getLaborProductivity();
         this.numberLeave = response.getRestEmp();
         this.partTimeEmp = response.getPartTimeEmp();
         this.studentNum = response.getStudentNum();
-        this.riceCus = response.getRiceCus();
-        this.riceVip = response.getRiceVip();
-        this.riceEmp = response.getRiceEmp();
-        this.numberRice = response.getTotalRiceNum();
+        this.totalRiseNum = response.getTotalRiceNum();
     }
 }
