@@ -54,9 +54,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
                 for (ViewDetailGroups item : children) {
                     if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
-                        item.setEnterprise(0);
+                        item.setEnterprise(null);
                     } else {
-                        item.setOffice(0);
+                        item.setOffice(null);
                     }
                     if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
                         restNum += item.getNumberLeave();
