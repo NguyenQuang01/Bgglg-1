@@ -1,5 +1,6 @@
 package com.example.itspower.model.entity;
 
+import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import lombok.Data;
@@ -26,8 +27,25 @@ import javax.persistence.*;
         resultSetMapping = "RootNameDto"
 )
 
-
-
+@SqlResultSetMapping(
+        name = "GroupRoleDto",
+        classes = @ConstructorResult(targetClass = GroupRoleDto.class, columns = {
+                        @ColumnResult(name = "id", type = int.class),
+                        @ColumnResult(name = "parentId", type = int.class),
+                        @ColumnResult(name = "demarcationAvailable", type = Integer.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "label", type = String.class),
+                }
+        )
+)
+@NamedNativeQuery(name = "findAllRole", query = "select gr.id                 as id,\n" +
+        "       gr.group_name                               as name,\n" +
+        "       gr.group_name                               as label,\n" +
+        "       (IF(gr.parent_id is null, 0, gr.parent_id)) as parentId,\n" +
+        "        gr.demarcation_available        as demarcationAvailable\n" +
+        "from group_role gr;",
+        resultSetMapping = "GroupRoleDto"
+)
 @SqlResultSetMapping(
         name = "viewDetailDto",
         classes = @ConstructorResult(

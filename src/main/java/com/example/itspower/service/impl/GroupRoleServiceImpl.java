@@ -1,6 +1,7 @@
 package com.example.itspower.service.impl;
 
 import com.example.itspower.model.entity.GroupEntity;
+import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.repository.GroupRoleRepository;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleResponse;
@@ -12,7 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +26,17 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     @Override
     public List<GroupRoleResponse> searchAll() {
-        return groupRoleRepository.searchAll();
+        return getSubListChildren(groupRoleRepository.searchAll());
+    }
+    public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
+        List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
+        groups.forEach(i -> {
+            GroupRoleResponse groupRoleResponse = new GroupRoleResponse(i);
+            groupRoleResponses.add(groupRoleResponse);
+        });
+        Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
+        groupRoleResponses.forEach(p -> p.setChildren(parentIdToChildren.get(p.getId())));
+        return parentIdToChildren.get(0);
     }
 
     @Override
