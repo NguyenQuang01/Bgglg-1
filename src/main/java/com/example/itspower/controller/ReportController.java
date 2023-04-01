@@ -4,6 +4,7 @@ import com.example.itspower.request.ReportRequest;
 import com.example.itspower.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,13 +20,13 @@ public class ReportController {
 
     @PostMapping("/report/save")
     @CrossOrigin
-    public ResponseEntity<Object> save(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
+    public ResponseEntity<Object> save(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
         return reportService.save(reportRequest, groupId);
     }
 
     @PostMapping("/report/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
+    public ResponseEntity<Object> update(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
         return reportService.update(reportRequest, groupId);
     }
 }

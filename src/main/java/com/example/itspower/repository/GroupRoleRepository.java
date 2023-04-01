@@ -38,12 +38,12 @@ public class GroupRoleRepository {
         return getSubListChirdlen(groupJpaRepository.findAll());
     }
 
-    public  List<ViewDetailGroupResponse> getDetails(String reportDate) {
+    public List<ViewDetailGroupResponse> getDetails(String reportDate) {
         List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetail(reportDate);
         return mapReport;
     }
 
-    public  List<ViewDetailGroupResponse> getDetailParent() {
+    public List<ViewDetailGroupResponse> getDetailParent() {
         List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetailParent();
         return mapReport;
     }
@@ -77,5 +77,9 @@ public class GroupRoleRepository {
             return new SuccessResponse<>(HttpStatus.OK.value(), "success", new GroupRoleDemarcationRes(groupEntity.get()));
         }
         return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group id is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name());
+    }
+
+    public Optional<GroupEntity> findByGroupName(String groupName) {
+        return groupJpaRepository.findByGroupName(groupName);
     }
 }
