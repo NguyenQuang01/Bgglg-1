@@ -1,6 +1,6 @@
 package com.example.itspower.response.group;
 
-import com.example.itspower.model.entity.GroupEntity;
+import com.example.itspower.model.resultset.GroupRoleDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +12,21 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupRoleResponse {
     private Integer id;
-    private String groupName;
-    private Integer parentId;
-    List<GroupRoleResponse> groups;
 
-    public GroupRoleResponse(GroupEntity groups){
+    private Integer key;
+
+    private String name;
+
+    private String label;
+    private Integer parentId;
+
+    List<GroupRoleResponse> children;
+
+    public GroupRoleResponse(GroupRoleDto groups){
         this.id=groups.getId();
-        this.groupName=groups.getGroupName();
+        this.key=groups.getId();
+        this.name=groups.getName();
+        this.label=groups.getLabel();
         this.parentId=groups.getParentId();
     }
 }
