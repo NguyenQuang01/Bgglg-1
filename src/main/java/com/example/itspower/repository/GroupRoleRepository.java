@@ -1,20 +1,17 @@
 package com.example.itspower.repository;
 
 import com.example.itspower.model.entity.GroupEntity;
+import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleDemarcationRes;
-import com.example.itspower.response.group.GroupRoleResponse;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class GroupRoleRepository {
@@ -34,18 +31,16 @@ public class GroupRoleRepository {
         return groupJpaRepository.findById(groupRoleId);
     }
 
-    public List<GroupRoleResponse> searchAll() {
-        return getSubListChirdlen(groupJpaRepository.findAll());
+    public List<GroupRoleDto> searchAll() {
+        return groupJpaRepository.findAllRole();
     }
 
     public List<ViewDetailGroupResponse> getDetails(String reportDate) {
-        List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetail(reportDate);
-        return mapReport;
+        return groupJpaRepository.getDetail(reportDate);
     }
 
     public List<ViewDetailGroupResponse> getDetailParent() {
-        List<ViewDetailGroupResponse> mapReport = groupJpaRepository.getDetailParent();
-        return mapReport;
+        return groupJpaRepository.getDetailParent();
     }
 
     public List<Integer> getParentId() {
@@ -58,17 +53,6 @@ public class GroupRoleRepository {
 
     public List<GroupEntity> findAllByParentIdNotNull() {
         return groupJpaRepository.findAllByParentIdIsNull();
-    }
-
-    public List<GroupRoleResponse> getSubListChirdlen(List<GroupEntity> groups) {
-        List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
-        groups.forEach(i -> {
-            GroupRoleResponse groupRoleResponse = new GroupRoleResponse(i);
-            groupRoleResponses.add(groupRoleResponse);
-        });
-        Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
-        groupRoleResponses.forEach(p -> p.setGroups(parentIdToChildren.get(p.getId())));
-        return parentIdToChildren.get(0);
     }
 
     public Object getDemarcationRes(Integer groupId) {
