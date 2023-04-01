@@ -54,7 +54,6 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    @Transactional
     public ResponseEntity<Object> save(ReportRequest request, int groupId) {
         try {
             Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
@@ -65,7 +64,8 @@ public class ReportServiceImpl implements ReportService {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
             for (TransferRequest transferRequests : request.getTransferRequests()) {
-                if (groupId == transferRequests.getGroupId()) {
+                Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(transferRequests.getGroupName());
+                if (groupId == groupEntity.get().getId()) {
                     return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "groupId is not crrurent groupId user", null));
                 }
             }
@@ -75,7 +75,7 @@ public class ReportServiceImpl implements ReportService {
             transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report not success", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report not success", null));
         }
     }
 
@@ -87,11 +87,15 @@ public class ReportServiceImpl implements ReportService {
             if (entity.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report is not Exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
+            if (request.getRestNum() != request.getRestRequests().size()) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
+            }
             for (TransferRequest transferRequests : request.getTransferRequests()) {
                 if (transferRequests.getTransferId() == 0) {
                     return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null));
                 }
-                if (groupId == transferRequests.getGroupId()) {
+                Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(transferRequests.getGroupName());
+                if (groupId == groupEntity.get().getId()) {
                     return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "groupId is not crrurent groupId user", null));
                 }
             }

@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> {
@@ -30,5 +31,7 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
     List<ViewDetailGroupResponse> getDetail(@Param("reportDate") String reportDate);
     @Query(name = "findByViewDetailParent", nativeQuery = true)
     List<ViewDetailGroupResponse> getDetailParent();
+
+    Optional<GroupEntity> findByGroupName(String groupName);
 
 }

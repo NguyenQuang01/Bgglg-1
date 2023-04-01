@@ -16,7 +16,11 @@ import java.util.List;
 public interface RestJpaRepository extends JpaRepository<RestEntity, Integer>, JpaSpecificationExecutor<RestEntity> {
     @Query(name = "find_by_rest", nativeQuery = true)
     List<RestDto> findByRest(@Param("reportId") Integer reportId);
+
     @Transactional
     @Modifying
     void deleteByReportId(Integer reportId);
+
+    @Query(value = "select NULLIF(COUNT(r.report_id),0) as countReport from rest r where report_id =:reportId", nativeQuery = true)
+    int findByCount(@Param("reportId") Integer reportId);
 }

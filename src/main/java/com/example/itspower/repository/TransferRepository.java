@@ -32,9 +32,10 @@ public class TransferRepository {
     public Object saveTransfer(List<TransferRequest> requests, Integer reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
+            Optional<GroupEntity> groupEntity = groupJpaRepository.findByGroupName(transfer.getGroupName());
             TransferEntity entity = new TransferEntity();
             entity.setReportId(reportId);
-            entity.setGroupId(transfer.getGroupId());
+            entity.setGroupId(groupEntity.get().getId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
@@ -47,10 +48,11 @@ public class TransferRepository {
     public Object updateTransfer(List<TransferRequest> requests, Integer reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
+            Optional<GroupEntity> groupEntity = groupJpaRepository.findByGroupName(transfer.getGroupName());
             TransferEntity entity = new TransferEntity();
             entity.setTransferId(transfer.getTransferId());
             entity.setReportId(reportId);
-            entity.setGroupId(transfer.getGroupId());
+            entity.setGroupId(groupEntity.get().getId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
