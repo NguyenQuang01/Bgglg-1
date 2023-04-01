@@ -87,6 +87,9 @@ public class ReportServiceImpl implements ReportService {
             if (entity.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report is not Exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
+            if(request.getRestNum() != request.getRestRequests().size()) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name()));
+            }
             for (TransferRequest transferRequests : request.getTransferRequests()) {
                 if (transferRequests.getTransferId() == 0) {
                     return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null));
