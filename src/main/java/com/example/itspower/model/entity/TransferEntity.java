@@ -29,4 +29,6 @@ public class TransferEntity {
     private Integer type = 0;
     @Transient
     private Integer parentId;
+    @Transient
+    private String groupName;
 }

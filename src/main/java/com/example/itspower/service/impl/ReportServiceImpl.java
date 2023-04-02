@@ -48,6 +48,7 @@ public class ReportServiceImpl implements ReportService {
         for (TransferEntity transfer : transferEntities) {
             Optional<GroupEntity> groupEntity = groupRoleRepository.findById(transfer.getGroupId());
             transfer.setParentId(groupEntity.get().getParentId());
+            transfer.setGroupName(groupEntity.get().getGroupName());
         }
         RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
         return new ReportResponse(reportDto, riceEntity, restDtos, transferEntities);
