@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
             if (userEntity.isPresent()) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "UserLogin is exits", null));
             }
-            Optional<GroupEntity> groupEntity = groupRoleRepository.findById(userRequest.getGroupId());
+            Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(userRequest.getGroupName());
             if (groupEntity.isEmpty()) {
                 return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Id is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
             }
