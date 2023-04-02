@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class RestRequest {
-    private int restId ;
+    private int restId;
     private int reasonId;
     private String restName;
+    private boolean isDelete = false;
 }

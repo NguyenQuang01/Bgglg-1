@@ -36,21 +36,27 @@ public class RestRepository {
     @Transactional
     public List<RestEntity> updateRest(List<RestRequest> requests, Integer reportId) {
         List<RestEntity> restEntities = new ArrayList<>();
+        List<Integer> restIds = new ArrayList<>();
         for (RestRequest request : requests) {
-            RestEntity entity = new RestEntity();
-            if (request.getRestId() == 0) {
-                entity.setRestName(request.getRestName());
-                entity.setReasonId(request.getReasonId());
-                entity.setReportId(reportId);
-                restEntities.add(entity);
+            if (request.isDelete()) {
+                restIds.add(request.getRestId());
             } else {
-                entity.setRestId(request.getRestId());
-                entity.setRestName(request.getRestName());
-                entity.setReasonId(request.getReasonId());
-                entity.setReportId(reportId);
-                restEntities.add(entity);
+                RestEntity entity = new RestEntity();
+                if (request.getRestId() == 0) {
+                    entity.setRestName(request.getRestName());
+                    entity.setReasonId(request.getReasonId());
+                    entity.setReportId(reportId);
+                    restEntities.add(entity);
+                } else {
+                    entity.setRestId(request.getRestId());
+                    entity.setRestName(request.getRestName());
+                    entity.setReasonId(request.getReasonId());
+                    entity.setReportId(reportId);
+                    restEntities.add(entity);
+                }
             }
         }
+        restJpaRepository.deleteRestIds(restIds);
         return restJpaRepository.saveAll(restEntities);
     }
 
