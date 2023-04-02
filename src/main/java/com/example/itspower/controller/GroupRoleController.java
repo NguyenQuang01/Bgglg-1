@@ -1,5 +1,7 @@
 package com.example.itspower.controller;
 
+import com.example.itspower.exception.ReasonException;
+import com.example.itspower.response.BaseResponse;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.example.itspower.component.enums.StatusReason.ERROR;
+import static com.example.itspower.component.enums.StatusReason.SUCCESS;
+
 @RestController
 public class GroupRoleController {
     @Autowired
@@ -17,8 +22,13 @@ public class GroupRoleController {
 
     @GetMapping("/groupRole")
     @CrossOrigin
-    public ResponseEntity<Object> searchAll() {
-        return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.searchAll());
+    public ResponseEntity<BaseResponse<Object>> searchAll() {
+        try {
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(),SUCCESS,groupRoleService.searchAll());
+            return ResponseEntity.status(HttpStatus.OK).body(res);
+        }catch (Exception e){
+            throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
+        }
     }
 
     @GetMapping("/groupRoleDetails")
