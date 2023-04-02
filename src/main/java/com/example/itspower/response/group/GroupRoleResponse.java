@@ -11,12 +11,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class GroupRoleResponse {
-    private Integer id;
 
-    private Integer key;
-
-    private String name;
-
+    private int id;
+    private String value;
     private String label;
     private Integer parentId;
 
@@ -24,8 +21,7 @@ public class GroupRoleResponse {
 
     public GroupRoleResponse(GroupRoleDto groups){
         this.id=groups.getId();
-        this.key=groups.getId();
-        this.name=groups.getName();
+        this.value=groups.getName();
         this.label=groups.getLabel();
         this.parentId=groups.getParentId();
     }
