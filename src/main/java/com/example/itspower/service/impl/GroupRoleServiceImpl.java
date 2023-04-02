@@ -24,6 +24,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     @Autowired
     private GroupRoleRepository groupRoleRepository;
 
+    private static final String OFFICE="Office";
+    private static final String VANPHONG ="Văn phòng";
+
     @Override
     public List<GroupRoleResponse> searchAll() {
         return getSubListChildren(groupRoleRepository.searchAll());
@@ -69,7 +72,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 int totalRiseEmpChild = 0;
                 List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
                 for (ViewDetailGroups item : children) {
-                    if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
+                    if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
                         item.setEnterprise(null);
                     } else {
                         item.setOffice(null);
@@ -87,7 +90,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                     item.setTotalRiceCus(null);
                     item.setTotalRiceVip(null);
                 }
-                if (viewDetailGroups.getName().equals("Office") || viewDetailGroups.getName().equals("Văn phòng")) {
+                if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
                     viewDetailGroups.setOffice((int) labor);
                     viewDetailGroups.setEnterprise(null);
                     viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
@@ -106,12 +109,13 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             root.get(0).setTotalRiceCus(totalRiseCusAll);
             for (ViewDetailGroups viewDetail : root) {
                 viewDetail.setTotalLaborProductivity(totalLaborReportsProductivity);
-                if (viewDetail.getName().equals("Office") || viewDetail.getName().equals("Văn Phòng")) {
+                if (viewDetail.getName().equals(OFFICE) || viewDetail.getName().equals(VANPHONG)) {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 } else {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 }
             }
+
             Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
                     mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
             mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
