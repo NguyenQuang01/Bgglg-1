@@ -104,8 +104,8 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             root.get(0).setTotalRiceVip(totalRiseVipAll);
             root.get(0).setTotalRiceEmp(totalRiseEmpAll);
             root.get(0).setTotalRiceCus(totalRiseCusAll);
-            root.get(0).setTotalLaborProductivity(totalLaborReportsProductivity);
             for (ViewDetailGroups viewDetail : root) {
+                viewDetail.setTotalLaborProductivity(totalLaborReportsProductivity);
                 if (viewDetail.getName().equals("Office") || viewDetail.getName().equals("Văn Phòng")) {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 } else {
