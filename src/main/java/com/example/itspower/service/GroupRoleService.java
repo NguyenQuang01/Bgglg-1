@@ -16,5 +16,5 @@ public interface GroupRoleService {
 
     Object getDemarcationRes(Integer groupId);
 
-    Object updateGroupRole(Integer groupRoleId, Integer demarcation);
+    Object updateGroupRole(String groupName, Integer demarcation);
 }

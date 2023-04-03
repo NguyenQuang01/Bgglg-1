@@ -24,9 +24,9 @@ public class GroupRoleController {
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> searchAll() {
         try {
-            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(),SUCCESS,groupRoleService.searchAll());
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.searchAll());
             return ResponseEntity.status(HttpStatus.OK).body(res);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
         }
     }
@@ -55,10 +55,9 @@ public class GroupRoleController {
 
     @GetMapping("/groupRole/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@RequestParam("groupId") Integer groupId,
-                                         @RequestParam("demarcation") Integer demarcation) {
+    public ResponseEntity<Object> update(@RequestParam("groupName") String groupName, @RequestParam("demarcation") Integer demarcation) {
         try {
-            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupId, demarcation));
+            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupName, demarcation));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

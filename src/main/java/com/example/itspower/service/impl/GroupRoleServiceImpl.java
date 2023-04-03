@@ -24,13 +24,14 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     @Autowired
     private GroupRoleRepository groupRoleRepository;
 
-    private static final String OFFICE="Office";
-    private static final String VANPHONG ="Văn phòng";
+    private static final String OFFICE = "Office";
+    private static final String VANPHONG = "Văn phòng";
 
     @Override
     public List<GroupRoleResponse> searchAll() {
         return getSubListChildren(groupRoleRepository.searchAll());
     }
+
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {
@@ -140,12 +141,12 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public Object updateGroupRole(Integer groupRoleId, Integer demarcation) {
-        Optional<GroupEntity> groupCheck = groupRoleRepository.findById(groupRoleId);
+    public Object updateGroupRole(String groupName, Integer demarcation) {
+        Optional<GroupEntity> groupCheck = groupRoleRepository.findByGroupName(groupName);
         if (groupCheck.isEmpty()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group id is empty or null ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        GroupEntity groupEntity = groupRoleRepository.update(groupRoleId, groupCheck.get().getGroupName(), groupCheck.get().getParentId(), demarcation);
+        GroupEntity groupEntity = groupRoleRepository.update(groupCheck.get().getId(), groupCheck.get().getGroupName(), groupCheck.get().getParentId(), demarcation);
         return new SuccessResponse<>(HttpStatus.OK.value(), "update group demarcation success", groupEntity);
     }
 }
