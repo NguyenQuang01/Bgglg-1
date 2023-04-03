@@ -49,7 +49,10 @@ import java.util.Date;
 
 @NamedNativeQuery(
         name = "find_by_report",
-        query = " select r.id,r.group_id as groupId,r.demarcation,r.labor_productivity as laborProductivity, " +
+        query = " select r.id,r.group_id as groupId,(r.demarcation+ r.student_num + r.part_time_num ) as demarcation ," +
+                "((r.demarcation+r.student_num+r.part_time_num) -r.student_num -r.rest_num- " +
+                "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) " +
+                "- (select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2)) as laborProductivity , " +
                 "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) as transferNum,  " +
                 "(select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2) as supportNum, " +
                 "r.rest_num  as restNum, r.part_time_num  as partTimeNum, r.student_num  as studentNum," +

@@ -70,8 +70,11 @@ import javax.persistence.*;
 @NamedNativeQuery(
         name = "findByViewDetail",
         query = "SELECT gr.id as groupKey ,gr.group_name as name, gr.parent_id as parentId , " +
-                "r.demarcation as demarcation,  " +
-                "r.labor_productivity as laborProductivity, r.rest_num as restEmp, " +
+                "(r.demarcation + r.student_num + r.part_time_num) as demarcation ,  " +
+                "((r.demarcation+r.student_num+r.part_time_num) -r.student_num -r.rest_num- " +
+                "(select tr.transfer_num from transfer tr where tr.report_id = r.id and tr.`type` = 1) " +
+                "- (select tr1.transfer_num from transfer tr1 where tr1.report_id = r.id and tr1.`type` = 2)) as laborProductivity , "+
+                "r.rest_num as restEmp, " +
                 "r.part_time_num as partTimeEmp, r.student_num as studentNum , " +
                 "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp, " +
                 "(ri.rice_Cus + ri.rice_vip + ri.rice_emp) as totalRiceNum " +
