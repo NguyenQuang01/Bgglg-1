@@ -26,6 +26,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     private static final String OFFICE = "Office";
     private static final String VANPHONG = "Văn phòng";
+    private static final String DONVILE = "Đơn vị lẻ";
 
     @Override
     public List<GroupRoleResponse> searchAll() {
