@@ -109,4 +109,9 @@ public class ReportServiceImpl implements ReportService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "update report not success", null));
         }
     }
+
+    @Override
+    public void deleteRestIdsAndReportId(Integer reportId,List<Integer> restIds) {
+        restRepository.deleteRestIdsAndReportId(reportId, restIds);
+    }
 }

@@ -26,6 +26,11 @@ public interface RestJpaRepository extends JpaRepository<RestEntity, Integer>, J
     @Query(nativeQuery = true, value = "delete from rest where id in(:#{#ids}) ")
     void deleteRestIds(List<Integer> ids);
 
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "delete from rest where id in(:#{#ids}) and report_id =:reportId ")
+    void deleteRestIdsAndReportId(List<Integer> ids,Integer reportId);
+
     @Query(value = "select NULLIF(COUNT(r.report_id),0) as countReport from rest r where report_id =:reportId", nativeQuery = true)
     int findByCount(@Param("reportId") Integer reportId);
 }
