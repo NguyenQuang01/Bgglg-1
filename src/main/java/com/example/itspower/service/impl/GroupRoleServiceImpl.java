@@ -109,15 +109,22 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             root.get(0).setTotalRiceVip(totalRiseVipAll);
             root.get(0).setTotalRiceEmp(totalRiseEmpAll);
             root.get(0).setTotalRiceCus(totalRiseCusAll);
+            float totalRatioOfOFFifceAndDonvile = 0;
             for (ViewDetailGroups viewDetail : root) {
                 viewDetail.setTotalLaborProductivity(totalLaborReportsProductivity);
                 if (viewDetail.getName().equals(OFFICE) || viewDetail.getName().equals(VANPHONG)) {
-                    viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
+                    float ratioOffice = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
+                    viewDetail.setRatio(ratioOffice);
+                    totalRatioOfOFFifceAndDonvile += ratioOffice;
+                } else if (viewDetail.getName().equals(DONVILE)) {
+                    float ratioDonVile = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
+                    viewDetail.setRatio(ratioDonVile);
+                    totalRatioOfOFFifceAndDonvile += ratioDonVile;
                 } else {
                     viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
                 }
             }
-
+            root.get(0).setTotalRatioOfOfficeAndDonvile(totalRatioOfOFFifceAndDonvile);
             Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
                     mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
             mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));

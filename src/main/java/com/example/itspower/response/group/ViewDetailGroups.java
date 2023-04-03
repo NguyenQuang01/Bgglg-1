@@ -22,6 +22,7 @@ public class ViewDetailGroups {
     private Integer partTimeEmp;
     private float ratio;
     private Integer studentNum;
+    private float totalRatioOfOfficeAndDonvile;
     private Integer totalRiceCus;
     private Integer totalRiceVip;
     private Integer totalRiceEmp;

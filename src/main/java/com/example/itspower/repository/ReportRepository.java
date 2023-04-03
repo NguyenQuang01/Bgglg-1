@@ -1,8 +1,10 @@
 package com.example.itspower.repository;
 
 import com.example.itspower.exception.ResourceNotFoundException;
+import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.ReportEntity;
 import com.example.itspower.model.resultset.ReportDto;
+import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.ReportJpaRepository;
 import com.example.itspower.request.ReportRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +20,16 @@ public class ReportRepository {
     @Autowired
     private ReportJpaRepository reportJpaRepository;
 
+    @Autowired
+    private GroupJpaRepository groupJpaRepository;
+
     public ReportDto reportDto(String reportDate, int groupId) {
         return reportJpaRepository.findByReport(reportDate, groupId);
     }
 
     public ReportEntity saveReport(ReportRequest request, int groupId) {
         ReportEntity reportEntity = new ReportEntity();
+        Optional<GroupEntity> groupEntity = groupJpaRepository.findById(groupId);
         reportEntity.setDemarcation(request.getDemarcation());
         reportEntity.setGroupId(groupId);
         reportEntity.setRestNum(request.getRestNum());
@@ -40,6 +46,7 @@ public class ReportRepository {
         if (request.getId() == 0) {
             throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "is not exits", HttpStatus.BAD_REQUEST.name());
         }
+        Optional<GroupEntity> groupEntity = groupJpaRepository.findById(groupId);
         reportEntity.setId(request.getId());
         reportEntity.setDemarcation(request.getDemarcation());
         reportEntity.setGroupId(groupId);
