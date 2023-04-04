@@ -66,7 +66,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             int totalRiseEmpAll = 0;
             getChild(root, mapData, totalLaborReportsProductivity, totalRiseVipAll, totalRiseCusAll, totalRiseEmpAll);
             float totalRatioOfOfficeAndDonvile = 0;
-            getTotalRoot(root, totalLaborReportsProductivity, totalRatioOfOfficeAndDonvile);
+            getTotalRoot(root, totalRatioOfOfficeAndDonvile);
             Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
                     mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
             mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
@@ -124,18 +124,18 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         root.get(0).setTotalLaborProductivity(totalLaborReportsProductivity);
     }
 
-    private void getTotalRoot(List<ViewDetailGroups> root, float totalLaborReportsProductivity, float totalRatioOfOFFifceAndDonvile) {
+    private void getTotalRoot(List<ViewDetailGroups> root, float totalRatioOfOFFifceAndDonvile) {
         for (ViewDetailGroups viewDetail : root) {
             if (viewDetail.getName().equals(OFFICE) || viewDetail.getName().equals(VANPHONG)) {
-                float ratioOffice = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
+                float ratioOffice = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
                 viewDetail.setRatio(ratioOffice);
                 totalRatioOfOFFifceAndDonvile += ratioOffice;
             } else if (viewDetail.getName().equals(DONVILE)) {
-                float ratioDonVile = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
+                float ratioDonVile = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
                 viewDetail.setRatio(ratioDonVile);
                 totalRatioOfOFFifceAndDonvile += ratioDonVile;
             } else {
-                viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
+                viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
             }
             root.get(0).setTotalRatioOfOfficeAndDonvile(totalRatioOfOFFifceAndDonvile);
         }

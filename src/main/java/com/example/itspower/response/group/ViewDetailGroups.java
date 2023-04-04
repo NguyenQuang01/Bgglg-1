@@ -20,7 +20,7 @@ public class ViewDetailGroups {
     private Float totalLaborProductivity;
     private Integer numberLeave;
     private Integer partTimeEmp;
-    private Float ratio;
+    private Float ratio ;
     private Integer studentNum;
     private Float totalRatioOfOfficeAndDonvile;
     private Integer totalRiceCus;
@@ -32,7 +32,6 @@ public class ViewDetailGroups {
         this.laborProductivity = laborProductivity;
         this.numberLeave = numberLeave;
         this.partTimeEmp = partTimeEmp;
-        this.ratio = null;
         this.studentNum = studentNum;
         this.totalRiceVip = totalRiceVip;
         this.totalRiceCus = totalRiceCus;
