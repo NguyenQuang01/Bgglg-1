@@ -16,13 +16,13 @@ public class ViewDetailGroups {
     private Integer office;
     private Integer enterprise;
     private Integer demarcation;
-    private float laborProductivity;
-    private float totalLaborProductivity;
+    private Float laborProductivity;
+    private Float totalLaborProductivity;
     private Integer numberLeave;
     private Integer partTimeEmp;
-    private float ratio;
+    private Float ratio;
     private Integer studentNum;
-    private float totalRatioOfOfficeAndDonvile;
+    private Float totalRatioOfOfficeAndDonvile;
     private Integer totalRiceCus;
     private Integer totalRiceVip;
     private Integer totalRiceEmp;
@@ -32,7 +32,7 @@ public class ViewDetailGroups {
         this.laborProductivity = laborProductivity;
         this.numberLeave = numberLeave;
         this.partTimeEmp = partTimeEmp;
-        this.ratio = 0;
+        this.ratio = null;
         this.studentNum = studentNum;
         this.totalRiceVip = totalRiceVip;
         this.totalRiceCus = totalRiceCus;
@@ -46,7 +46,7 @@ public class ViewDetailGroups {
         this.parentId = response.getParentId();
         this.enterprise = response.getDemarcation();
         this.office = response.getDemarcation();
-        this.laborProductivity = response.getLaborProductivity() == null ? 0 : response.getLaborProductivity();
+        this.laborProductivity = Float.valueOf(response.getLaborProductivity());
         this.numberLeave = response.getRestEmp();
         this.partTimeEmp = response.getPartTimeEmp();
         this.studentNum = response.getStudentNum();

@@ -64,73 +64,81 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             int totalRiseVipAll = 0;
             int totalRiseCusAll = 0;
             int totalRiseEmpAll = 0;
-            for (ViewDetailGroups viewDetailGroups : root) {
-                int restNum = 0;
-                float labor = 0;
-                int partTime = 0;
-                int studentNum = 0;
-                int totalRiseVipChild = 0;
-                int totalRiseCusChild = 0;
-                int totalRiseEmpChild = 0;
-                List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
-                for (ViewDetailGroups item : children) {
-                    if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
-                        item.setEnterprise(null);
-                    } else {
-                        item.setOffice(null);
-                    }
-                    if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
-                        restNum += item.getNumberLeave();
-                        labor += item.getLaborProductivity();
-                        partTime += item.getPartTimeEmp();
-                        studentNum += item.getStudentNum();
-                        totalRiseVipChild += item.getTotalRiceVip();
-                        totalRiseCusChild += item.getTotalRiceCus();
-                        totalRiseEmpChild += item.getTotalRiceEmp();
-                    }
-                    item.setTotalRiceEmp(null);
-                    item.setTotalRiceCus(null);
-                    item.setTotalRiceVip(null);
-                }
-                if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
-                    viewDetailGroups.setOffice((int) labor);
-                    viewDetailGroups.setEnterprise(null);
-                    viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
-                } else {
-                    viewDetailGroups.setEnterprise((int) labor);
-                    viewDetailGroups.setOffice(null);
-                    viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
-                }
-                totalLaborReportsProductivity += labor;
-                totalRiseVipAll += totalRiseVipChild;
-                totalRiseCusAll += totalRiseCusChild;
-                totalRiseEmpAll += totalRiseEmpChild;
-            }
-            root.get(0).setTotalRiceVip(totalRiseVipAll);
-            root.get(0).setTotalRiceEmp(totalRiseEmpAll);
-            root.get(0).setTotalRiceCus(totalRiseCusAll);
-            root.get(0).setTotalLaborProductivity(totalLaborReportsProductivity);
-            float totalRatioOfOFFifceAndDonvile = 0;
-            for (ViewDetailGroups viewDetail : root) {
-                if (viewDetail.getName().equals(OFFICE) || viewDetail.getName().equals(VANPHONG)) {
-                    float ratioOffice = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
-                    viewDetail.setRatio(ratioOffice);
-                    totalRatioOfOFFifceAndDonvile += ratioOffice;
-                } else if (viewDetail.getName().equals(DONVILE)) {
-                    float ratioDonVile = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
-                    viewDetail.setRatio(ratioDonVile);
-                    totalRatioOfOFFifceAndDonvile += ratioDonVile;
-                } else {
-                    viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
-                }
-            }
-            root.get(0).setTotalRatioOfOfficeAndDonvile(totalRatioOfOFFifceAndDonvile);
+            getChild(root, mapData, totalLaborReportsProductivity, totalRiseVipAll, totalRiseCusAll, totalRiseEmpAll);
+            float totalRatioOfOfficeAndDonvile = 0;
+            getTotalRoot(root, totalLaborReportsProductivity, totalRatioOfOfficeAndDonvile);
             Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
                     mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
             mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
             return new SuccessResponse<>(HttpStatus.OK.value(), "successfully", parentIdToChildren.get(0));
         }
         return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "that day has not been reported", null);
+    }
+
+    private void getChild(List<ViewDetailGroups> root, List<ViewDetailGroups> mapData, float totalLaborReportsProductivity, int totalRiseVipAll, int totalRiseCusAll, int totalRiseEmpAll) {
+        for (ViewDetailGroups viewDetailGroups : root) {
+            int restNum = 0;
+            float labor = 0;
+            int partTime = 0;
+            int studentNum = 0;
+            int totalRiseVipChild = 0;
+            int totalRiseCusChild = 0;
+            int totalRiseEmpChild = 0;
+            List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
+            for (ViewDetailGroups item : children) {
+                if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
+                    item.setEnterprise(null);
+                } else {
+                    item.setOffice(null);
+                }
+                if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
+                    restNum += item.getNumberLeave();
+                    labor += item.getLaborProductivity();
+                    partTime += item.getPartTimeEmp();
+                    studentNum += item.getStudentNum();
+                    totalRiseVipChild += item.getTotalRiceVip();
+                    totalRiseCusChild += item.getTotalRiceCus();
+                    totalRiseEmpChild += item.getTotalRiceEmp();
+                }
+                item.setTotalRiceEmp(null);
+                item.setTotalRiceCus(null);
+                item.setTotalRiceVip(null);
+            }
+            if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
+                viewDetailGroups.setOffice((int) labor);
+                viewDetailGroups.setEnterprise(null);
+                viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
+            } else {
+                viewDetailGroups.setEnterprise((int) labor);
+                viewDetailGroups.setOffice(null);
+                viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
+            }
+            totalLaborReportsProductivity += labor;
+            totalRiseVipAll += totalRiseVipChild;
+            totalRiseCusAll += totalRiseCusChild;
+            totalRiseEmpAll += totalRiseEmpChild;
+        }
+        root.get(0).setTotalRiceVip(totalRiseVipAll);
+        root.get(0).setTotalRiceEmp(totalRiseEmpAll);
+        root.get(0).setTotalRiceCus(totalRiseCusAll);
+        root.get(0).setTotalLaborProductivity(totalLaborReportsProductivity);
+    }
+
+    private void getTotalRoot(List<ViewDetailGroups> root, float totalLaborReportsProductivity, float totalRatioOfOFFifceAndDonvile) {
+        for (ViewDetailGroups viewDetail : root) {
+            if (viewDetail.getName().equals(OFFICE) || viewDetail.getName().equals(VANPHONG)) {
+                float ratioOffice = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
+                viewDetail.setRatio(ratioOffice);
+                totalRatioOfOFFifceAndDonvile += ratioOffice;
+            } else if (viewDetail.getName().equals(DONVILE)) {
+                float ratioDonVile = (float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10;
+                viewDetail.setRatio(ratioDonVile);
+                totalRatioOfOFFifceAndDonvile += ratioDonVile;
+            } else {
+                viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / totalLaborReportsProductivity) * 100) * 10) / 10);
+            }
+            root.get(0).setTotalRatioOfOfficeAndDonvile(totalRatioOfOFFifceAndDonvile);
+        }
     }
 
     @Override
