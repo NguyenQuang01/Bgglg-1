@@ -27,6 +27,8 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     private static final String OFFICE = "Office";
     private static final String VANPHONG = "Văn phòng";
     private static final String DONVILE = "Đơn vị lẻ";
+    private static final String HOC_SINH_CHUA_BAO_NANG_SUAT = "Học sinh chưa báo năng suất";
+    private static final String THOI_VU_TO_MAY = "Thời vụ tổ may";
 
     @Override
     public List<GroupRoleResponse> searchAll() {
@@ -86,6 +88,13 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             int totalRiseEmpChild = 0;
             List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
             for (ViewDetailGroups item : children) {
+                if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
+                    item.setEnterprise(null);
+                    item.setOffice(item.getLaborProductivity());
+                } else {
+                    item.setOffice(null);
+                    item.setEnterprise(item.getLaborProductivity());
+                }
                 if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
                     restNum += item.getNumberLeave();
                     labor += item.getLaborProductivity();
@@ -95,21 +104,22 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                     totalRiseCusChild += item.getTotalRiceCus();
                     totalRiseEmpChild += item.getTotalRiceEmp();
                 }
-                item.setOffice(null);
-                item.setEnterprise(null);
                 item.setTotalRiceEmp(null);
                 item.setTotalRiceCus(null);
                 item.setTotalRiceVip(null);
             }
             if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
-                viewDetailGroups.setOffice((int) labor);
+                viewDetailGroups.setOffice(labor);
                 viewDetailGroups.setEnterprise(null);
                 viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
             } else {
-                viewDetailGroups.setEnterprise((int) labor);
+                viewDetailGroups.setEnterprise(labor);
                 viewDetailGroups.setOffice(null);
                 viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
             }
+            viewDetailGroups.setRiceEmp(null);
+            viewDetailGroups.setRiceVip(null);
+            viewDetailGroups.setRiceCus(null);
             totalLaborReportsProductivity += labor;
             totalRiseVipAll += totalRiseVipChild;
             totalRiseCusAll += totalRiseCusChild;
@@ -131,6 +141,12 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 float ratioDonVile = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
                 viewDetail.setRatio(ratioDonVile);
                 totalRatioOfOFFifceAndDonvile += ratioDonVile;
+            } else if (viewDetail.getName().equalsIgnoreCase(HOC_SINH_CHUA_BAO_NANG_SUAT)) {
+                float ratioStudent = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
+                viewDetail.setRatio(ratioStudent);
+            } else if (viewDetail.getName().equalsIgnoreCase(THOI_VU_TO_MAY)) {
+                float ratioToMay = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
+                viewDetail.setRatio(ratioToMay);
             } else {
                 viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
             }

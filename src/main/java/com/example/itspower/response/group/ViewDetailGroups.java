@@ -13,8 +13,8 @@ public class ViewDetailGroups {
     private Integer key;
     private String name;
     private Integer parentId;
-    private Integer office;
-    private Integer enterprise;
+    private Float office;
+    private Float enterprise;
     private Integer demarcation;
     private Float laborProductivity;
     private Float totalLaborProductivity;
@@ -46,8 +46,8 @@ public class ViewDetailGroups {
         this.key = response.getGroupKey();
         this.name = response.getName();
         this.parentId = response.getParentId();
-        this.enterprise = response.getDemarcation();
-        this.office = response.getDemarcation();
+        this.enterprise = Float.valueOf(response.getDemarcation());
+        this.office = Float.valueOf(response.getDemarcation());
         this.laborProductivity = Float.valueOf(response.getLaborProductivity());
         this.numberLeave = response.getRestEmp();
         this.partTimeEmp = response.getPartTimeEmp();
