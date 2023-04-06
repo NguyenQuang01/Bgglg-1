@@ -86,11 +86,6 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             int totalRiseEmpChild = 0;
             List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
             for (ViewDetailGroups item : children) {
-                if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
-                    item.setEnterprise(null);
-                } else {
-                    item.setOffice(null);
-                }
                 if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
                     restNum += item.getNumberLeave();
                     labor += item.getLaborProductivity();
@@ -100,6 +95,8 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                     totalRiseCusChild += item.getTotalRiceCus();
                     totalRiseEmpChild += item.getTotalRiceEmp();
                 }
+                item.setOffice(null);
+                item.setEnterprise(null);
                 item.setTotalRiceEmp(null);
                 item.setTotalRiceCus(null);
                 item.setTotalRiceVip(null);
@@ -126,11 +123,11 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     private void getTotalRoot(List<ViewDetailGroups> root, float totalRatioOfOFFifceAndDonvile) {
         for (ViewDetailGroups viewDetail : root) {
-            if (viewDetail.getName().equals(OFFICE) || viewDetail.getName().equals(VANPHONG)) {
+            if (viewDetail.getName().equalsIgnoreCase(OFFICE) || viewDetail.getName().equalsIgnoreCase(VANPHONG)) {
                 float ratioOffice = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
                 viewDetail.setRatio(ratioOffice);
                 totalRatioOfOFFifceAndDonvile += ratioOffice;
-            } else if (viewDetail.getName().equals(DONVILE)) {
+            } else if (viewDetail.getName().equalsIgnoreCase(DONVILE)) {
                 float ratioDonVile = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
                 viewDetail.setRatio(ratioDonVile);
                 totalRatioOfOFFifceAndDonvile += ratioDonVile;

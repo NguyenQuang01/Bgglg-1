@@ -1,3 +1,9 @@
 
 }
-java:S1488"`Immediately return this expression instead of assigning it to the temporary variable "entities".(òœÇû8ó³Ïî0
+java:S1488"`Immediately return this expression instead of assigning it to the temporary variable "entities".(òœÇû8ó³Ïî0
+s
+java:S36557"VCall "groupEntity.isPresent()" or "!groupEntity.isEmpty()" before accessing the value.(‚ØÒœ8¹ÃÊ¦ô0
+s
+java:S3655&"VCall "groupEntity.isPresent()" or "!groupEntity.isEmpty()" before accessing the value.(‚ØÒœ8¹ÃÊ¦ô0
+s
+java:S3655E"VCall "groupEntity.isPresent()" or "!groupEntity.isEmpty()" before accessing the value.(Ë¼å¹8¹ÃÊ¦ô0
