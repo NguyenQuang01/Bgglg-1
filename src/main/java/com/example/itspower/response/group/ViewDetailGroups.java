@@ -15,7 +15,6 @@ public class ViewDetailGroups {
     private Integer parentId;
     private Float office;
     private Float enterprise;
-    private Integer demarcation;
     private Float laborProductivity;
     private Float totalLaborProductivity;
     private Integer numberLeave;
@@ -55,7 +54,6 @@ public class ViewDetailGroups {
         this.totalRiceVip = response.getRiceCus();
         this.totalRiceEmp = response.getRiceEmp();
         this.totalRiceCus = response.getRiceCus();
-        this.demarcation = response.getDemarcation();
         this.riceCus = response.getRiceCus();
         this.riceVip = response.getRiceVip();
         this.riceEmp = response.getRiceEmp();

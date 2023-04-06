@@ -90,14 +90,12 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
             for (ViewDetailGroups item : children) {
                 if (viewDetailGroups.getName().equalsIgnoreCase(OFFICE) || viewDetailGroups.getName().equalsIgnoreCase(VANPHONG)) {
+                    demarcation += item.getOffice();
                     item.setEnterprise(null);
-                    ;
-                    item.setOffice(Float.valueOf(item.getDemarcation()));
                 } else {
+                    demarcation += item.getEnterprise();
                     item.setOffice(null);
-                    item.setEnterprise(Float.valueOf(item.getDemarcation()));
                 }
-                demarcation += item.getDemarcation();
                 if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
                     restNum += item.getNumberLeave();
                     labor += item.getLaborProductivity();
