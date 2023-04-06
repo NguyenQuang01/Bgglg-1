@@ -81,6 +81,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         for (ViewDetailGroups viewDetailGroups : root) {
             int restNum = 0;
             float labor = 0;
+            float demarcation = 0;
             int partTime = 0;
             int studentNum = 0;
             int totalRiseVipChild = 0;
@@ -88,13 +89,15 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             int totalRiseEmpChild = 0;
             List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
             for (ViewDetailGroups item : children) {
-                if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
+                if (viewDetailGroups.getName().equalsIgnoreCase(OFFICE) || viewDetailGroups.getName().equalsIgnoreCase(VANPHONG)) {
                     item.setEnterprise(null);
-                    item.setOffice(item.getLaborProductivity());
+                    ;
+                    item.setOffice(Float.valueOf(item.getDemarcation()));
                 } else {
                     item.setOffice(null);
-                    item.setEnterprise(item.getLaborProductivity());
+                    item.setEnterprise(Float.valueOf(item.getDemarcation()));
                 }
+                demarcation += item.getDemarcation();
                 if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
                     restNum += item.getNumberLeave();
                     labor += item.getLaborProductivity();
@@ -109,11 +112,11 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 item.setTotalRiceVip(null);
             }
             if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
-                viewDetailGroups.setOffice(labor);
+                viewDetailGroups.setOffice(demarcation);
                 viewDetailGroups.setEnterprise(null);
                 viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
             } else {
-                viewDetailGroups.setEnterprise(labor);
+                viewDetailGroups.setEnterprise(demarcation);
                 viewDetailGroups.setOffice(null);
                 viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
             }
