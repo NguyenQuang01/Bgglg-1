@@ -119,9 +119,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                 viewDetailGroups.setOffice(null);
                 viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
             }
-            viewDetailGroups.setRiceEmp(null);
-            viewDetailGroups.setRiceVip(null);
-            viewDetailGroups.setRiceCus(null);
+            viewDetailGroups.setRice(null);
             totalLaborReportsProductivity += labor;
             totalRiseVipAll += totalRiseVipChild;
             totalRiseCusAll += totalRiseCusChild;
@@ -183,9 +181,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     @Override
     public void delete(String groupName) {
-        try{
+        try {
             groupRoleRepository.delete(groupName);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

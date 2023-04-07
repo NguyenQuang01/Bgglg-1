@@ -1,5 +1,6 @@
 package com.example.itspower.response.group;
 
+import com.example.itspower.response.view.RiceResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,9 +26,7 @@ public class ViewDetailGroups {
     private Integer totalRiceCus;
     private Integer totalRiceVip;
     private Integer totalRiceEmp;
-    private Integer riceCus;
-    private Integer riceVip;
-    private Integer riceEmp;
+    private RiceResponse rice;
     List<ViewDetailGroups> children;
 
     public ViewDetailGroups viewDetailGroups(Integer numberLeave, float laborProductivity, Integer partTimeEmp, Integer studentNum, Integer totalRiceCus, Integer totalRiceVip, Integer totalRiceEmp) {
@@ -54,8 +53,6 @@ public class ViewDetailGroups {
         this.totalRiceVip = response.getRiceCus();
         this.totalRiceEmp = response.getRiceEmp();
         this.totalRiceCus = response.getRiceCus();
-        this.riceCus = response.getRiceCus();
-        this.riceVip = response.getRiceVip();
-        this.riceEmp = response.getRiceEmp();
+        this.rice = new RiceResponse(response.getRiceCus(), response.getRiceVip(), response.getRestEmp());
     }
 }
