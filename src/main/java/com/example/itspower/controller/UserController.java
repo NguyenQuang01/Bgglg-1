@@ -42,17 +42,20 @@ public class UserController {
     }
 
     @PostMapping("/api/update")
+    @CrossOrigin
     public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
         return userService.update(userRequest, id);
     }
 
     @PostMapping("/api/delete")
+    @CrossOrigin
     public ResponseEntity<Object> delete(@Validated @RequestBody UserDeleteRequest request) {
         userService.delete(request.getIds(), request.getUserLogin());
         return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "delete success", ""));
     }
 
     @PostMapping("/api/login")
+    @CrossOrigin
     public ResponseEntity<Object> login(@Validated @RequestBody UserAulogin userAulogin) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
