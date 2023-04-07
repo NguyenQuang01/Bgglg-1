@@ -19,7 +19,7 @@ public interface GroupRoleService {
 
     Object updateGroupRole(String groupName, Integer demarcation);
 
-    void delete(Integer groupId);
+    void delete(String groupName);
 
     Object save( GroupRoleRequest groupRoleRequest);
 }

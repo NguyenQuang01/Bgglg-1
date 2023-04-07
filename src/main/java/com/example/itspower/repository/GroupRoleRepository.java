@@ -28,8 +28,8 @@ public class GroupRoleRepository {
         return groupJpaRepository.save(entity);
     }
 
-    public void delete(Integer groupRoleId) {
-         groupJpaRepository.deleteById(groupRoleId);
+    public void delete(String groupName) {
+         groupJpaRepository.deleteByGroupName(groupName);
     }
 
     public GroupEntity save(GroupRoleRequest groupRoleRequest) {

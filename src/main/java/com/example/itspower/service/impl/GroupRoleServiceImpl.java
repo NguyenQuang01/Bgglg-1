@@ -182,9 +182,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public void delete(Integer groupId) {
+    public void delete(String groupName) {
         try{
-            groupRoleRepository.delete(groupId);
+            groupRoleRepository.delete(groupName);
         }catch (Exception e){
             throw new RuntimeException(e);
         }

@@ -74,9 +74,9 @@ public class GroupRoleController {
 
     @DeleteMapping("/groupRole/delete")
     @CrossOrigin
-    public ResponseEntity<Object> delete(@RequestParam("groupId") Integer groupId) {
+    public ResponseEntity<Object> delete(@RequestParam("groupName") String groupName) {
         try {
-            groupRoleService.delete(groupId);
+            groupRoleService.delete(groupName);
             return ResponseEntity.ok("Thanh cong");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
