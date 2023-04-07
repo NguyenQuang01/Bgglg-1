@@ -27,6 +27,18 @@ public class GroupRoleRepository {
         return groupJpaRepository.save(entity);
     }
 
+    public void delete(Integer groupRoleId) {
+         groupJpaRepository.deleteById(groupRoleId);
+    }
+
+    public GroupEntity save(String groupName, Integer parentId, Integer demarcation) {
+        GroupEntity entity = new GroupEntity();
+        entity.setGroupName(groupName);
+        entity.setParentId(parentId);
+        entity.setDemarcationAvailable(demarcation);
+        return groupJpaRepository.save(entity);
+    }
+
     public Optional<GroupEntity> findById(Integer groupRoleId) {
         return groupJpaRepository.findById(groupRoleId);
     }

@@ -179,4 +179,23 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         GroupEntity groupEntity = groupRoleRepository.update(groupCheck.get().getId(), groupCheck.get().getGroupName(), groupCheck.get().getParentId(), demarcation);
         return new SuccessResponse<>(HttpStatus.OK.value(), "update group demarcation success", groupEntity);
     }
+
+    @Override
+    public void delete(Integer groupId) {
+        try{
+            groupRoleRepository.delete(groupId);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Object save(String groupName, Integer parentId, Integer demarcation) {
+        Optional<GroupEntity> groupCheck = groupRoleRepository.findByGroupName(groupName);
+        if (groupCheck.isEmpty()) {
+            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Group name exist!", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        GroupEntity groupEntity = groupRoleRepository.save(groupName, parentId, demarcation);
+        return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupEntity);
+    }
 }
