@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.example.itspower.component.enums.StatusReason.ERROR;
 import static com.example.itspower.component.enums.StatusReason.SUCCESS;
@@ -74,7 +71,7 @@ public class GroupRoleController {
         }
     }
 
-    @GetMapping("/groupRole/delete")
+    @DeleteMapping("/groupRole/delete")
     @CrossOrigin
     public ResponseEntity<Object> delete(@RequestParam("groupId") Integer groupId) {
         try {
