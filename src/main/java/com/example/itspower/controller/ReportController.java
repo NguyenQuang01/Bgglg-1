@@ -1,5 +1,6 @@
 package com.example.itspower.controller;
 
+import com.example.itspower.exception.GeneralException;
 import com.example.itspower.request.ReportRequest;
 import com.example.itspower.request.RestRequestDelete;
 import com.example.itspower.response.SuccessResponse;
@@ -23,7 +24,7 @@ public class ReportController {
 
     @PostMapping("/report/save")
     @CrossOrigin
-    public ResponseEntity<Object> save(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
+    public ResponseEntity<Object> save(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) throws GeneralException {
         return reportService.save(reportRequest, groupId);
     }
 

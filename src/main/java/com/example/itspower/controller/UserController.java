@@ -1,8 +1,9 @@
 package com.example.itspower.controller;
 
 import com.example.itspower.filter.JwtToken;
-import com.example.itspower.model.UserResponse;
 import com.example.itspower.model.resultset.UserDto;
+import com.example.itspower.model.usertoken.UserRefreshToken;
+import com.example.itspower.model.usertoken.UserResponse;
 import com.example.itspower.request.userrequest.UserDeleteRequest;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
@@ -35,6 +36,8 @@ public class UserController {
     @Autowired
     private UserLoginConfig userLoginConfig;
 
+    private final static String BEARER = "Bearer";
+
 
     @PostMapping("/api/save")
     @CrossOrigin
@@ -62,7 +65,7 @@ public class UserController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
             UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
             String token = jwtToken.generateToken(userDetails);
-            String refreshToken = jwtToken.generateRefreshToken(userDetails.getUsername());
+            String refreshToken = jwtToken.generateRefreshToken(userDetails);
             UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
             boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
             return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, refreshToken, checkReport)));
@@ -71,20 +74,16 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/api/refresh-token")
-//    @CrossOrigin
-//    public ResponseEntity<Object> refreshTokten(@RequestParam("refreshToken") String refreshToken) {
-//        try {
-//            String userName = getUserNameFromJwtToken(refreshToken);
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
-//            UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
-//            String token = jwtToken.generateToken(userDetails);
-//            String refreshToken = jwtToken.generateRefreshToken(userDetails.getUsername());
-//            UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
-//            boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
-//            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, refreshToken, checkReport)));
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
-//        }
-//    }
+    @PostMapping("/api/refresh-token")
+    @CrossOrigin
+    public ResponseEntity<Object> refreshToken(@RequestParam("refreshToken") String refreshToken) {
+        try {
+            String accessToken = jwtToken.getUserNameFromJWT(refreshToken);
+            UserDetails userDetails = userLoginConfig.loadUserByUsername(accessToken);
+            String newToken = jwtToken.generateToken(userDetails);
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserRefreshToken(BEARER,newToken)));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
+        }
+    }
 }

@@ -13,20 +13,25 @@ import java.util.HashMap;
 public class JwtToken {
     private final String JWT_SECRET = "anhpd1303@gmail.com####123%%%%";
     private final long JWT_EXPIRATION = 604800000L;
-
+    //lay token
     public String generateToken(UserDetails userDetails) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         // Tạo chuỗi json web token từ userName của user.
-        return Jwts.builder().setClaims(new HashMap<>()).setSubject(userDetails.getUsername()).setIssuedAt(now).setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, JWT_SECRET)// phan quyen user
+        return Jwts.builder().setClaims(new HashMap<>())
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)// phan quyen user
                 .compact();
-
     }
-
-    public String generateRefreshToken(String username) {
-        return Jwts.builder().setClaims(new HashMap<>()).setSubject(username).signWith(SignatureAlgorithm.HS256, JWT_SECRET).compact();
+    //refresh token de lay token moi thay the token het han
+    public String generateRefreshToken(UserDetails userDetails) {
+        return Jwts.builder().setClaims(new HashMap<>())
+                .setSubject(userDetails.getUsername())
+                .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
+                .compact();
     }
-
     // Lấy thông tin user từ jwt
     public String getUserNameFromJWT(String token) {
         Claims claims = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody();

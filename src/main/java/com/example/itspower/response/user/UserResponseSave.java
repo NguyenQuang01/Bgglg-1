@@ -1,4 +1,4 @@
-package com.example.itspower.response;
+package com.example.itspower.response.user;
 
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.UserEntity;

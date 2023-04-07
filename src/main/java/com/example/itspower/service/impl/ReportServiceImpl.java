@@ -10,8 +10,8 @@ import com.example.itspower.model.resultset.RestDto;
 import com.example.itspower.repository.*;
 import com.example.itspower.request.ReportRequest;
 import com.example.itspower.request.TransferRequest;
-import com.example.itspower.response.report.ReportResponse;
 import com.example.itspower.response.SuccessResponse;
+import com.example.itspower.response.report.ReportResponse;
 import com.example.itspower.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,7 +67,7 @@ public class ReportServiceImpl implements ReportService {
             for (TransferRequest transferRequests : request.getTransferRequests()) {
                 Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(transferRequests.getGroupName());
                 if (groupId == groupEntity.get().getId()) {
-                    return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "groupId is not crrurent groupId user", null));
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "groupId is not crrurent groupId user", null));
                 }
             }
             ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
@@ -76,7 +76,7 @@ public class ReportServiceImpl implements ReportService {
             transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report not success", null));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report not success", e.getMessage()));
         }
     }
 
@@ -111,7 +111,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void deleteRestIdsAndReportId(Integer reportId,List<Integer> restIds) {
+    public void deleteRestIdsAndReportId(Integer reportId, List<Integer> restIds) {
         restRepository.deleteRestIdsAndReportId(reportId, restIds);
     }
 }

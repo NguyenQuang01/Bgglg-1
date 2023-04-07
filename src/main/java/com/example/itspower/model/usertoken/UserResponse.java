@@ -1,4 +1,4 @@
-package com.example.itspower.model;
+package com.example.itspower.model.usertoken;
 
 import com.example.itspower.model.resultset.UserDto;
 import com.fasterxml.jackson.annotation.JsonProperty;

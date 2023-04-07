@@ -10,7 +10,7 @@ import com.example.itspower.model.resultset.UserDto;
 import com.example.itspower.repository.*;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
-import com.example.itspower.response.UserResponseSave;
+import com.example.itspower.response.user.UserResponseSave;
 import com.example.itspower.response.search.UserRequest;
 import com.example.itspower.service.UserService;
 import lombok.RequiredArgsConstructor;
