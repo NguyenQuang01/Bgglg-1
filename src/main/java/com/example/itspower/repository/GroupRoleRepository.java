@@ -3,6 +3,7 @@ package com.example.itspower.repository;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
+import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleDemarcationRes;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
@@ -31,11 +32,11 @@ public class GroupRoleRepository {
          groupJpaRepository.deleteById(groupRoleId);
     }
 
-    public GroupEntity save(String groupName, Integer parentId, Integer demarcation) {
+    public GroupEntity save(GroupRoleRequest groupRoleRequest) {
         GroupEntity entity = new GroupEntity();
-        entity.setGroupName(groupName);
-        entity.setParentId(parentId);
-        entity.setDemarcationAvailable(demarcation);
+        entity.setGroupName(groupRoleRequest.getGroupName());
+        entity.setParentId(groupRoleRequest.getParentId());
+        entity.setDemarcationAvailable(groupRoleRequest.getDemarcation());
         return groupJpaRepository.save(entity);
     }
 

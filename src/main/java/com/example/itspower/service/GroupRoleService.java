@@ -1,6 +1,7 @@
 package com.example.itspower.service;
 
 import com.example.itspower.model.entity.GroupEntity;
+import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.group.GroupRoleResponse;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface GroupRoleService {
 
     void delete(Integer groupId);
 
-    Object save(String groupName,Integer parentId, Integer demarcation);
+    Object save( GroupRoleRequest groupRoleRequest);
 }

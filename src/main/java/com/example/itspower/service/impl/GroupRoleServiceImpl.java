@@ -3,6 +3,7 @@ package com.example.itspower.service.impl;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.repository.GroupRoleRepository;
+import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleResponse;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
@@ -190,12 +191,12 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public Object save(String groupName, Integer parentId, Integer demarcation) {
-        Optional<GroupEntity> groupCheck = groupRoleRepository.findByGroupName(groupName);
+    public Object save(GroupRoleRequest groupRoleRequest) {
+        Optional<GroupEntity> groupCheck = groupRoleRepository.findByGroupName(groupRoleRequest.getGroupName());
         if (groupCheck.isEmpty()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Group name exist!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        GroupEntity groupEntity = groupRoleRepository.save(groupName, parentId, demarcation);
+        GroupEntity groupEntity = groupRoleRepository.save(groupRoleRequest);
         return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupEntity);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.itspower.controller;
 
 import com.example.itspower.exception.ReasonException;
+import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.BaseResponse;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,9 @@ public class GroupRoleController {
 
     @GetMapping("/groupRole/save")
     @CrossOrigin
-    public ResponseEntity<BaseResponse<Object>> save(@Param("parentId") int parentId,@Param("groupName") String groupName,@RequestParam("demarcation") Integer demarcation) {
+    public ResponseEntity<BaseResponse<Object>> save(@RequestBody GroupRoleRequest groupRoleRequest) {
         try {
-            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.searchAll());
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.save(groupRoleRequest));
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
