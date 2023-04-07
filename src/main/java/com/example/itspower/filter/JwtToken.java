@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
 
 @Slf4j
 @Component
@@ -17,22 +18,18 @@ public class JwtToken {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         // Tạo chuỗi json web token từ userName của user.
-        return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-//                .claim("role", userDetails.getAuthorities())// phan quyen user
+        return Jwts.builder().setClaims(new HashMap<>()).setSubject(userDetails.getUsername()).setIssuedAt(now).setExpiration(expiryDate).signWith(SignatureAlgorithm.HS512, JWT_SECRET)// phan quyen user
                 .compact();
 
     }
 
+    public String generateRefreshToken(String username) {
+        return Jwts.builder().setClaims(new HashMap<>()).setSubject(username).signWith(SignatureAlgorithm.HS256, JWT_SECRET).compact();
+    }
+
     // Lấy thông tin user từ jwt
     public String getUserNameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(JWT_SECRET)
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
 

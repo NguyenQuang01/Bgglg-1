@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
 @RestController
 @CrossOrigin
 public class UserController {
@@ -61,11 +62,29 @@ public class UserController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
             UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
             String token = jwtToken.generateToken(userDetails);
+            String refreshToken = jwtToken.generateRefreshToken(userDetails.getUsername());
             UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
             boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, checkReport)));
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, refreshToken, checkReport)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
         }
     }
+
+//    @PostMapping("/api/refresh-token")
+//    @CrossOrigin
+//    public ResponseEntity<Object> refreshTokten(@RequestParam("refreshToken") String refreshToken) {
+//        try {
+//            String userName = getUserNameFromJwtToken(refreshToken);
+//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userAulogin.getUserLogin(), userAulogin.getPassword()));
+//            UserDetails userDetails = userLoginConfig.loadUserByUsername(userAulogin.getUserLogin());
+//            String token = jwtToken.generateToken(userDetails);
+//            String refreshToken = jwtToken.generateRefreshToken(userDetails.getUsername());
+//            UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
+//            boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
+//            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserResponse(userDetails.getUsername(), loginInfor, token, refreshToken, checkReport)));
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
+//        }
+//    }
 }

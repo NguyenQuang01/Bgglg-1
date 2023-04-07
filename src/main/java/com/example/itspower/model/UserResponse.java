@@ -22,11 +22,12 @@ public class UserResponse {
     @JsonProperty("groupId")
     private int groupId;
     private String token;
+    private String refreshToken;
     private String groupName;
     private String userLogin;
     private boolean isCheckReport;
 
-    public UserResponse(String userLogin, UserDto dto, String token, boolean isCheckReport) {
+    public UserResponse(String userLogin, UserDto dto, String token, String refreshToken, boolean isCheckReport) {
         this.userId = dto.getUserId();
         this.userLogin = userLogin;
         this.isAdmin = dto.isAdmin();
@@ -37,5 +38,6 @@ public class UserResponse {
         this.token = token;
         this.groupName = dto.getGroupName();
         this.isCheckReport = isCheckReport;
+        this.refreshToken = refreshToken;
     }
 }
