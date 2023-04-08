@@ -12,7 +12,6 @@ import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,108 +56,19 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     public Object getDetailsReport(String reportDate) {
         List<ViewDetailGroupResponse> mapReportParent = groupRoleRepository.getDetailParent();
         List<ViewDetailGroupResponse> mapReport = groupRoleRepository.getDetails(reportDate);
-        if (!CollectionUtils.isEmpty(mapReport)) {
-            List<ViewDetailGroups> mapData = new ArrayList<>();
-            List<ViewDetailGroups> root = new ArrayList<>();
-            for (ViewDetailGroupResponse mapParent : mapReportParent) {
-                mapData.add(new ViewDetailGroups(mapParent));
-            }
-            for (ViewDetailGroupResponse mapChildren : mapReport) {
-                mapData.add(new ViewDetailGroups(mapChildren));
-            }
-            for (Integer parentId : groupRoleRepository.getParentId()) {
-                root.add(mapData.stream().filter(map -> map.getKey().intValue() == parentId.intValue()).collect(Collectors.toList()).get(0));
-            }
-            float totalLaborReportsProductivity = 0;
-            int totalRiseVipAll = 0;
-            int totalRiseCusAll = 0;
-            int totalRiseEmpAll = 0;
-            getChild(root, mapData, totalLaborReportsProductivity, totalRiseVipAll, totalRiseCusAll, totalRiseEmpAll);
-            float totalRatioOfOfficeAndDonvile = 0;
-            getTotalRoot(root, totalRatioOfOfficeAndDonvile);
-            Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
-                    mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
-            mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
-            return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
+        List<ViewDetailGroups> mapData = new ArrayList<>();
+        for (ViewDetailGroupResponse mapParent : mapReportParent) {
+            mapData.add(new ViewDetailGroups(mapParent));
         }
-        return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the day is not reported!", null);
+        for (ViewDetailGroupResponse mapChildren : mapReport) {
+            mapData.add(new ViewDetailGroups(mapChildren));
+        }
+        Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
+                mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
+        mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
+        return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
     }
 
-    private void getChild(List<ViewDetailGroups> root, List<ViewDetailGroups> mapData, float totalLaborReportsProductivity, int totalRiseVipAll, int totalRiseCusAll, int totalRiseEmpAll) {
-        for (ViewDetailGroups viewDetailGroups : root) {
-            int restNum = 0;
-            float labor = 0;
-            float demarcation = 0;
-            int partTime = 0;
-            int studentNum = 0;
-            int totalRiseVipChild = 0;
-            int totalRiseCusChild = 0;
-            int totalRiseEmpChild = 0;
-            List<ViewDetailGroups> children = mapData.stream().filter(z -> z.getParentId().intValue() == viewDetailGroups.getKey().intValue()).collect(Collectors.toList());
-            for (ViewDetailGroups item : children) {
-                if (viewDetailGroups.getName().equalsIgnoreCase(OFFICE) || viewDetailGroups.getName().equalsIgnoreCase(VANPHONG)) {
-                    demarcation += item.getOffice();
-                    item.setEnterprise(null);
-                } else {
-                    demarcation += item.getEnterprise();
-                    item.setOffice(null);
-                }
-                if (item.getParentId().intValue() == viewDetailGroups.getKey()) {
-                    restNum += item.getNumberLeave();
-                    labor += item.getLaborProductivity();
-                    partTime += item.getPartTimeEmp();
-                    studentNum += item.getStudentNum();
-                    totalRiseVipChild += item.getTotalRiceVip();
-                    totalRiseCusChild += item.getTotalRiceCus();
-                    totalRiseEmpChild += item.getTotalRiceEmp();
-                }
-                item.setTotalRiceEmp(null);
-                item.setTotalRiceCus(null);
-                item.setTotalRiceVip(null);
-            }
-            if (viewDetailGroups.getName().equals(OFFICE) || viewDetailGroups.getName().equals(VANPHONG)) {
-                viewDetailGroups.setOffice(demarcation);
-                viewDetailGroups.setEnterprise(null);
-                viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
-            } else {
-                viewDetailGroups.setEnterprise(demarcation);
-                viewDetailGroups.setOffice(null);
-                viewDetailGroups.viewDetailGroups(restNum, labor, partTime, studentNum, null, null, null);
-            }
-            viewDetailGroups.setRice(null);
-            totalLaborReportsProductivity += labor;
-            totalRiseVipAll += totalRiseVipChild;
-            totalRiseCusAll += totalRiseCusChild;
-            totalRiseEmpAll += totalRiseEmpChild;
-        }
-        root.get(0).setTotalRiceVip(totalRiseVipAll);
-        root.get(0).setTotalRiceEmp(totalRiseEmpAll);
-        root.get(0).setTotalRiceCus(totalRiseCusAll);
-        root.get(0).setTotalLaborProductivity(totalLaborReportsProductivity);
-    }
-
-    private void getTotalRoot(List<ViewDetailGroups> root, float totalRatioOfOFFifceAndDonvile) {
-        for (ViewDetailGroups viewDetail : root) {
-            if (viewDetail.getName().equalsIgnoreCase(OFFICE) || viewDetail.getName().equalsIgnoreCase(VANPHONG)) {
-                float ratioOffice = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
-                viewDetail.setRatio(ratioOffice);
-                totalRatioOfOFFifceAndDonvile += ratioOffice;
-            } else if (viewDetail.getName().equalsIgnoreCase(DONVILE)) {
-                float ratioDonVile = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
-                viewDetail.setRatio(ratioDonVile);
-                totalRatioOfOFFifceAndDonvile += ratioDonVile;
-            } else if (viewDetail.getName().equalsIgnoreCase(HOC_SINH_CHUA_BAO_NANG_SUAT)) {
-                float ratioStudent = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
-                viewDetail.setRatio(ratioStudent);
-            } else if (viewDetail.getName().equalsIgnoreCase(THOI_VU_TO_MAY)) {
-                float ratioToMay = Math.round((((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
-                viewDetail.setRatio(ratioToMay);
-            } else {
-                viewDetail.setRatio((float) Math.round(((viewDetail.getLaborProductivity() / root.get(0).getTotalLaborProductivity()) * 100) * 10) / 10);
-            }
-            root.get(0).setTotalRatioOfOfficeAndDonvile(totalRatioOfOFFifceAndDonvile);
-        }
-    }
 
     @Override
     public List<GroupEntity> searchAllByParentId(int parentId) {

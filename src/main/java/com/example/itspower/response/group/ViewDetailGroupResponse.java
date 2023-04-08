@@ -3,6 +3,8 @@ package com.example.itspower.response.group;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class ViewDetailGroupResponse {
@@ -18,6 +20,7 @@ public class ViewDetailGroupResponse {
     private Integer riceVip;
     private Integer riceEmp;
     private Integer totalRiceNum;
+    private List<ViewDetailGroupResponse> children;
 
     public ViewDetailGroupResponse(Integer groupKey, String name, Integer parentId, Integer demarcation, Integer laborProductivity, Integer restEmp, Integer partTimeEmp, Integer studentNum, Integer riceCus, Integer riceVip, Integer riceEmp, Integer totalRiceNum) {
         this.groupKey = groupKey;
