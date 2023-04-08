@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Optional;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,16 +18,19 @@ public class UserResponseSave {
     private boolean isReport;
     private boolean isView;
     private boolean isAdmin;
-    private GroupEntity group;
-    private UserGroupEntity userGroup;
+    private GroupResponse group;
+    private UserGroupResponse userGroup;
 
-    public UserResponseSave(UserEntity user, GroupEntity group, UserGroupEntity userGroup) {
+    public UserResponseSave(UserEntity user, Optional<GroupEntity> groupEntity, UserGroupEntity userGroup) {
         this.userName = user.getUserLogin();
         this.isEdit = user.isEdit();
         this.isReport = user.isReport();
         this.isView = user.isView();
         this.isAdmin = user.isAdmin();
-        this.group = group;
-        this.userGroup = userGroup;
+        if (groupEntity.isPresent()) {
+            this.group = new GroupResponse(groupEntity.get());
+            this.userGroup = new UserGroupResponse(userGroup);
+        }
+
     }
 }

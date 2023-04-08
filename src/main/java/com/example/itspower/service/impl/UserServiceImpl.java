@@ -46,9 +46,7 @@ public class UserServiceImpl implements UserService {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "UserLogin is exits", null));
             }
             Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(userRequest.getGroupName());
-            if (groupEntity.isEmpty()) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Id is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-            }
+
             UserEntity user = new UserEntity();
             user.setUserLogin(userRequest.getUserLogin());
             user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
@@ -57,8 +55,12 @@ public class UserServiceImpl implements UserService {
             user.setReport(userRequest.isReport());
             user.setAdmin(userRequest.isAdmin());
             user = userRepository.save(user);
-            UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.get().getId());
-            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", new UserResponseSave(user, groupEntity.get(), userGroupEntity)));
+            UserGroupEntity userGroupEntity = new UserGroupEntity();
+            if (groupEntity.isPresent()) {
+                userGroupRepository.save(user.getId(), groupEntity.get().getId());
+            }
+            UserResponseSave save = new UserResponseSave(user, groupEntity, userGroupEntity);
+            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", save));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "register not success", null));
         }
@@ -93,7 +95,7 @@ public class UserServiceImpl implements UserService {
             user.setReport(userUpdateRequest.isReport());
             user.setAdmin(userUpdateRequest.isAdmin());
             user = userRepository.save(user);
-            return ResponseEntity.ok().body(new UserResponseSave(user, groupEntity.get(), userGroupEntity.get()));
+            return ResponseEntity.ok().body(new UserResponseSave(user, groupEntity, userGroupEntity.get()));
         } catch (Exception e) {
             throw new ResourceNotFoundException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "", HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
