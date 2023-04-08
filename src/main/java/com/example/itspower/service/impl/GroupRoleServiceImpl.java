@@ -73,9 +73,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
                     mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
             mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
-            return new SuccessResponse<>(HttpStatus.OK.value(), "successfully", parentIdToChildren.get(0));
+            return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
         }
-        return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "that day has not been reported", null);
+        return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the day is not reported!", null);
     }
 
     private void getChild(List<ViewDetailGroups> root, List<ViewDetailGroups> mapData, float totalLaborReportsProductivity, int totalRiseVipAll, int totalRiseCusAll, int totalRiseEmpAll) {

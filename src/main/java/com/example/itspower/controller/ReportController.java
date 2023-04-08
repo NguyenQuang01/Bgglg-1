@@ -25,13 +25,21 @@ public class ReportController {
     @PostMapping("/report/save")
     @CrossOrigin
     public ResponseEntity<Object> save(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) throws GeneralException {
-        return reportService.save(reportRequest, groupId);
+        try {
+            return ResponseEntity.ok(reportService.save(reportRequest, groupId));
+        } catch (Exception e) {
+            throw new GeneralException(e.getMessage());
+        }
     }
 
     @PostMapping("/report/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) {
-        return reportService.update(reportRequest, groupId);
+    public ResponseEntity<Object> update(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) throws GeneralException {
+        try {
+            return ResponseEntity.ok(reportService.update(reportRequest, groupId));
+        } catch (Exception e) {
+            throw new GeneralException(e.getMessage());
+        }
     }
 
     @PostMapping("/report/delete-rest")

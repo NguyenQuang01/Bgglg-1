@@ -11,7 +11,7 @@ import java.util.HashMap;
 @Slf4j
 @Component
 public class JwtToken {
-    private final String JWT_SECRET = "anhpd1303@gmail.com####123%%%%";
+    private final String JWT_SECRET = "report_system123@#$%%checkreport123))))";
     private final long JWT_EXPIRATION = 604800000L;
     //lay token
     public String generateToken(UserDetails userDetails) {
