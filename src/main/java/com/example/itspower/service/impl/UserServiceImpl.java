@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             user = userRepository.save(user);
             UserGroupEntity userGroupEntity = new UserGroupEntity();
             if (groupEntity.isPresent()) {
-                userGroupRepository.save(user.getId(), groupEntity.get().getId());
+                userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.get().getId());
             }
             UserResponseSave save = new UserResponseSave(user, groupEntity, userGroupEntity);
             return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", save));
