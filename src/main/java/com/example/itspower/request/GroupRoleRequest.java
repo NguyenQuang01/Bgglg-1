@@ -12,5 +12,5 @@ public class GroupRoleRequest {
 
     private String groupName;
     private Integer demarcation;
-    private Integer parentId;
+    private String groupNameRoot;
 }
