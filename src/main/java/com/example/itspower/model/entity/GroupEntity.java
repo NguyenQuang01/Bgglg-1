@@ -78,7 +78,7 @@ import javax.persistence.*;
                 "r.part_time_num as partTimeEmp, r.student_num as studentNum , " +
                 "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp, " +
                 "(ri.rice_Cus + ri.rice_vip + ri.rice_emp) as totalRiceNum " +
-                "FROM group_role gr left join report_system.report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
+                "FROM group_role gr left join report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
                 "Where DATE_FORMAT(r.report_date, '%Y%m%d') = DATE_FORMAT(:reportDate, '%Y%m%d') " ,
         resultSetMapping = "viewDetailDto"
 )
@@ -91,7 +91,7 @@ import javax.persistence.*;
                 "r.part_time_num as partTimeEmp, r.student_num as studentNum , " +
                 "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp, "+
                 "(NULLIF(ri.rice_Cus,0) + NULLIF(ri.rice_vip,0) + NULLIF(ri.rice_emp,0)) as totalRiceNum " +
-                "FROM group_role gr left join report_system.report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
+                "FROM group_role gr left join report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
                 "where gr.parent_id is null " ,
         resultSetMapping = "viewDetailDto"
 )
