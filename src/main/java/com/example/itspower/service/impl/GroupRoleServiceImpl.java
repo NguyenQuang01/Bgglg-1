@@ -50,17 +50,17 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     public Object getDetailsReport(String reportDate) {
         List<ViewDetailGroupResponse> mapReportParent = groupRoleRepository.getDetailParent();
         List<ViewDetailGroupResponse> mapReport = groupRoleRepository.getDetails(reportDate);
-            List<ViewDetailGroups> mapData = new ArrayList<>();
-            for (ViewDetailGroupResponse mapParent : mapReportParent) {
-                mapData.add(new ViewDetailGroups(mapParent));
-            }
-            for (ViewDetailGroupResponse mapChildren : mapReport) {
-                mapData.add(new ViewDetailGroups(mapChildren));
-            }
-            Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
-                    mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
+        List<ViewDetailGroups> mapData = new ArrayList<>();
+        for (ViewDetailGroupResponse mapParent : mapReportParent) {
+            mapData.add(new ViewDetailGroups(mapParent));
+        }
+        for (ViewDetailGroupResponse mapChildren : mapReport) {
+            mapData.add(new ViewDetailGroups(mapChildren));
+        }
+        Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
+                mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
         mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
-            return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
+        return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
     }
 
 
