@@ -3,12 +3,13 @@ package com.example.itspower.service;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.group.GroupRoleResponse;
+import com.example.itspower.response.group.ViewDetailsResponse;
 
 import java.util.List;
 
 public interface GroupRoleService {
     List<GroupRoleResponse> searchAll();
-    List<GroupRoleResponse> searchAllView();
+    List<ViewDetailsResponse> searchAllView();
 
     Object getDetailsReport(String reportDate);
 

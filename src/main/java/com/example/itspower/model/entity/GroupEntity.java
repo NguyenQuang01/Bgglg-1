@@ -77,7 +77,7 @@ import javax.persistence.*;
 @NamedNativeQuery(name = "findAllRoleView", query = "select gr.id                    as groupId,\n" +
         "       gr.demarcation_available as groupDemarcationAvailable,\n" +
         "       gr.group_name            as groupName,\n" +
-        "       gr.parent_id             as groupParentId,\n" +
+        "       (IF(gr.parent_id is null, 0, gr.parent_id)) as groupParentId,\n" +
         "       rp.report_date           as reportDate,\n" +
         "       rp.id                    as reportId,\n" +
         "       rp.demarcation           as reportDemarcation,\n" +

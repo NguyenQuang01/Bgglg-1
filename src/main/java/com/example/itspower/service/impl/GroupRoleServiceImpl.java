@@ -2,12 +2,14 @@ package com.example.itspower.service.impl;
 
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
+import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.repository.GroupRoleRepository;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleResponse;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import com.example.itspower.response.group.ViewDetailGroups;
+import com.example.itspower.response.group.ViewDetailsResponse;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,9 +38,16 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public List<GroupRoleResponse> searchAllView() {
-        groupRoleRepository.searchAllView();
-        return null;
+    public List<ViewDetailsResponse> searchAllView() {
+        List<ViewAllDto> viewAllDtoList = groupRoleRepository.searchAllView();
+        List<ViewDetailsResponse> viewDetailsRes = new ArrayList<>();
+        viewAllDtoList.forEach(i -> {
+            ViewDetailsResponse viewDetailsResponse = new ViewDetailsResponse(i);
+            viewDetailsRes.add(viewDetailsResponse);
+        });
+        Map<Integer, List<ViewDetailsResponse>> parentIdToChildren = viewDetailsRes.stream().collect(Collectors.groupingBy(ViewDetailsResponse::getGroupParentId));
+        viewDetailsRes.forEach(p -> p.setChildren(parentIdToChildren.get(p.getGroupId())));
+        return parentIdToChildren.get(0);
     }
 
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
