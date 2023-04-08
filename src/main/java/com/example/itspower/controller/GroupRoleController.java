@@ -64,9 +64,9 @@ public class GroupRoleController {
 
     @GetMapping("/groupRole/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@RequestParam("groupName") String groupName, @RequestParam("demarcation") Integer demarcation) {
+    public ResponseEntity<Object> update(@RequestParam("groupName") String groupName,@RequestParam("parentName") String parentName,@RequestParam("demarcation") Integer demarcation) {
         try {
-            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupName, demarcation));
+            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupName, demarcation,parentName));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -74,9 +74,9 @@ public class GroupRoleController {
 
     @DeleteMapping("/groupRole/delete")
     @CrossOrigin
-    public ResponseEntity<Object> delete(@RequestParam("groupName") String groupName) {
+    public ResponseEntity<Object> delete(@RequestParam("groupName") String groupName, @RequestParam("parentName") String parentName) {
         try {
-            groupRoleService.delete(groupName);
+            groupRoleService.delete(groupName,parentName);
             return ResponseEntity.ok("Thanh cong");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
