@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface GroupRoleService {
     List<GroupRoleResponse> searchAll();
+    List<GroupRoleResponse> searchAllView();
 
     Object getDetailsReport(String reportDate);
 

@@ -3,6 +3,7 @@ package com.example.itspower.repository.repositoryjpa;
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.RootNameDto;
+import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +23,9 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
     List<GroupEntity> findAllByParentIdIsNull();
     @Query(name = "findAllRole", nativeQuery = true)
     List<GroupRoleDto> findAllRole();
+
+    @Query(name = "findAllRoleView", nativeQuery = true)
+    List<ViewAllDto> findAllViewRole();
 
     @Query(name = "findAllRoot", nativeQuery = true)
     List<RootNameDto> getAllRoot();

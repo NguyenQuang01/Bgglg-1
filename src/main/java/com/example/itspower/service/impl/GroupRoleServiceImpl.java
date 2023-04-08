@@ -36,6 +36,12 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         return getSubListChildren(groupRoleRepository.searchAll());
     }
 
+    @Override
+    public List<GroupRoleResponse> searchAllView() {
+        groupRoleRepository.searchAllView();
+        return null;
+    }
+
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {

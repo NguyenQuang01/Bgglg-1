@@ -2,6 +2,7 @@ package com.example.itspower.repository;
 
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
+import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
@@ -47,6 +48,11 @@ public class GroupRoleRepository {
     public List<GroupRoleDto> searchAll() {
         return groupJpaRepository.findAllRole();
     }
+
+    public List<ViewAllDto> searchAllView() {
+        return groupJpaRepository.findAllViewRole();
+    }
+
 
     public List<ViewDetailGroupResponse> getDetails(String reportDate) {
         return groupJpaRepository.getDetail(reportDate);
