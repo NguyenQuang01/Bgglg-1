@@ -92,7 +92,7 @@ import javax.persistence.*;
                 "ri.rice_Cus as riceCus, ri.rice_vip as riceVip, ri.rice_emp as riceEmp, "+
                 "(NULLIF(ri.rice_Cus,0) + NULLIF(ri.rice_vip,0) + NULLIF(ri.rice_emp,0)) as totalRiceNum " +
                 "FROM group_role gr left join report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
-                "where gr.parent_id is null " ,
+                "where gr.id in (SELECT DISTINCT gr2.parent_id FROM group_role gr2 ) " ,
         resultSetMapping = "viewDetailDto"
 )
 
