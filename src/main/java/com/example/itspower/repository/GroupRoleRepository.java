@@ -29,10 +29,10 @@ public class GroupRoleRepository {
     }
 
     public void delete(String groupName) {
-         groupJpaRepository.deleteByGroupName(groupName);
+        groupJpaRepository.deleteByGroupName(groupName);
     }
 
-    public GroupEntity save(GroupRoleRequest groupRoleRequest,Integer parentID) {
+    public GroupEntity save(GroupRoleRequest groupRoleRequest, Integer parentID) {
         GroupEntity entity = new GroupEntity();
         entity.setGroupName(groupRoleRequest.getGroupName());
         entity.setParentId(parentID);
