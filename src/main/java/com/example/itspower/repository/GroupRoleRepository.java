@@ -32,10 +32,10 @@ public class GroupRoleRepository {
          groupJpaRepository.deleteByGroupName(groupName);
     }
 
-    public GroupEntity save(GroupRoleRequest groupRoleRequest) {
+    public GroupEntity save(GroupRoleRequest groupRoleRequest,Integer parentID) {
         GroupEntity entity = new GroupEntity();
         entity.setGroupName(groupRoleRequest.getGroupName());
-        entity.setParentId(groupRoleRequest.getParentId());
+        entity.setParentId(parentID);
         entity.setDemarcationAvailable(groupRoleRequest.getDemarcation());
         return groupJpaRepository.save(entity);
     }
