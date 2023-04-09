@@ -124,15 +124,13 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     @Override
     public Object save(GroupRoleRequest groupRoleRequest) {
-        Optional<GroupEntity> groupCheck = groupRoleRepository.findByGroupName(groupRoleRequest.getGroupName());
-        if (groupCheck.isEmpty()) {
-            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Group name not exist!", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
         Optional<GroupEntity> groupRoleCheck = groupRoleRepository.findByGroupName(groupRoleRequest.getGroupNameRoot());
+        GroupEntity groupEntity;
         if (groupRoleCheck.isEmpty()) {
-            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Group name root is exist!", HttpStatus.INTERNAL_SERVER_ERROR);
+             groupEntity = groupRoleRepository.save(groupRoleRequest, null);
+        }else {
+             groupEntity = groupRoleRepository.save(groupRoleRequest, groupRoleCheck.get().getId());
         }
-        GroupEntity groupEntity = groupRoleRepository.save(groupRoleRequest, groupRoleCheck.get().getId());
         return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupEntity);
     }
 }
