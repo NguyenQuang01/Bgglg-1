@@ -40,7 +40,9 @@ public class GroupRoleRepository {
         entity.setDemarcationAvailable(groupRoleRequest.getDemarcation());
         return groupJpaRepository.save(entity);
     }
-
+    public  List<String> getName(){
+       return groupJpaRepository.getAllByGroupName();
+    }
     public Optional<GroupEntity> findById(Integer groupRoleId) {
         return groupJpaRepository.findById(groupRoleId);
     }

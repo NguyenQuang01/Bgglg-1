@@ -29,6 +29,8 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(name = "findAllRoot", nativeQuery = true)
     List<RootNameDto> getAllRoot();
+    @Query(value = "SELECT group_name  from group_role gr ",nativeQuery = true)
+    List<String> getAllByGroupName();
 
     @Query(value = "select distinct gr.parent_id from group_role gr where parent_id is not null ", nativeQuery = true)
     List<Integer> getAllParentId();

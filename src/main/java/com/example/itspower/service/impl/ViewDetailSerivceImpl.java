@@ -52,7 +52,6 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
                     .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
              totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
         }
-
         for(RootNameDto id :getIdRoot){
             List<ViewAllDto> parent = viewAllDtoList.stream().filter(i ->i.getGroupId()==id.getId()).collect(Collectors.toList());
             List<ViewAllDto> child = viewAllDtoList.stream().filter(i -> i.getGroupParentId()==id.getId()
@@ -61,7 +60,10 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             Integer groupParentId=parent.stream().map(i ->i.getGroupParentId()).collect(Collectors.toList()).get(0);
             String groupName=parent.stream().map(i ->i.getGroupName()).collect(Collectors.toList()).get(0);
             Integer reportDemarcation=child.stream().map(i ->i.getReportDemarcation()).mapToInt(Integer::intValue).sum();
-            Float laborProductivity=Float.valueOf(String.valueOf(child.stream().map(i ->i.getLaborProductivity()).mapToInt(Integer::intValue).sum()));
+            Float laborProductivity=Float.valueOf(String.valueOf(child.stream().map(i ->
+                    i.getLaborProductivity()).mapToInt(Integer::intValue).sum()));
+            Integer laborProductivity1=child.stream().map(i ->
+                    i.getLaborProductivity()).mapToInt(Integer::intValue).sum();
             int partTimeNumber=child.stream().map(i ->i.getPartTimeNum()).mapToInt(Integer::intValue).sum();
             int studentNum=child.stream().map(i ->i.getStudentNum()).mapToInt(Integer::intValue).sum();
             int restNum=child.stream().map(i ->i.getRestNum()).mapToInt(Integer::intValue).sum();
@@ -69,7 +71,7 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             int riceEmp=child.stream().map(i ->i.getRiceEmp()).mapToInt(Integer::intValue).sum();
             int riceVip=child.stream().map(i ->i.getRiceVip()).mapToInt(Integer::intValue).sum();
             float ratio = (laborProductivity/totalLaborProductivity)*100;
-            parents.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity
+            parents.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity1
                     ,partTimeNumber,studentNum,restNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
             viewAllDtoList.removeIf(i -> i.getGroupId()==id.getId());
         }
