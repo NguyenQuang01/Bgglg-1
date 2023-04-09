@@ -3,7 +3,6 @@ package com.example.itspower.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Data
@@ -24,9 +23,10 @@ public class TransferEntity {
     private boolean isAccess;
     @Column(name = "transfer_date")
     private Date transferDate;
-    @Column(name = "type")
-    @Min(1)
-    private Integer type = 0;
+    @Column(name = "support_num")
+    private Integer supportNum;
+    @Column(name = "group_support")
+    private Integer groupSupport;
     @Transient
     private Integer parentId;
     @Transient
