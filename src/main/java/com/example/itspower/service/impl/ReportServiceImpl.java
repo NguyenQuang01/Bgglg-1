@@ -76,6 +76,10 @@ public class ReportServiceImpl implements ReportService {
                 return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
             }
         }
+        boolean isCheck = check(request.getRiceRequests().getRiceCus(), request.getRiceRequests().getRiceEmp(), request.getRiceRequests().getRiceVip());
+        if (isCheck) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "rise < 0", null);
+        }
         ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
         riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
         restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
@@ -109,6 +113,10 @@ public class ReportServiceImpl implements ReportService {
                 return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
             }
         }
+        boolean isCheck = check(request.getRiceRequests().getRiceCus(), request.getRiceRequests().getRiceEmp(), request.getRiceRequests().getRiceVip());
+        if (isCheck) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "rise < 0", null);
+        }
         ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
         riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
         restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
@@ -119,5 +127,12 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void deleteRestIdsAndReportId(Integer reportId, List<Integer> restIds) {
         restRepository.deleteRestIdsAndReportId(reportId, restIds);
+    }
+
+    private boolean check(int riceCus, int riseEmp, int riseVip) {
+        if (riceCus < 0 || riseEmp < 0 || riseVip < 0) {
+            return false;
+        }
+        return true;
     }
 }
