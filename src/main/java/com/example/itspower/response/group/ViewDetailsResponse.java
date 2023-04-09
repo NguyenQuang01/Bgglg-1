@@ -31,7 +31,7 @@ public class ViewDetailsResponse {
     private String transferIsAccess;
     private String transferDate;
     private Integer transferNum;
-    private Integer transferType;
+    private String transferType;
 
     List<ViewDetailsResponse> children;
 

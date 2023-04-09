@@ -29,5 +29,5 @@ public class ViewAllDto {
     private String transferIsAccess;
     private String transferDate;
     private Integer transferNum;
-    private Integer transferType;
+    private String transferType;
 }

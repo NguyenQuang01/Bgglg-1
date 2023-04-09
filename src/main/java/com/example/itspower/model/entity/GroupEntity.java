@@ -70,11 +70,12 @@ import javax.persistence.*;
                 @ColumnResult(name = "transferIsAccess", type = String.class),
                 @ColumnResult(name = "transferDate", type = String.class),
                 @ColumnResult(name = "transferNum", type = Integer.class),
-                @ColumnResult(name = "transferType", type = Integer.class),
+                @ColumnResult(name = "transferType", type = String.class),
         }
         )
 )
-@NamedNativeQuery(name = "findAllRoleView", query = "select gr.id                    as groupId,\n" +
+@NamedNativeQuery(name = "findAllRoleView",
+        query = "select gr.id                    as groupId,\n" +
         "       gr.demarcation_available as groupDemarcationAvailable,\n" +
         "       gr.group_name            as groupName,\n" +
         "       (IF(gr.parent_id is null, 0, gr.parent_id)) as groupParentId,\n" +
@@ -93,7 +94,10 @@ import javax.persistence.*;
         "       t.is_access              as transferIsAccess,\n" +
         "       t.transfer_date          as transferDate,\n" +
         "       t.transfer_num           as transferNum,\n" +
-        "       t.type                   as transferType\n" +
+        "       (CASE\n" +
+        "            WHEN t.type = 1 THEN 'transfer'\n" +
+        "           WHEN t.type = 2 THEN 'support'\n" +
+        "           END) as transferType\n" +
         "from group_role gr\n" +
         "         left join report rp on gr.id = rp.group_id\n" +
         "         left join transfer t on rp.id = t.report_id\n" +
