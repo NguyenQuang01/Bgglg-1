@@ -39,8 +39,7 @@ public class TransferRepository {
             entity.setGroupId(groupChild.get().getId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
-            entity.setSupportNum(transfer.getSupportNum());
-            entity.setGroupSupport(transfer.getGroupSupport());
+            entity.setType(transfer.getType());
             entities.add(entity);
         }
         return transferJpaRepository.saveAll(entities);
@@ -58,8 +57,7 @@ public class TransferRepository {
             entity.setGroupId(groupChild.get().getId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
-            entity.setSupportNum(transfer.getSupportNum());
-            entity.setGroupSupport(transfer.getGroupSupport());
+            entity.setType(transfer.getType());
             entities.add(entity);
         }
         return transferJpaRepository.saveAll(entities);
