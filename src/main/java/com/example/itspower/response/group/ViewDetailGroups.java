@@ -28,10 +28,11 @@ public class ViewDetailGroups {
     List<ViewDetailGroups> children;
 
 
-    public ViewDetailGroups(ViewAllDto response) {
+    public ViewDetailGroups(ViewAllDto response,Integer officeId) {
         this.key = response.getGroupId();
+        this.parentId = response.getGroupParentId();
         this.name = response.getGroupName();
-        if(name.equalsIgnoreCase("văn phòng")){
+        if(name.equalsIgnoreCase("văn phòng")||parentId==officeId){
             this.office = Float.valueOf(response.getReportDemarcation());
             this.totalRatioOfOfficeAndDonvile=response.getTotalRatioOfOfficeAndDonvile();
             this.totalLaborProductivity=response.getTotalLaborProductivity();

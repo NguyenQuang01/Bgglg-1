@@ -61,20 +61,27 @@ import javax.persistence.*;
         }
         )
 )
-@NamedNativeQuery(name = "findAllRoleView", query = "select DISTINCT gr.id as groupId,\n" +
-        "       gr.group_name            as groupName,\n" +
-        "       (IF(gr.parent_id is null, 0, gr.parent_id)) as groupParentId,\n" +
-        "       rp.demarcation           as reportDemarcation,\n" +
-        "       rp.labor_productivity    as laborProductivity,\n" +
-        "       rp.part_time_num         as partTimeNum,\n" +
-        "       rp.rest_num              as restNum,\n" +
-        "       rp.student_num           as studentNum,\n" +
-        "       r.rice_cus               as riceCus,\n" +
-        "       r.rice_emp               as riceEmp,\n" +
-        "       r.rice_vip               as riceVip\n" +
-        "        from group_role gr\n" +
-        "         left join report rp on gr.id = rp.group_id\n" +
-        "         left join rice r on rp.id = r.report_id \n",
+@NamedNativeQuery(name = "findAllRoleView", query = "SELECT groupId,groupName,groupParentId,reportDemarcation,\n" +
+        "laborProductivity,partTimeNum,restNum,studentNum,riceCus,riceEmp,riceVip\n" +
+        "FROM (\n" +
+        "    SELECT gr.id AS groupId,\n" +
+        "           gr.group_name AS groupName,\n" +
+        "           IF(gr.parent_id IS NULL, 0, gr.parent_id) AS groupParentId,\n" +
+        "           rp.demarcation AS reportDemarcation,\n" +
+        "           rp.labor_productivity AS laborProductivity,\n" +
+        "           rp.part_time_num AS partTimeNum,\n" +
+        "           rp.rest_num AS restNum,\n" +
+        "           rp.student_num AS studentNum,\n" +
+        "           r.rice_cus AS riceCus,\n" +
+        "           r.rice_emp AS riceEmp,\n" +
+        "           r.rice_vip AS riceVip,\n" +
+        "           rp.report_date AS reportDate\n" +
+        "    FROM group_role gr\n" +
+        "    LEFT JOIN report rp ON gr.id = rp.group_id \n" +
+        "    LEFT JOIN rice r ON rp.id = r.report_id \n" +
+        ") subq -- add an alias for the subquery\n" +
+        "WHERE DATE_FORMAT(subq.reportDate, '%Y%m%d') = DATE_FORMAT(:reportDate,'%Y%m%d')\n" +
+        "or subq.reportDate is null",
         resultSetMapping = "ViewAllDto"
 )
 @SqlResultSetMapping(

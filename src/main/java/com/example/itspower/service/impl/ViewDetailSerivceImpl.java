@@ -27,9 +27,11 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
         List<RootNameDto> getIdRoot = groupJpaRepository.getAllRoot();
         List<ViewAllDto> viewAllDtoList = groupRoleRepository.searchAllView(reportDate);
         List<ViewAllDto> response =getLogicParent(viewAllDtoList,getIdRoot);
+        int officeId = response.stream().filter(i->i.getGroupName().equalsIgnoreCase("văn phòng"))
+                .map(i->i.getGroupId()).collect(Collectors.toList()).get(0);
         List<ViewDetailGroups> viewDetailsRes = new ArrayList<>();
         response.forEach(i -> {
-            ViewDetailGroups viewDetailsResponse = new ViewDetailGroups(i);
+            ViewDetailGroups viewDetailsResponse = new ViewDetailGroups(i,officeId);
             viewDetailsRes.add(viewDetailsResponse);
         });
         return children(viewDetailsRes);
@@ -38,15 +40,19 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
         List<ViewAllDto> parents = new ArrayList<>();
         Float totalLaborProductivity =Float.valueOf(String.valueOf(viewAllDtoList.stream().map(i ->i.getLaborProductivity())
                 .mapToInt(Integer::intValue).sum())) ;
-        ViewAllDto office = viewAllDtoList.stream().filter(i->i.getGroupName()
-                .equalsIgnoreCase("văn phòng")).collect(Collectors.toList()).get(0);
-        ViewAllDto donViLe = viewAllDtoList.stream().filter(i->i.getGroupName()
-                .equalsIgnoreCase("đơn vị lẻ")).collect(Collectors.toList()).get(0);
-                Float officeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==office.getGroupId())
-                .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
-                Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.getGroupId())
-                .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
-                Float totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
+        List<ViewAllDto> office = viewAllDtoList.stream().filter(i->i.getGroupName()
+                .equalsIgnoreCase("văn phòng")).collect(Collectors.toList());
+        List< ViewAllDto> donViLe = viewAllDtoList.stream().filter(i->i.getGroupName()
+                .equalsIgnoreCase("đơn vị lẻ")).collect(Collectors.toList());
+        Float totalRatioOfOfficeAndDonvile = null;
+        if(office.size() >0 && donViLe.size()>0){
+            Float officeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==office.get(0).getGroupId())
+                    .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
+            Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.get(0).getGroupId())
+                    .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
+             totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
+        }
+
         for(RootNameDto id :getIdRoot){
             List<ViewAllDto> parent = viewAllDtoList.stream().filter(i ->i.getGroupId()==id.getId()).collect(Collectors.toList());
             List<ViewAllDto> child = viewAllDtoList.stream().filter(i -> i.getGroupParentId()==id.getId()

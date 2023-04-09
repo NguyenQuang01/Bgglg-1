@@ -2,7 +2,6 @@ package com.example.itspower.controller;
 
 import com.example.itspower.exception.ReasonException;
 import com.example.itspower.response.BaseResponse;
-import com.example.itspower.service.GroupRoleService;
 import com.example.itspower.service.ViewDetailService;
 import com.example.itspower.service.ViewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ public class ViewController {
     @Autowired
     ViewService viewService;
 
-    @Autowired
-    private GroupRoleService groupRoleService;
 
     @Autowired
     private ViewDetailService viewDetailService;
@@ -30,8 +27,6 @@ public class ViewController {
     public ResponseEntity<Object> getAll(@RequestParam("date") String date) {
         return ResponseEntity.status(HttpStatus.OK).body(viewService.getView(date));
     }
-
-
     @GetMapping("/groupRoleViewDetails")
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("reportDate")String reportDate) {
