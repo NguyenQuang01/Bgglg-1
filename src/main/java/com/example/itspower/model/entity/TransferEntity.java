@@ -30,5 +30,5 @@ public class TransferEntity {
     @Transient
     private Integer parentId;
     @Transient
-    private String groupName;
+    private String  groupName;
 }
