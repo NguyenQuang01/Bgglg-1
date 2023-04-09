@@ -80,6 +80,14 @@ public class ReportServiceImpl implements ReportService {
         if (isCheck) {
             return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "rise < 0", null);
         }
+        boolean isCheckReport = checkReport(request);
+        if (isCheckReport) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "partTimeNum or studentNum <0", null);
+        }
+        boolean isCheckTransfer = checkTransfer(request.getTransferRequests());
+        if (isCheckTransfer) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "TransferNum <0", null);
+        }
         ReportEntity reportEntity = reportRepository.saveReport(request, groupId);
         riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
         restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
@@ -117,6 +125,14 @@ public class ReportServiceImpl implements ReportService {
         if (isCheck) {
             return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "rise < 0", null);
         }
+        boolean isCheckReport = checkReport(request);
+        if (isCheckReport) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "partTimeNum or studentNum <0", null);
+        }
+        boolean isCheckTransfer = checkTransfer(request.getTransferRequests());
+        if (isCheckTransfer) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "TransferNum <0", null);
+        }
         ReportEntity reportEntity = reportRepository.updateReport(request, groupId);
         riceRepository.updateRice(request.getRiceRequests(), reportEntity.getId());
         restRepository.updateRest(request.getRestRequests(), reportEntity.getId());
@@ -131,8 +147,22 @@ public class ReportServiceImpl implements ReportService {
 
     private boolean check(int riceCus, int riseEmp, int riseVip) {
         if (riceCus < 0 || riseEmp < 0 || riseVip < 0) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    private boolean checkReport(ReportRequest request) {
+        if (request.getPartTimeNum() < 0 || request.getStudentNum() < 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkTransfer(List<TransferRequest> request) {
+        if (request.get(0).getTransferNum() < 0 || request.get(1).getTransferNum() < 0) {
+            return true;
+        }
+        return false;
     }
 }
