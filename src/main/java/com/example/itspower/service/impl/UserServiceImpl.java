@@ -39,31 +39,32 @@ public class UserServiceImpl implements UserService {
     private final UserLoginConfig userLoginConfig;
 
     @Override
-    public ResponseEntity<SuccessResponse<Object>> save(UserRequest userRequest) {
-        try {
-            Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
-            if (userEntity.isPresent()) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "UserLogin is exits", null));
-            }
-            Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(userRequest.getGroupName());
-
-            UserEntity user = new UserEntity();
-            user.setUserLogin(userRequest.getUserLogin());
-            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-            user.setEdit(userRequest.isEdit());
-            user.setView(userRequest.isView());
-            user.setReport(userRequest.isReport());
-            user.setAdmin(userRequest.isAdmin());
-            user = userRepository.save(user);
-            UserGroupEntity userGroupEntity = new UserGroupEntity();
-            if (groupEntity.isPresent()) {
-                userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.get().getId());
-            }
-            UserResponseSave save = new UserResponseSave(user, groupEntity, userGroupEntity);
-            return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", save));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "register not success", null));
+    @Transactional
+    public SuccessResponse<Object> save(UserRequest userRequest) {
+        Optional<UserEntity> userEntity = userRepository.findByUserLogin(userRequest.getUserLogin());
+        if (userEntity.isPresent()) {
+            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "UserLogin is exits", null);
         }
+        Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(userRequest.getGroupParent());
+        if (groupParent.isEmpty()) {
+            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Parent is empty!", null);
+        }
+        Optional<GroupEntity> groupChild = groupRoleRepository.findByGroupNameAndParentId(userRequest.getGroupName(), groupParent.get().getId());
+        if (groupChild.isEmpty()) {
+            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Child is empty!", null);
+        }
+        UserEntity user = new UserEntity();
+        user.setUserLogin(userRequest.getUserLogin());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setEdit(userRequest.isEdit());
+        user.setView(userRequest.isView());
+        user.setReport(userRequest.isReport());
+        user.setAdmin(userRequest.isAdmin());
+        user = userRepository.save(user);
+        UserGroupEntity userGroupEntity  = userGroupRepository.save(user.getId(), groupChild.get().getId());
+        UserResponseSave save = new UserResponseSave(user, groupParent, userGroupEntity);
+        return new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", save);
+
     }
 
     // chua can toi

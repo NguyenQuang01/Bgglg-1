@@ -39,5 +39,6 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
     List<ViewDetailGroupResponse> getDetailParent();
 
     Optional<GroupEntity> findByGroupName(String groupName);
+    Optional<GroupEntity> findByGroupNameAndParentId(String groupName,Integer parentId);
 
 }

@@ -29,8 +29,8 @@ public class GroupRoleRepository {
         return groupJpaRepository.save(entity);
     }
 
-    public void delete(String groupName,Integer parentId) {
-        groupJpaRepository.deleteByGroupName(groupName,parentId);
+    public void delete(String groupName, Integer parentId) {
+        groupJpaRepository.deleteByGroupName(groupName, parentId);
     }
 
     public GroupEntity save(GroupRoleRequest groupRoleRequest, Integer parentID) {
@@ -84,5 +84,9 @@ public class GroupRoleRepository {
 
     public Optional<GroupEntity> findByGroupName(String groupName) {
         return groupJpaRepository.findByGroupName(groupName);
+    }
+
+    public Optional<GroupEntity> findByGroupNameAndParentId(String groupName, Integer parentId) {
+        return groupJpaRepository.findByGroupNameAndParentId(groupName, parentId);
     }
 }

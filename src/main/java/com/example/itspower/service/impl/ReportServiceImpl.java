@@ -64,11 +64,15 @@ public class ReportServiceImpl implements ReportService {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
         for (TransferRequest transferRequests : request.getTransferRequests()) {
-            Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(transferRequests.getGroupName());
-            if (groupEntity.isEmpty()) {
+            Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(transferRequests.getGroupParent());
+            if (groupParent.isEmpty()) {
+                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group parent is empty!", null);
+            }
+            Optional<GroupEntity> groupChild = groupRoleRepository.findByGroupNameAndParentId(transferRequests.getGroupName(), groupParent.get().getId());
+            if (groupChild.isEmpty()) {
                 return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name is empty!", null);
             }
-            if (groupId == groupEntity.get().getId()) {
+            if (groupId == groupChild.get().getId()) {
                 return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
             }
         }
@@ -93,9 +97,16 @@ public class ReportServiceImpl implements ReportService {
             if (transferRequests.getTransferId() == 0) {
                 return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null);
             }
-            Optional<GroupEntity> groupEntity = groupRoleRepository.findByGroupName(transferRequests.getGroupName());
-            if (groupId == groupEntity.get().getId()) {
-                return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group name is not current group name user", null);
+            Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(transferRequests.getGroupParent());
+            if (groupParent.isEmpty()) {
+                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group parent is empty!", null);
+            }
+            Optional<GroupEntity> groupChild = groupRoleRepository.findByGroupNameAndParentId(transferRequests.getGroupName(), groupParent.get().getId());
+            if (groupChild.isEmpty()) {
+                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name is empty!", null);
+            }
+            if (groupId == groupChild.get().getId()) {
+                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
             }
         }
         ReportEntity reportEntity = reportRepository.updateReport(request, groupId);

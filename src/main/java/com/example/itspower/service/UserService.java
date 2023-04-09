@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface UserService {
-    ResponseEntity<SuccessResponse<Object>> save(UserRequest userRequest);
+    SuccessResponse<Object> save(UserRequest userRequest);
 
     ResponseEntity<Object> update(UserUpdateRequest userUpdateRequest, int id);
 

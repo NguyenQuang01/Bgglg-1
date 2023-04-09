@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.GeneralSecurityException;
 
 @RestController
 @CrossOrigin
@@ -41,8 +42,12 @@ public class UserController {
 
     @PostMapping("/api/save")
     @CrossOrigin
-    public ResponseEntity<SuccessResponse<Object>> saveData(@Validated @RequestBody UserRequest userRequest) {
-        return userService.save(userRequest);
+    public ResponseEntity<SuccessResponse<Object>> saveData(@Validated @RequestBody UserRequest userRequest) throws GeneralSecurityException {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userRequest));
+        } catch (Exception ex) {
+            throw new GeneralSecurityException(ex.getMessage());
+        }
     }
 
     @PostMapping("/api/update")
@@ -81,7 +86,7 @@ public class UserController {
             String accessToken = jwtToken.getUserNameFromJWT(refreshToken);
             UserDetails userDetails = userLoginConfig.loadUserByUsername(accessToken);
             String newToken = jwtToken.generateToken(userDetails);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserRefreshToken(BEARER,newToken)));
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserRefreshToken(BEARER, newToken)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
         }

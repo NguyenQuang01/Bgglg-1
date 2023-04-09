@@ -3,6 +3,7 @@ package com.example.itspower.security;
 import com.example.itspower.filter.JwtAuthenticationEntryPoint;
 import com.example.itspower.filter.JwtAuthenticationFilter;
 import com.example.itspower.service.impl.UserLoginConfig;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
-
+@SecurityRequirement(name = "Bearer Authentication")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserLoginConfig userLoginConfig;

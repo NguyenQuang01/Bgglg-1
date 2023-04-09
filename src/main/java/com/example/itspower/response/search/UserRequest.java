@@ -12,6 +12,8 @@ public class UserRequest {
     private String userLogin;
     @NotBlank
     private String groupName;
+    @NotBlank
+    private String groupParent;
     @NotNull(message = "password > 6 char ")
     @Size(min = 6)
     private String password;
