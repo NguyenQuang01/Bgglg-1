@@ -28,6 +28,16 @@ public class GroupRoleController {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
         }
     }
+    @GetMapping("/getName")
+    @CrossOrigin
+    public ResponseEntity<BaseResponse<Object>> getName() {
+        try {
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.getName());
+            return ResponseEntity.status(HttpStatus.OK).body(res);
+        } catch (Exception e) {
+            throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
+        }
+    }
 
     @GetMapping("/groupRole/save")
     @CrossOrigin

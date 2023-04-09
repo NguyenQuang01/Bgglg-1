@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class ReportController {
     @Autowired
@@ -34,7 +36,7 @@ public class ReportController {
 
     @PostMapping("/report/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@Validated @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) throws GeneralException {
+    public ResponseEntity<Object> update(@Valid @RequestBody ReportRequest reportRequest, @RequestParam("groupId") int groupId) throws GeneralException {
         try {
             return ResponseEntity.ok(reportService.update(reportRequest, groupId));
         } catch (Exception e) {

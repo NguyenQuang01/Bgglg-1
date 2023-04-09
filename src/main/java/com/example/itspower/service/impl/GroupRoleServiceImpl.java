@@ -75,6 +75,11 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
+    public List<String> getName() {
+        return groupRoleRepository.getName();
+    }
+
+    @Override
     public Object getDemarcationRes(Integer groupId) {
         return groupRoleRepository.getDemarcationRes(groupId);
     }

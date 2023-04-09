@@ -11,6 +11,7 @@ public interface GroupRoleService {
     List<GroupEntity> searchAllByParentId(int parentId);
 
     List<GroupEntity> searchAllByParentIdIsNull();
+    List<String> getName();
 
     Object getDemarcationRes(Integer groupId);
 
