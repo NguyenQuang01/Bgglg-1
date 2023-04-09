@@ -21,16 +21,6 @@ public class ViewServiceImpl  implements ViewService {
     public  List<ViewDetailResponse> getView(String date) {
         List<RootNameDto> getIdRoot = groupJpaRepository.getAllRoot();
         List<ViewDetailResponse> detailResponses = new ArrayList<>();
-        for (RootNameDto idRoot : getIdRoot){
-            ViewDetailResponse departmentReport= repository.viewRootReport(date,idRoot.getId());
-            if(idRoot.getName().equalsIgnoreCase("Tổ may")==true){
-                departmentReport.setTotalEmp(departmentReport.getTotalEmp()-departmentReport.getPartTimeEmp());
-                departmentReport.setDepartment(idRoot.getName() + " (không tính thời vụ)");
-            }else{
-                departmentReport.setDepartment(idRoot.getName() );
-            }
-            detailResponses.add(departmentReport);
-        }
        int student = detailResponses.stream().map(i->i.getStudent()).mapToInt(i -> i).sum();
         detailResponses.add(new ViewDetailResponse("Học sinh chưa báo năng suất",student,0));
         int sewingTeamSeason = detailResponses.stream().filter(i ->i.getDepartment().equalsIgnoreCase("Tổ may (không tính thời vụ)"))

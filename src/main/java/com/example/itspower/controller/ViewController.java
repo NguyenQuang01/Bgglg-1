@@ -3,6 +3,7 @@ package com.example.itspower.controller;
 import com.example.itspower.exception.ReasonException;
 import com.example.itspower.response.BaseResponse;
 import com.example.itspower.service.GroupRoleService;
+import com.example.itspower.service.ViewDetailService;
 import com.example.itspower.service.ViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,9 @@ public class ViewController {
     @Autowired
     private GroupRoleService groupRoleService;
 
+    @Autowired
+    private ViewDetailService viewDetailService;
+
     @GetMapping("/all")
     @CrossOrigin
     public ResponseEntity<Object> getAll(@RequestParam("date") String date) {
@@ -37,7 +41,7 @@ public class ViewController {
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> searchAllViewDetails() {
         try {
-            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.searchAllView());
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, viewDetailService.searchAllView());
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);

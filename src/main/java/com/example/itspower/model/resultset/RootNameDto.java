@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RootNameDto {
     private int id;
-    private String name;
 
 }

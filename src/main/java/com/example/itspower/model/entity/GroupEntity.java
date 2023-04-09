@@ -1,11 +1,9 @@
 package com.example.itspower.model.entity;
-
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity
@@ -16,15 +14,13 @@ import javax.persistence.*;
         classes = @ConstructorResult(
                 targetClass = RootNameDto.class,
                 columns = {
-                        @ColumnResult(name = "id", type = Integer.class),
-                        @ColumnResult(name = "name", type = String.class),
-                }
+                        @ColumnResult(name = "id", type = Integer.class),}
         )
 )
 
 @NamedNativeQuery(
         name = "findAllRoot",
-        query = "select id,group_name as name from group_role where parent_id is null",
+        query = "select DISTINCT parent_id as id from group_role gr2 where parent_id  is not null",
         resultSetMapping = "RootNameDto"
 )
 
@@ -53,12 +49,7 @@ import javax.persistence.*;
         classes = @ConstructorResult(targetClass = ViewAllDto.class, columns = {
                 @ColumnResult(name = "groupId", type = Integer.class),
                 @ColumnResult(name = "groupParentId", type = Integer.class),
-                @ColumnResult(name = "reportId", type = Integer.class),
-                @ColumnResult(name = "riceId", type = Integer.class),
-                @ColumnResult(name = "transferId", type = Integer.class),
-                @ColumnResult(name = "groupDemarcationAvailable", type = Integer.class),
                 @ColumnResult(name = "groupName", type = String.class),
-                @ColumnResult(name = "reportDate", type = String.class),
                 @ColumnResult(name = "reportDemarcation", type = Integer.class),
                 @ColumnResult(name = "laborProductivity", type = Integer.class),
                 @ColumnResult(name = "partTimeNum", type = Integer.class),
@@ -67,37 +58,28 @@ import javax.persistence.*;
                 @ColumnResult(name = "riceCus", type = Integer.class),
                 @ColumnResult(name = "riceEmp", type = Integer.class),
                 @ColumnResult(name = "riceVip", type = Integer.class),
-                @ColumnResult(name = "transferIsAccess", type = String.class),
-                @ColumnResult(name = "transferDate", type = String.class),
                 @ColumnResult(name = "transferNum", type = Integer.class),
                 @ColumnResult(name = "transferType", type = Integer.class),
         }
         )
 )
-@NamedNativeQuery(name = "findAllRoleView", query = "select gr.id                    as groupId,\n" +
-        "       gr.demarcation_available as groupDemarcationAvailable,\n" +
+@NamedNativeQuery(name = "findAllRoleView", query = "select DISTINCT gr.id as groupId,\n" +
         "       gr.group_name            as groupName,\n" +
         "       (IF(gr.parent_id is null, 0, gr.parent_id)) as groupParentId,\n" +
-        "       rp.report_date           as reportDate,\n" +
-        "       rp.id                    as reportId,\n" +
         "       rp.demarcation           as reportDemarcation,\n" +
         "       rp.labor_productivity    as laborProductivity,\n" +
         "       rp.part_time_num         as partTimeNum,\n" +
         "       rp.rest_num              as restNum,\n" +
         "       rp.student_num           as studentNum,\n" +
-        "       r.id                     as riceId,\n" +
         "       r.rice_cus               as riceCus,\n" +
         "       r.rice_emp               as riceEmp,\n" +
         "       r.rice_vip               as riceVip,\n" +
-        "       t.id                     as transferId,\n" +
-        "       t.is_access              as transferIsAccess,\n" +
-        "       t.transfer_date          as transferDate,\n" +
         "       t.transfer_num           as transferNum,\n" +
         "       t.type                   as transferType\n" +
         "from group_role gr\n" +
         "         left join report rp on gr.id = rp.group_id\n" +
         "         left join transfer t on rp.id = t.report_id\n" +
-        "         left join rice r on rp.id = r.report_id;\n",
+        "         left join rice r on rp.id = r.report_id",
         resultSetMapping = "ViewAllDto"
 )
 @SqlResultSetMapping(
