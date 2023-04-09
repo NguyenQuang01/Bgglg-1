@@ -86,7 +86,10 @@ public class UserController {
             String accessToken = jwtToken.getUserNameFromJWT(refreshToken);
             UserDetails userDetails = userLoginConfig.loadUserByUsername(accessToken);
             String newToken = jwtToken.generateToken(userDetails);
-            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserRefreshToken(BEARER, newToken)));
+            UserDto loginInfor = userService.loginInfor(userDetails.getUsername());
+            boolean checkReport = userService.isCheckReport(loginInfor.getGroupId());
+
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponse<>(HttpStatus.OK.value(), "login success", new UserRefreshToken(BEARER, newToken,loginInfor,userDetails.getUsername(),checkReport)));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
         }
