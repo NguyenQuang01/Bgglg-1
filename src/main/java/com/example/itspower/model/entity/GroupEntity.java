@@ -70,38 +70,38 @@ import javax.persistence.*;
                 @ColumnResult(name = "transferIsAccess", type = String.class),
                 @ColumnResult(name = "transferDate", type = String.class),
                 @ColumnResult(name = "transferNum", type = Integer.class),
-                @ColumnResult(name = "transferType", type = String.class),
+                @ColumnResult(name = "supportNum", type = Integer.class),
+                @ColumnResult(name = "groupSupport", type = Integer.class),
         }
         )
 )
 @NamedNativeQuery(name = "findAllRoleView",
-        query = "select gr.id                    as groupId,\n" +
-        "       gr.demarcation_available as groupDemarcationAvailable,\n" +
-        "       gr.group_name            as groupName,\n" +
-        "       (IF(gr.parent_id is null, 0, gr.parent_id)) as groupParentId,\n" +
-        "       rp.report_date           as reportDate,\n" +
-        "       rp.id                    as reportId,\n" +
-        "       rp.demarcation           as reportDemarcation,\n" +
-        "       rp.labor_productivity    as laborProductivity,\n" +
-        "       rp.part_time_num         as partTimeNum,\n" +
-        "       rp.rest_num              as restNum,\n" +
-        "       rp.student_num           as studentNum,\n" +
-        "       r.id                     as riceId,\n" +
-        "       r.rice_cus               as riceCus,\n" +
-        "       r.rice_emp               as riceEmp,\n" +
-        "       r.rice_vip               as riceVip,\n" +
-        "       t.id                     as transferId,\n" +
-        "       t.is_access              as transferIsAccess,\n" +
-        "       t.transfer_date          as transferDate,\n" +
-        "       t.transfer_num           as transferNum,\n" +
-        "       (CASE\n" +
-        "            WHEN t.type = 1 THEN 'transfer'\n" +
-        "           WHEN t.type = 2 THEN 'support'\n" +
-        "           END) as transferType\n" +
-        "from group_role gr\n" +
-        "         left join report rp on gr.id = rp.group_id\n" +
-        "         left join transfer t on rp.id = t.report_id\n" +
-        "         left join rice r on rp.id = r.report_id;\n",
+        query = "select gr.id                                       as groupId,\n" +
+                "       gr.demarcation_available                    as groupDemarcationAvailable,\n" +
+                "       gr.group_name                               as groupName,\n" +
+                "       (IF(gr.parent_id is null, 0, gr.parent_id)) as groupParentId,\n" +
+                "       rp.report_date                              as reportDate,\n" +
+                "       rp.id                                       as reportId,\n" +
+                "       rp.demarcation                              as reportDemarcation,\n" +
+                "       rp.labor_productivity                       as laborProductivity,\n" +
+                "       rp.part_time_num                            as partTimeNum,\n" +
+                "       rp.rest_num                                 as restNum,\n" +
+                "       rp.student_num                              as studentNum,\n" +
+                "       r.id                                        as riceId,\n" +
+                "       r.rice_cus                                  as riceCus,\n" +
+                "       r.rice_emp                                  as riceEmp,\n" +
+                "       r.rice_vip                                  as riceVip,\n" +
+                "       t.id                                        as transferId,\n" +
+                "       t.is_access                                 as transferIsAccess,\n" +
+                "       t.transfer_date                             as transferDate,\n" +
+                "       t.transfer_num                              as transferNum,\n" +
+                "       t.support_num                              as supportNum,\n" +
+                "       t.group_support                              as groupSupport\n" +
+                "\n" +
+                "from group_role gr\n" +
+                "         left join report rp on gr.id = rp.group_id\n" +
+                "         left join transfer t on rp.id = t.report_id\n" +
+                "         left join rice r on rp.id = r.report_id;\n",
         resultSetMapping = "ViewAllDto"
 )
 @SqlResultSetMapping(

@@ -31,7 +31,8 @@ public class ViewDetailsResponse {
     private String transferIsAccess;
     private String transferDate;
     private Integer transferNum;
-    private String transferType;
+    private Integer supportNum;
+    private Integer groupSupport;
 
     List<ViewDetailsResponse> children;
 
@@ -55,6 +56,7 @@ public class ViewDetailsResponse {
         this.transferIsAccess=viewAllDto.getTransferIsAccess();
         this.transferDate=viewAllDto.getTransferDate();
         this.transferNum=viewAllDto.getTransferNum();
-        this.transferType=viewAllDto.getTransferType();
+        this.supportNum=viewAllDto.getSupportNum();
+        this.groupSupport=viewAllDto.getGroupSupport();
     }
 }
