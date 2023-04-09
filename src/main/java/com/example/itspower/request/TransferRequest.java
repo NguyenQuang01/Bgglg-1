@@ -13,5 +13,6 @@ public class TransferRequest {
     private String groupParent;
     private int transferId;
     private int transferNum;
-    private int type;
+    private int supportNum;
+    private int groupSupport;
 }
