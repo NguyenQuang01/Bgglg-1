@@ -31,17 +31,13 @@ public class ViewController {
         return ResponseEntity.status(HttpStatus.OK).body(viewService.getView(date));
     }
 
-    @GetMapping("/groupRoleReport")
-    @CrossOrigin
-    public ResponseEntity<Object> getReport(@RequestParam("reportDate")String reportDate) {
-        return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.getDetailsReport(reportDate));
-    }
 
     @GetMapping("/groupRoleViewDetails")
     @CrossOrigin
-    public ResponseEntity<BaseResponse<Object>> searchAllViewDetails() {
+    public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("reportDate")String reportDate) {
         try {
-            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, viewDetailService.searchAllView());
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(),
+                    SUCCESS, viewDetailService.searchAllView(reportDate));
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);

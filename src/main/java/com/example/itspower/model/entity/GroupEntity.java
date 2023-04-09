@@ -58,8 +58,6 @@ import javax.persistence.*;
                 @ColumnResult(name = "riceCus", type = Integer.class),
                 @ColumnResult(name = "riceEmp", type = Integer.class),
                 @ColumnResult(name = "riceVip", type = Integer.class),
-                @ColumnResult(name = "transferNum", type = Integer.class),
-                @ColumnResult(name = "transferType", type = Integer.class),
         }
         )
 )
@@ -73,13 +71,10 @@ import javax.persistence.*;
         "       rp.student_num           as studentNum,\n" +
         "       r.rice_cus               as riceCus,\n" +
         "       r.rice_emp               as riceEmp,\n" +
-        "       r.rice_vip               as riceVip,\n" +
-        "       t.transfer_num           as transferNum,\n" +
-        "       t.type                   as transferType\n" +
-        "from group_role gr\n" +
+        "       r.rice_vip               as riceVip\n" +
+        "        from group_role gr\n" +
         "         left join report rp on gr.id = rp.group_id\n" +
-        "         left join transfer t on rp.id = t.report_id\n" +
-        "         left join rice r on rp.id = r.report_id",
+        "         left join rice r on rp.id = r.report_id \n",
         resultSetMapping = "ViewAllDto"
 )
 @SqlResultSetMapping(

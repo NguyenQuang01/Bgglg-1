@@ -5,7 +5,7 @@ import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.repository.GroupRoleRepository;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.ReportJpaRepository;
-import com.example.itspower.response.group.ViewDetailsResponse;
+import com.example.itspower.response.group.ViewDetailGroups;
 import com.example.itspower.service.ViewDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,33 +23,57 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
     @Autowired
     private GroupRoleRepository groupRoleRepository;
     @Override
-    public List<ViewDetailsResponse> searchAllView() {
+    public List<ViewDetailGroups> searchAllView(String reportDate) {
         List<RootNameDto> getIdRoot = groupJpaRepository.getAllRoot();
-        List<ViewAllDto> viewAllDtoList = groupRoleRepository.searchAllView();
-        Integer totalLaborProductivity = viewAllDtoList.stream().map(i ->i.getLaborProductivity())
-                .mapToInt(Integer::intValue).sum();
-        for(RootNameDto id :getIdRoot){
-            List<ViewAllDto> child = viewAllDtoList.stream().filter(i -> i.getGroupParentId()==id.getId()
-                            ||i.getGroupId()==id.getId()).collect(Collectors.toList());
-            int reportDemarcation=child.stream().map(i ->i.getReportDemarcation()).mapToInt(Integer::intValue).sum();
-            int laborProductivity=child.stream().map(i ->i.getLaborProductivity()).mapToInt(Integer::intValue).sum();
-            int restNum=child.stream().map(i ->i.getRestNum()).mapToInt(Integer::intValue).sum();
-            int riceVip=child.stream().map(i ->i.getRiceVip()).mapToInt(Integer::intValue).sum();
-            int riceCus=child.stream().map(i ->i.getRiceCus()).mapToInt(Integer::intValue).sum();
-            int riceEmp=child.stream().map(i ->i.getRiceEmp()).mapToInt(Integer::intValue).sum();
-            float ratio = (laborProductivity/totalLaborProductivity)*100;
-        }
-        List<ViewDetailsResponse> viewDetailsRes = new ArrayList<>();
-        viewAllDtoList.forEach(i -> {
-            ViewDetailsResponse viewDetailsResponse = new ViewDetailsResponse(i);
+        List<ViewAllDto> viewAllDtoList = groupRoleRepository.searchAllView(reportDate);
+        List<ViewAllDto> response =getLogicParent(viewAllDtoList,getIdRoot);
+        List<ViewDetailGroups> viewDetailsRes = new ArrayList<>();
+        response.forEach(i -> {
+            ViewDetailGroups viewDetailsResponse = new ViewDetailGroups(i);
             viewDetailsRes.add(viewDetailsResponse);
         });
         return children(viewDetailsRes);
     }
-    List<ViewDetailsResponse> children( List<ViewDetailsResponse> viewDetailsRes){
-        Map<Integer, List<ViewDetailsResponse>> parentIdToChildren = viewDetailsRes.stream()
-                .collect(Collectors.groupingBy(ViewDetailsResponse::getGroupParentId));
-        viewDetailsRes.forEach(p -> p.setChildren(parentIdToChildren.get(p.getGroupId())));
+    List<ViewAllDto> getLogicParent (List<ViewAllDto> viewAllDtoList, List<RootNameDto> getIdRoot){
+        List<ViewAllDto> parents = new ArrayList<>();
+        Float totalLaborProductivity =Float.valueOf(String.valueOf(viewAllDtoList.stream().map(i ->i.getLaborProductivity())
+                .mapToInt(Integer::intValue).sum())) ;
+        ViewAllDto office = viewAllDtoList.stream().filter(i->i.getGroupName()
+                .equalsIgnoreCase("văn phòng")).collect(Collectors.toList()).get(0);
+        ViewAllDto donViLe = viewAllDtoList.stream().filter(i->i.getGroupName()
+                .equalsIgnoreCase("đơn vị lẻ")).collect(Collectors.toList()).get(0);
+                Float officeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==office.getGroupId())
+                .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
+                Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.getGroupId())
+                .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
+                Float totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
+        for(RootNameDto id :getIdRoot){
+            List<ViewAllDto> parent = viewAllDtoList.stream().filter(i ->i.getGroupId()==id.getId()).collect(Collectors.toList());
+            List<ViewAllDto> child = viewAllDtoList.stream().filter(i -> i.getGroupParentId()==id.getId()
+                    ||i.getGroupId()==id.getId()).collect(Collectors.toList());
+            Integer groupID = parent.stream().map(i ->i.getGroupId()).collect(Collectors.toList()).get(0);
+            Integer groupParentId=parent.stream().map(i ->i.getGroupParentId()).collect(Collectors.toList()).get(0);
+            String groupName=parent.stream().map(i ->i.getGroupName()).collect(Collectors.toList()).get(0);
+            Integer reportDemarcation=child.stream().map(i ->i.getReportDemarcation()).mapToInt(Integer::intValue).sum();
+            Float laborProductivity=Float.valueOf(String.valueOf(child.stream().map(i ->i.getLaborProductivity()).mapToInt(Integer::intValue).sum()));
+            int partTimeNumber=child.stream().map(i ->i.getPartTimeNum()).mapToInt(Integer::intValue).sum();
+            int studentNum=child.stream().map(i ->i.getStudentNum()).mapToInt(Integer::intValue).sum();
+            int restNum=child.stream().map(i ->i.getRestNum()).mapToInt(Integer::intValue).sum();
+            int riceCus=child.stream().map(i ->i.getRiceCus()).mapToInt(Integer::intValue).sum();
+            int riceEmp=child.stream().map(i ->i.getRiceEmp()).mapToInt(Integer::intValue).sum();
+            int riceVip=child.stream().map(i ->i.getRiceVip()).mapToInt(Integer::intValue).sum();
+            float ratio = (laborProductivity/totalLaborProductivity)*100;
+            parents.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity
+                    ,partTimeNumber,studentNum,restNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
+            viewAllDtoList.removeIf(i -> i.getGroupId()==id.getId());
+        }
+        viewAllDtoList.addAll(parents);
+        return viewAllDtoList;
+    }
+    List<ViewDetailGroups> children( List<ViewDetailGroups> viewDetailsRes){
+        Map<Integer, List<ViewDetailGroups>> parentIdToChildren = viewDetailsRes.stream()
+                .collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
+        viewDetailsRes.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
         return parentIdToChildren.get(0);
     }
 }

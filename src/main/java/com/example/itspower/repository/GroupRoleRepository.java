@@ -49,8 +49,8 @@ public class GroupRoleRepository {
         return groupJpaRepository.findAllRole();
     }
 
-    public List<ViewAllDto> searchAllView() {
-        return groupJpaRepository.findAllViewRole();
+    public List<ViewAllDto> searchAllView(String reportDate) {
+        return groupJpaRepository.findAllViewRole(reportDate);
     }
 
 

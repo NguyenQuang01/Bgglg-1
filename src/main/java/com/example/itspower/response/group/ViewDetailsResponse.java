@@ -1,19 +1,16 @@
 package com.example.itspower.response.group;
-
 import com.example.itspower.model.resultset.ViewAllDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
 import java.util.List;
-
-
 @Data
 @Builder
 @AllArgsConstructor
 public class ViewDetailsResponse {
     private Integer groupId;
     private Integer groupParentId;
+    private Float ratio;
     private String groupName;
     private Integer reportDemarcation;
     private Integer laborProductivity;
@@ -23,8 +20,8 @@ public class ViewDetailsResponse {
     private Integer riceCus;
     private Integer riceEmp;
     private Integer riceVip;
-    private Integer transferNum;
-    private Integer transferType;
+    private Float totalRatioOfOfficeAndDonvile;
+
     List<ViewDetailsResponse> children;
 
     public ViewDetailsResponse(ViewAllDto viewAllDto){
@@ -36,10 +33,9 @@ public class ViewDetailsResponse {
         this.partTimeNum=viewAllDto.getPartTimeNum();
         this.restNum=viewAllDto.getRestNum();
         this.studentNum=viewAllDto.getStudentNum();
+        this.ratio=viewAllDto.getRatio()==null ?0.0f:viewAllDto.getRatio();
         this.riceCus=viewAllDto.getRiceCus();
         this.riceEmp=viewAllDto.getRiceEmp();
         this.riceVip=viewAllDto.getRiceVip();
-        this.transferNum=viewAllDto.getTransferNum();
-        this.transferType=viewAllDto.getTransferType();
     }
 }

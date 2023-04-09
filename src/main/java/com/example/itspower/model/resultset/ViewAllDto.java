@@ -16,11 +16,12 @@ public class ViewAllDto {
     private Integer riceCus;
     private Integer riceEmp;
     private Integer riceVip;
-    private Integer transferNum;
-    private Integer transferType;
+    private Float ratio;
+  private Float totalRatioOfOfficeAndDonvile;
+  private Float totalLaborProductivity;
 
     public ViewAllDto(Integer groupId, Integer groupParentId, String groupName, Integer reportDemarcation, Integer laborProductivity, Integer partTimeNum, Integer restNum, Integer studentNum,
-                      Integer riceCus, Integer riceEmp, Integer riceVip, Integer transferNum, Integer transferType) {
+                      Integer riceCus, Integer riceEmp, Integer riceVip) {
         this.groupId = groupId;
         this.groupParentId = groupParentId;
         this.groupName = groupName;
@@ -32,7 +33,43 @@ public class ViewAllDto {
         this.riceCus = riceCus==null ?0:riceCus;
         this.riceEmp = riceEmp==null ?0:riceEmp;
         this.riceVip = riceVip==null ?0:riceVip;
-        this.transferNum = transferNum==null ?0:transferNum;
-        this.transferType = transferType;
+
+    }
+    public ViewAllDto(Integer groupId, Integer groupParentId, String groupName,
+                      Integer reportDemarcation, Float laborProductivity, Integer partTimeNum,
+                      Integer restNum, Integer studentNum,
+                      Integer riceCus, Integer riceEmp, Integer riceVip,Float ratio,Float totalLaborProductivity
+            ,Float totalRatioOfOfficeAndDonvile) {
+        this.groupId = groupId;
+        this.groupParentId = groupParentId;
+        this.groupName = groupName;
+        this.reportDemarcation = reportDemarcation==null ?0 :reportDemarcation;
+        this.laborProductivity = laborProductivity ==null ?0: reportDemarcation;
+        this.partTimeNum = partTimeNum ==null ?0:partTimeNum;
+        this.restNum = restNum==null ?0:restNum;
+        this.studentNum = studentNum==null ?0:studentNum;
+        this.riceCus = riceCus==null ?0:riceCus;
+        this.riceEmp = riceEmp==null ?0:riceEmp;
+        this.riceVip = riceVip==null ?0:riceVip;
+        this.ratio   = ratio==null ?0:ratio;
+        this.totalLaborProductivity=totalLaborProductivity;
+        this.totalRatioOfOfficeAndDonvile=totalRatioOfOfficeAndDonvile;
+    }
+    public ViewAllDto(Integer groupId, Integer groupParentId, String groupName,
+                      Integer reportDemarcation, Float laborProductivity, Integer partTimeNum,
+                      Integer restNum, Integer studentNum,
+                      Integer riceCus, Integer riceEmp, Integer riceVip,Float ratio) {
+        this.groupId = groupId;
+        this.groupParentId = groupParentId;
+        this.groupName = groupName;
+        this.reportDemarcation = reportDemarcation==null ?0 :reportDemarcation;
+        this.laborProductivity = laborProductivity ==null ?0: reportDemarcation;
+        this.partTimeNum = partTimeNum ==null ?0:partTimeNum;
+        this.restNum = restNum==null ?0:restNum;
+        this.studentNum = studentNum==null ?0:studentNum;
+        this.riceCus = riceCus==null ?0:riceCus;
+        this.riceEmp = riceEmp==null ?0:riceEmp;
+        this.riceVip = riceVip==null ?0:riceVip;
+        this.ratio   = ratio==null ?0:ratio;
     }
 }

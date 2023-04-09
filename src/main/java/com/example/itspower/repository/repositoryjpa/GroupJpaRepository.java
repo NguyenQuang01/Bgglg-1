@@ -25,7 +25,7 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
     List<GroupRoleDto> findAllRole();
 
     @Query(name = "findAllRoleView", nativeQuery = true)
-    List<ViewAllDto> findAllViewRole();
+    List<ViewAllDto> findAllViewRole(@Param("reportDate") String reportDate);
 
     @Query(name = "findAllRoot", nativeQuery = true)
     List<RootNameDto> getAllRoot();

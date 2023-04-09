@@ -6,8 +6,6 @@ import com.example.itspower.repository.GroupRoleRepository;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleResponse;
-import com.example.itspower.response.group.ViewDetailGroupResponse;
-import com.example.itspower.response.group.ViewDetailGroups;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,22 +46,22 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         return parentIdToChildren.get(0);
     }
 
-    @Override
-    public Object getDetailsReport(String reportDate) {
-        List<ViewDetailGroupResponse> mapReportParent = groupRoleRepository.getDetailParent();
-        List<ViewDetailGroupResponse> mapReport = groupRoleRepository.getDetails(reportDate);
-        List<ViewDetailGroups> mapData = new ArrayList<>();
-        for (ViewDetailGroupResponse mapParent : mapReportParent) {
-            mapData.add(new ViewDetailGroups(mapParent));
-        }
-        for (ViewDetailGroupResponse mapChildren : mapReport) {
-            mapData.add(new ViewDetailGroups(mapChildren));
-        }
-        Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
-                mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
-        mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
-        return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
-    }
+//    @Override
+//    public Object getDetailsReport(String reportDate) {
+//        List<ViewDetailGroupResponse> mapReportParent = groupRoleRepository.getDetailParent();
+//        List<ViewDetailGroupResponse> mapReport = groupRoleRepository.getDetails(reportDate);
+//        List<ViewDetailGroups> mapData = new ArrayList<>();
+//        for (ViewDetailGroupResponse mapParent : mapReportParent) {
+//            mapData.add(new ViewDetailGroups(mapParent));
+//        }
+//        for (ViewDetailGroupResponse mapChildren : mapReport) {
+//            mapData.add(new ViewDetailGroups(mapChildren));
+//        }
+//        Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
+//                mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
+//        mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
+//        return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
+//    }
 
 
     @Override
