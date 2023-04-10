@@ -146,7 +146,7 @@ import javax.persistence.*;
         }
         )
 )
-@NamedNativeQuery(name = "view_group_root", query = "SELECT gr.group_name,(SELECT COUNT(gr2.parent_id) from " +
+@NamedNativeQuery(name = "view_group_root", query = "SELECT gr.id,gr.group_name as groupName,(SELECT COUNT(gr2.parent_id) from " +
         "group_role gr2 where  gr2.parent_id = gr.id ) as numberChild from group_role gr " +
         "where gr.id in (SELECT DISTINCT gr1.parent_id from group_role gr1 ) and group_name <> 'Tổ may' ",
         resultSetMapping = "ViewGroupRoot"
