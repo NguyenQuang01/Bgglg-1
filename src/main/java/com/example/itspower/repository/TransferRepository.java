@@ -32,11 +32,9 @@ public class TransferRepository {
     public Object saveTransfer(List<TransferRequest> requests, Integer reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
-            Optional<GroupEntity> groupParent = groupJpaRepository.findByGroupName(transfer.getGroupParent());
-            Optional<GroupEntity> groupChild = groupJpaRepository.findByGroupNameAndParentId(transfer.getGroupName(), groupParent.get().getId());
             TransferEntity entity = new TransferEntity();
             entity.setReportId(reportId);
-            entity.setGroupId(groupChild.get().getId());
+            entity.setGroupId(transfer.getGroupId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
@@ -49,12 +47,10 @@ public class TransferRepository {
     public Object updateTransfer(List<TransferRequest> requests, Integer reportId) {
         List<TransferEntity> entities = new ArrayList<>();
         for (TransferRequest transfer : requests) {
-            Optional<GroupEntity> groupParent = groupJpaRepository.findByGroupName(transfer.getGroupParent());
-            Optional<GroupEntity> groupChild = groupJpaRepository.findByGroupNameAndParentId(transfer.getGroupName(), groupParent.get().getId());
             TransferEntity entity = new TransferEntity();
             entity.setTransferId(transfer.getTransferId());
             entity.setReportId(reportId);
-            entity.setGroupId(groupChild.get().getId());
+            entity.setGroupId(transfer.getGroupId());
             entity.setTransferDate(new Date());
             entity.setTransferNum(transfer.getTransferNum());
             entity.setType(transfer.getType());
