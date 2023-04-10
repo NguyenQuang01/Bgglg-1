@@ -21,7 +21,7 @@ public interface GroupRoleService {
 
     Object updateGroupRole(Integer id, Integer demarcation);
 
-    void delete(String groupNam, String parentName);
+    void delete(Integer groupId);
 
     Object save(GroupRoleRequest groupRoleRequest);
 
