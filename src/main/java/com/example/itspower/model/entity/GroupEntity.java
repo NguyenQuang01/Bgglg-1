@@ -81,7 +81,7 @@ import javax.persistence.*;
         "    LEFT JOIN rice r ON rp.id = r.report_id \n" +
         ") subq -- add an alias for the subquery\n" +
         "WHERE DATE_FORMAT(subq.reportDate, '%Y%m%d') = DATE_FORMAT(:reportDate,'%Y%m%d')\n" +
-        "or subq.reportDate is null order by subq.groupId desc ",
+        "or subq.reportDate is null  ",
         resultSetMapping = "ViewAllDto"
 )
 @SqlResultSetMapping(
