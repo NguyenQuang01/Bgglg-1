@@ -10,10 +10,8 @@ import javax.validation.constraints.Size;
 public class UserRequest {
     @NotBlank
     private String userLogin;
-    @NotBlank
-    private String groupName;
-    @NotBlank
-    private String groupParent;
+    @NotNull
+    private Integer groupId;
     @NotNull(message = "password > 6 char ")
     @Size(min = 6)
     private String password;
