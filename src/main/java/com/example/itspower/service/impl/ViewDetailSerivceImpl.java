@@ -34,7 +34,24 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             ViewDetailGroups viewDetailsResponse = new ViewDetailGroups(i,officeId);
             viewDetailsRes.add(viewDetailsResponse);
         });
-        return children(viewDetailsRes);
+        Integer student = viewAllDtoList.stream().map(i ->i.getStudentNum()).mapToInt(Integer::intValue).sum();
+        Integer partTimeToMay = viewAllDtoList.stream().filter(i->i.getGroupName().equalsIgnoreCase("Tổ may"))
+                .map(i->i.getPartTimeNum()).collect(Collectors.toList()).get(0);
+        Integer partTimeDonViLe = viewAllDtoList.stream().filter(i->i.getGroupName().equalsIgnoreCase("Đơn vị lẻ"))
+                .map(i->i.getPartTimeNum()).collect(Collectors.toList()).get(0);
+     ViewDetailGroups studentNangsuat=
+             new ViewDetailGroups(new ViewAllDto(0, 0, "Học sinh chưa báo năng suất", student, 0
+                , 0, 0, 0, 0, 0, 0, 0f, 0f, 0f),0);
+        ViewDetailGroups thoiVuToMay=
+                new ViewDetailGroups(new ViewAllDto(0, 0, "Thời vụ tổ may", partTimeToMay, partTimeToMay
+                        , 0, 0, 0, 0, 0, 0, 0f, 0f, 0f),0);
+        ViewDetailGroups thoiVuDonViLe=new ViewDetailGroups(new ViewAllDto(0, 0, "Thời vụ đơn vị lẻ ", partTimeDonViLe, partTimeDonViLe
+                , 0, 0, 0, 0, 0, 0, 0f, 0f, 0f),0);
+        List<ViewDetailGroups> res =children(viewDetailsRes);
+        res.add(studentNangsuat);
+        res.add(thoiVuToMay);
+        res.add(thoiVuDonViLe);
+        return res;
     }
     List<ViewAllDto> getLogicParent (List<ViewAllDto> viewAllDtoList, List<RootNameDto> getIdRoot){
         Float totalLaborProductivity =Float.valueOf(String.valueOf(viewAllDtoList.stream().map(i ->i.getLaborProductivity())
@@ -87,17 +104,6 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             viewAllDtoList.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity1
                     ,partTimeNumber,studentNum,restNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
         }
-        Integer student = viewAllDtoList.stream().map(i ->i.getStudentNum()).mapToInt(Integer::intValue).sum();
-        Integer partTimeToMay = viewAllDtoList.stream().filter(i->i.getGroupName().equalsIgnoreCase("Tổ may"))
-                        .map(i->i.getPartTimeNum()).collect(Collectors.toList()).get(0);
-        Integer partTimeDonViLe = viewAllDtoList.stream().filter(i->i.getGroupName().equalsIgnoreCase("Đơn vị lẻ"))
-                .map(i->i.getPartTimeNum()).collect(Collectors.toList()).get(0);
-        viewAllDtoList.add(new ViewAllDto(0, 0, "Học sinh chưa báo năng suất", student, 0
-                , 0, 0, 0, 0, 0, 0, 0f, 0f, 0f));
-        viewAllDtoList.add(new ViewAllDto(0, 0, "Thời vụ tổ may", partTimeToMay, partTimeToMay
-                , 0, 0, 0, 0, 0, 0, 0f, 0f, 0f));
-        viewAllDtoList.add(new ViewAllDto(0, 0, "Thời đơn vị lẻ ", partTimeDonViLe, partTimeDonViLe
-                , 0, 0, 0, 0, 0, 0, 0f, 0f, 0f));
         return viewAllDtoList;
     }
     List<ViewDetailGroups> children( List<ViewDetailGroups> viewDetailsRes){
