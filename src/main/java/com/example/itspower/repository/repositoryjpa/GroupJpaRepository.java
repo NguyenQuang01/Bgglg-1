@@ -5,6 +5,7 @@ import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
+import com.example.itspower.response.group.ViewGroupRoot;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -47,6 +48,9 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(name = "findByViewDetailParent", nativeQuery = true)
     List<ViewDetailGroupResponse> getDetailParent();
+
+    @Query(name = "view_group_root", nativeQuery = true)
+    List<ViewGroupRoot> getViewGroup();
 
     Optional<GroupEntity> findByGroupName(String groupName);
 

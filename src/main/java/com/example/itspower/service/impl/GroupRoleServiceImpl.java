@@ -122,4 +122,8 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         }
         return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupEntity);
     }
+
+    public Object getViewRoot() {
+        return groupRoleRepository.getViewRoot();
+    }
 }

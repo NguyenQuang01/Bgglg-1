@@ -1,9 +1,12 @@
 package com.example.itspower.model.entity;
+
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
+import com.example.itspower.response.group.ViewGroupRoot;
 import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
@@ -132,6 +135,23 @@ import javax.persistence.*;
                 "FROM group_role gr left join report  r on r.group_id=gr.id left join rice ri on ri.report_id=r.id " +
                 "where gr.id in (SELECT DISTINCT gr2.parent_id FROM group_role gr2 ) ",
         resultSetMapping = "viewDetailDto"
+)
+
+@SqlResultSetMapping(
+        name = "ViewGroupRoot",
+        classes = @ConstructorResult(targetClass = ViewGroupRoot.class, columns = {
+                @ColumnResult(name = "id", type = Integer.class),
+                @ColumnResult(name = "groupName", type = String.class),
+                @ColumnResult(name = "numberChild", type = Integer.class)
+        }
+        )
+)
+@NamedNativeQuery(name = "view_group_root", query = "SELECT gr.id ,gr.group_name as groupName, " +
+        "(SELECT COUNT(gr2.parent_id) from group_role gr2 " +
+        " where  gr2.parent_id = gr.id ) as numberChild " +
+        "from group_role gr " +
+        "where gr.id in (SELECT DISTINCT gr1.parent_id from group_role gr1 );",
+        resultSetMapping = "ViewGroupRoot"
 )
 
 public class GroupEntity {

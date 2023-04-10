@@ -28,6 +28,7 @@ public class GroupRoleController {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
         }
     }
+
     @GetMapping("/getName")
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> getName() {
@@ -74,9 +75,9 @@ public class GroupRoleController {
 
     @GetMapping("/groupRole/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@RequestParam("groupName") String groupName,@RequestParam("parentName") String parentName,@RequestParam("demarcation") Integer demarcation) {
+    public ResponseEntity<Object> update(@RequestParam("groupName") String groupName, @RequestParam("parentName") String parentName, @RequestParam("demarcation") Integer demarcation) {
         try {
-            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupName, demarcation,parentName));
+            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupName, demarcation, parentName));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -86,8 +87,18 @@ public class GroupRoleController {
     @CrossOrigin
     public ResponseEntity<Object> delete(@RequestParam("groupName") String groupName, @RequestParam("parentName") String parentName) {
         try {
-            groupRoleService.delete(groupName,parentName);
+            groupRoleService.delete(groupName, parentName);
             return ResponseEntity.ok("Thanh cong");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/groupRole/view-root")
+    @CrossOrigin
+    public ResponseEntity<Object> viewRoot() {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(groupRoleService.getViewRoot());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

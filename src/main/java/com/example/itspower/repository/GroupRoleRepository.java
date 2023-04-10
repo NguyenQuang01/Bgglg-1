@@ -8,6 +8,7 @@ import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleDemarcationRes;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
+import com.example.itspower.response.group.ViewGroupRoot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -40,9 +41,11 @@ public class GroupRoleRepository {
         entity.setDemarcationAvailable(groupRoleRequest.getDemarcation());
         return groupJpaRepository.save(entity);
     }
-    public  List<String> getName(){
-       return groupJpaRepository.getAllByGroupName();
+
+    public List<String> getName() {
+        return groupJpaRepository.getAllByGroupName();
     }
+
     public Optional<GroupEntity> findById(Integer groupRoleId) {
         return groupJpaRepository.findById(groupRoleId);
     }
@@ -90,5 +93,9 @@ public class GroupRoleRepository {
 
     public Optional<GroupEntity> findByGroupNameAndParentId(String groupName, Integer parentId) {
         return groupJpaRepository.findByGroupNameAndParentId(groupName, parentId);
+    }
+
+    public List<ViewGroupRoot> getViewRoot() {
+        return groupJpaRepository.getViewGroup();
     }
 }
