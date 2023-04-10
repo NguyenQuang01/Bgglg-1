@@ -44,7 +44,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         String groupName ="Tổ may";
         Optional<GroupEntity> optionalGroupEntity=groupRoleRepository.findByGroupName(groupName);
         for (GroupRoleResponse groupRole : list) {
-            if (groupRole.getId() == optionalGroupEntity.get().getId()) {
+            if (groupRole.getValue() == optionalGroupEntity.get().getId()) {
                 list.remove(groupRole);
                 return;
             }
