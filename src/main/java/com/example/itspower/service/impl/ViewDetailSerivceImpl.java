@@ -51,6 +51,9 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
                     .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
              totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
         }
+        if(totalRatioOfOfficeAndDonvile.isNaN()==true){
+            totalRatioOfOfficeAndDonvile=0.0f;
+        }
         for(RootNameDto id :getIdRoot){
             List<ViewAllDto> parent = viewAllDtoList.stream().filter(i ->i.getGroupId()==id.getId()).collect(Collectors.toList());
             List<ViewAllDto> child = viewAllDtoList.stream().filter(i -> i.getGroupParentId()==id.getId()
@@ -69,7 +72,10 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             int riceCus=child.stream().map(i ->i.getRiceCus()).mapToInt(Integer::intValue).sum();
             int riceEmp=child.stream().map(i ->i.getRiceEmp()).mapToInt(Integer::intValue).sum();
             int riceVip=child.stream().map(i ->i.getRiceVip()).mapToInt(Integer::intValue).sum();
-            float ratio = (laborProductivity/totalLaborProductivity)*100;
+            Float ratio = (laborProductivity/totalLaborProductivity)*100;
+            if(ratio.isNaN()==true){
+                ratio=0.0f;
+            }
             viewAllDtoList.removeIf(i -> i.getGroupId()==id.getId());
             viewAllDtoList.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity1
                     ,partTimeNumber,studentNum,restNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
