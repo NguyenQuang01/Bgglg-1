@@ -12,16 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupRoleResponse {
 
-    private int id;
-    private String value;
+    private int value;
     private String label;
     private Integer parentId;
 
     List<GroupRoleResponse> children;
 
     public GroupRoleResponse(GroupRoleDto groups){
-        this.id=groups.getId();
-        this.value=groups.getName();
+        this.value=groups.getId();
         this.label=groups.getLabel();
         this.parentId=groups.getParentId();
     }

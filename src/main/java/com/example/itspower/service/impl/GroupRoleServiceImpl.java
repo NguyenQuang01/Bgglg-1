@@ -41,7 +41,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             groupRoleResponses.add(groupRoleResponse);
         });
         Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
-        groupRoleResponses.forEach(p -> p.setChildren(parentIdToChildren.get(p.getId())));
+        groupRoleResponses.forEach(p -> p.setChildren(parentIdToChildren.get(p.getValue())));
         return parentIdToChildren.get(0);
     }
 
