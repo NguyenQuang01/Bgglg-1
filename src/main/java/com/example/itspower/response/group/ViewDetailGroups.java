@@ -36,7 +36,10 @@ public class ViewDetailGroups {
             this.office = Float.valueOf(response.getReportDemarcation());
             this.totalRatioOfOfficeAndDonvile=response.getTotalRatioOfOfficeAndDonvile();
             this.totalLaborProductivity=response.getTotalLaborProductivity();
-        }else{
+        }else if (name.equalsIgnoreCase("Đơn vị lẻ")){
+            this.totalRatioOfOfficeAndDonvile=response.getTotalRatioOfOfficeAndDonvile();
+        }
+        else{
             this.enterprise = Float.valueOf(response.getReportDemarcation());
         }
         this.laborProductivity = Float.valueOf(response.getLaborProductivity());

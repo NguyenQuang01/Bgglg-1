@@ -56,21 +56,8 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
     List<ViewAllDto> getLogicParent (List<ViewAllDto> viewAllDtoList, List<RootNameDto> getIdRoot){
         Float totalLaborProductivity =Float.valueOf(String.valueOf(viewAllDtoList.stream().map(i ->i.getLaborProductivity())
                 .mapToInt(Integer::intValue).sum())) ;
-        List<ViewAllDto> office = viewAllDtoList.stream().filter(i->i.getGroupName()
-                .equalsIgnoreCase("văn phòng")).collect(Collectors.toList());
-        List< ViewAllDto> donViLe = viewAllDtoList.stream().filter(i->i.getGroupName()
-                .equalsIgnoreCase("đơn vị lẻ")).collect(Collectors.toList());
-        Float totalRatioOfOfficeAndDonvile = null;
-        if(office.size() >0 && donViLe.size()>0){
-            Float officeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==office.get(0).getGroupId())
-                    .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
-            Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.get(0).getGroupId())
-                    .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
-             totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
-        }
-        if(totalRatioOfOfficeAndDonvile.isNaN()==true){
-            totalRatioOfOfficeAndDonvile=0.0f;
-        }
+
+          Float totalRatioOfOfficeAndDonvile=0.0f;
         for(RootNameDto id :getIdRoot){
             List<ViewAllDto> parent = viewAllDtoList.stream().filter(i ->i.getGroupId()==id.getId()).collect(Collectors.toList());
             List<ViewAllDto> child = viewAllDtoList.stream().filter(i -> i.getGroupParentId()==id.getId()
@@ -88,6 +75,8 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
                         Float.valueOf(String.valueOf(child.stream().map(i ->
                                 i.getPartTimeNum()).mapToInt(Integer::intValue).sum()));
             }
+            Float  laborProductivity2=Float.valueOf(String.valueOf(child.stream().map(i ->
+                    i.getLaborProductivity()).mapToInt(Integer::intValue).sum()));
             Integer laborProductivity1=child.stream().map(i ->
                     i.getLaborProductivity()).mapToInt(Integer::intValue).sum();
             int partTimeNumber=child.stream().map(i ->i.getPartTimeNum()).mapToInt(Integer::intValue).sum();
@@ -96,13 +85,34 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             int riceCus=child.stream().map(i ->i.getRiceCus()).mapToInt(Integer::intValue).sum();
             int riceEmp=child.stream().map(i ->i.getRiceEmp()).mapToInt(Integer::intValue).sum();
             int riceVip=child.stream().map(i ->i.getRiceVip()).mapToInt(Integer::intValue).sum();
-            Float ratio = (laborProductivity/totalLaborProductivity)*100;
+            Float ratio = (laborProductivity2/totalLaborProductivity)*100;
             if(ratio.isNaN()==true){
                 ratio=0.0f;
             }
             viewAllDtoList.removeIf(i -> i.getGroupId()==id.getId());
             viewAllDtoList.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity1
                     ,partTimeNumber,studentNum,restNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
+        }
+        List<ViewAllDto> office = viewAllDtoList.stream().filter(i->i.getGroupName()
+                .equalsIgnoreCase("văn phòng")).collect(Collectors.toList());
+        List< ViewAllDto> donViLe = viewAllDtoList.stream().filter(i->i.getGroupName()
+                .equalsIgnoreCase("đơn vị lẻ")).collect(Collectors.toList());
+        if(office.size() >0 && donViLe.size()>0){
+            Float officeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==office.get(0).getGroupId())
+                    .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
+            Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.get(0).getGroupId())
+                    .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
+            totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
+        }
+        if(totalRatioOfOfficeAndDonvile.isNaN()==true){
+            totalRatioOfOfficeAndDonvile=0.0f;
+        }
+        for (ViewAllDto viewAllDto :viewAllDtoList){
+            if(viewAllDto.getGroupName().equalsIgnoreCase("văn phòng")
+                    ||viewAllDto.getGroupName().equalsIgnoreCase("Đơn vị lẻ") ){
+                viewAllDto.setTotalRatioOfOfficeAndDonvile(totalRatioOfOfficeAndDonvile);
+            }
+
         }
         return viewAllDtoList;
     }
