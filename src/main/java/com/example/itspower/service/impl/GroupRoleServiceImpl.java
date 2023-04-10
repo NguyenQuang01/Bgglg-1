@@ -34,7 +34,6 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
 
-
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {
@@ -85,27 +84,27 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public Object updateGroupRole(String groupName, Integer demarcation,String parentName) {
-        Optional<GroupEntity> groupCheck = groupRoleRepository.findByGroupName(groupName);
-        if (groupCheck.isEmpty()) {
+    public Object updateGroupRole(String groupName, Integer demarcation, String parentName) {
+        Optional<GroupEntity> groupChildren = groupRoleRepository.findByGroupName(groupName);
+        if (groupChildren.isEmpty()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "groupName sai ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        Optional<GroupEntity> groupChildren = groupRoleRepository.findByGroupName(parentName);
-        if (groupCheck.isEmpty()) {
+        Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(parentName);
+        if (groupParent.isEmpty()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "parentName sai ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        GroupEntity groupEntity = groupRoleRepository.update(groupChildren.get().getId(), parentName, groupCheck.get().getId(), demarcation);
+        GroupEntity groupEntity = groupRoleRepository.update(groupChildren.get().getId(), groupChildren.get().getGroupName(), groupParent.get().getId(), demarcation);
         return new SuccessResponse<>(HttpStatus.OK.value(), "update group demarcation success", groupEntity);
     }
 
     @Override
-    public void delete(String groupName,String parentName) {
+    public void delete(String groupName, String parentName) {
         try {
-            Optional<GroupEntity> optionalGroupEntity = groupRoleRepository.findByGroupName(groupName);
-            if (optionalGroupEntity.isPresent()){
-                groupRoleRepository.delete(parentName,optionalGroupEntity.get().getId());
-            }else {
-                groupRoleRepository.delete(parentName,null);
+            Optional<GroupEntity> optionalGroupEntity = groupRoleRepository.findByGroupName(parentName);
+            if (optionalGroupEntity.isPresent()) {
+                groupRoleRepository.delete(groupName, optionalGroupEntity.get().getId());
+            } else {
+                groupRoleRepository.delete(groupName, null);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -117,9 +116,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         Optional<GroupEntity> groupRoleCheck = groupRoleRepository.findByGroupName(groupRoleRequest.getGroupNameRoot());
         GroupEntity groupEntity;
         if (groupRoleCheck.isEmpty()) {
-             groupEntity = groupRoleRepository.save(groupRoleRequest, null);
-        }else {
-             groupEntity = groupRoleRepository.save(groupRoleRequest, groupRoleCheck.get().getId());
+            groupEntity = groupRoleRepository.save(groupRoleRequest, null);
+        } else {
+            groupEntity = groupRoleRepository.save(groupRoleRequest, groupRoleCheck.get().getId());
         }
         return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupEntity);
     }

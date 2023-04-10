@@ -6,10 +6,12 @@ import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +20,13 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     List<GroupEntity> findAllByParentId(int parentId);
 
-    @Query(value = "Delete FROM from group_role gr where group_name =:groupName AND parent_id=:parentId", nativeQuery = true)
-    void deleteByGroupName(@Param("groupName") String groupName,@Param("parentId") Integer parentId);
+    @Transactional
+    @Modifying
+    @Query(value = "Delete FROM group_role where group_name =:groupName AND parent_id =:parentId", nativeQuery = true)
+    void deleteByGroupName(@Param("groupName") String groupName, @Param("parentId") Integer parentId);
+
     List<GroupEntity> findAllByParentIdIsNull();
+
     @Query(name = "findAllRole", nativeQuery = true)
     List<GroupRoleDto> findAllRole();
 
@@ -29,7 +35,8 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(name = "findAllRoot", nativeQuery = true)
     List<RootNameDto> getAllRoot();
-    @Query(value = "SELECT group_name  from group_role gr ",nativeQuery = true)
+
+    @Query(value = "SELECT group_name  from group_role gr ", nativeQuery = true)
     List<String> getAllByGroupName();
 
     @Query(value = "select distinct gr.parent_id from group_role gr where parent_id is not null ", nativeQuery = true)
@@ -37,10 +44,12 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     @Query(name = "findByViewDetail", nativeQuery = true)
     List<ViewDetailGroupResponse> getDetail(@Param("reportDate") String reportDate);
+
     @Query(name = "findByViewDetailParent", nativeQuery = true)
     List<ViewDetailGroupResponse> getDetailParent();
 
     Optional<GroupEntity> findByGroupName(String groupName);
-    Optional<GroupEntity> findByGroupNameAndParentId(String groupName,Integer parentId);
+
+    Optional<GroupEntity> findByGroupNameAndParentId(String groupName, Integer parentId);
 
 }
