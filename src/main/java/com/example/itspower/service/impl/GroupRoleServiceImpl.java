@@ -33,7 +33,26 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         return getSubListChildren(groupRoleRepository.searchAll());
     }
 
+    @Override
+    public List<GroupRoleResponse> searchAllDeleteTM() {
+        List<GroupRoleResponse> a =getSubListChildren(groupRoleRepository.searchAll());
+        removeGroupRoleById(a);
+        return a;
+    }
 
+    public void removeGroupRoleById(List<GroupRoleResponse> list) {
+        String groupName ="Tổ may";
+        Optional<GroupEntity> optionalGroupEntity=groupRoleRepository.findByGroupName(groupName);
+        for (GroupRoleResponse groupRole : list) {
+            if (groupRole.getId() == optionalGroupEntity.get().getId()) {
+                list.remove(groupRole);
+                return;
+            }
+            if (groupRole.getChildren() != null) {
+                removeGroupRoleById(groupRole.getChildren());
+            }
+        }
+    }
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {

@@ -29,6 +29,18 @@ public class GroupRoleController {
         }
     }
 
+    @GetMapping("/groupRoleDeleteTm")
+    @CrossOrigin
+    public ResponseEntity<BaseResponse<Object>> searchAllDeleteTm() {
+        try {
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.searchAllDeleteTM());
+            return ResponseEntity.status(HttpStatus.OK).body(res);
+        } catch (Exception e) {
+            throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
+        }
+    }
+
+
     @GetMapping("/getName")
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> getName() {

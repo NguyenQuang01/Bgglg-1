@@ -9,6 +9,8 @@ import java.util.List;
 public interface GroupRoleService {
     List<GroupRoleResponse> searchAll();
 
+    List<GroupRoleResponse> searchAllDeleteTM();
+
     List<GroupEntity> searchAllByParentId(int parentId);
 
     List<GroupEntity> searchAllByParentIdIsNull();
