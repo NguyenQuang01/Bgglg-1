@@ -45,12 +45,8 @@ public class UserServiceImpl implements UserService {
         if (userEntity.isPresent()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "UserLogin is exits", null);
         }
-        Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(userRequest.getGroupParent());
-        if (groupParent.isEmpty()) {
-            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Parent is empty!", null);
-        }
-        Optional<GroupEntity> groupChild = groupRoleRepository.findByGroupNameAndParentId(userRequest.getGroupName(), groupParent.get().getId());
-        if (groupChild.isEmpty()) {
+        Optional<GroupEntity> groupEntity = groupRoleRepository.findById(userRequest.getGroupId());
+        if (groupEntity.isEmpty()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Child is empty!", null);
         }
         UserEntity user = new UserEntity();
@@ -61,8 +57,8 @@ public class UserServiceImpl implements UserService {
         user.setReport(userRequest.isReport());
         user.setAdmin(userRequest.isAdmin());
         user = userRepository.save(user);
-        UserGroupEntity userGroupEntity  = userGroupRepository.save(user.getId(), groupChild.get().getId());
-        UserResponseSave save = new UserResponseSave(user, groupParent, userGroupEntity);
+        UserGroupEntity userGroupEntity = userGroupRepository.save(user.getId(), groupEntity.get().getId());
+        UserResponseSave save = new UserResponseSave(user, groupEntity, userGroupEntity);
         return new SuccessResponse<>(HttpStatus.CREATED.value(), "register success", save);
 
     }

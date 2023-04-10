@@ -64,11 +64,7 @@ public class ReportServiceImpl implements ReportService {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
         for (TransferRequest transferRequests : request.getTransferRequests()) {
-            Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(transferRequests.getGroupParent());
-            if (groupParent.isEmpty()) {
-                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group parent is empty!", null);
-            }
-            Optional<GroupEntity> groupChild = groupRoleRepository.findByGroupNameAndParentId(transferRequests.getGroupName(), groupParent.get().getId());
+            Optional<GroupEntity> groupChild = groupRoleRepository.findById(transferRequests.getGroupId());
             if (groupChild.isEmpty()) {
                 return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name is empty!", null);
             }
@@ -106,11 +102,7 @@ public class ReportServiceImpl implements ReportService {
             if (transferRequests.getTransferId() == 0) {
                 return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null);
             }
-            Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(transferRequests.getGroupParent());
-            if (groupParent.isEmpty()) {
-                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group parent is empty!", null);
-            }
-            Optional<GroupEntity> groupChild = groupRoleRepository.findByGroupNameAndParentId(transferRequests.getGroupName(), groupParent.get().getId());
+            Optional<GroupEntity> groupChild = groupRoleRepository.findById(transferRequests.getGroupId());
             if (groupChild.isEmpty()) {
                 return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name is empty!", null);
             }
