@@ -17,7 +17,7 @@ public interface GroupRoleService {
 
     Object getDemarcationRes(Integer groupId);
 
-    Object updateGroupRole(String groupName, Integer demarcation, String parentName);
+    Object updateGroupRole(Integer id, Integer demarcation);
 
     void delete(String groupNam, String parentName);
 
