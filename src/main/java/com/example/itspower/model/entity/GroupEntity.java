@@ -20,7 +20,7 @@ import javax.persistence.*;
 
 @NamedNativeQuery(
         name = "findAllRoot",
-        query = "select DISTINCT parent_id as id from group_role gr2 where parent_id  is not null",
+        query = "select DISTINCT parent_id as id from group_role gr2 where parent_id  is not null  order by parent_id desc",
         resultSetMapping = "RootNameDto"
 )
 
@@ -81,7 +81,7 @@ import javax.persistence.*;
         "    LEFT JOIN rice r ON rp.id = r.report_id \n" +
         ") subq -- add an alias for the subquery\n" +
         "WHERE DATE_FORMAT(subq.reportDate, '%Y%m%d') = DATE_FORMAT(:reportDate,'%Y%m%d')\n" +
-        "or subq.reportDate is null",
+        "or subq.reportDate is null order by subq.groupId desc ",
         resultSetMapping = "ViewAllDto"
 )
 @SqlResultSetMapping(
