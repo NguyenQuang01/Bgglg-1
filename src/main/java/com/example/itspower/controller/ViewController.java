@@ -27,7 +27,7 @@ public class ViewController {
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("reportDate")String reportDate) {
         try {
-            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(),
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.OK.value(),
                     SUCCESS, viewDetailService.searchAllView(reportDate));
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
