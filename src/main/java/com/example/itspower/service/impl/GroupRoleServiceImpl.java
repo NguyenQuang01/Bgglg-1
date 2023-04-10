@@ -128,14 +128,9 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public void delete(String groupName, String parentName) {
+    public void delete(Integer groupId) {
         try {
-            Optional<GroupEntity> optionalGroupEntity = groupRoleRepository.findByGroupName(parentName);
-            if (optionalGroupEntity.isPresent()) {
-                groupRoleRepository.delete(groupName, optionalGroupEntity.get().getId());
-            } else {
-                groupRoleRepository.delete(groupName, null);
-            }
+            groupRoleRepository.delete(groupId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
