@@ -1,5 +1,4 @@
 package com.example.itspower.controller;
-
 import com.example.itspower.exception.ReasonException;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.BaseResponse;
@@ -9,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import static com.example.itspower.component.enums.StatusReason.ERROR;
 import static com.example.itspower.component.enums.StatusReason.SUCCESS;
 
@@ -56,7 +54,8 @@ public class GroupRoleController {
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> save(@RequestBody GroupRoleRequest groupRoleRequest) {
         try {
-            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.save(groupRoleRequest));
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS,
+                    groupRoleService.save(groupRoleRequest));
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
@@ -87,9 +86,9 @@ public class GroupRoleController {
 
     @GetMapping("/groupRole/update")
     @CrossOrigin
-    public ResponseEntity<Object> update(@RequestParam("groupName") String groupName, @RequestParam("parentName") String parentName, @RequestParam("demarcation") Integer demarcation) {
+    public ResponseEntity<Object> update(@RequestParam("id") Integer id, @RequestParam("demarcation") Integer demarcation) {
         try {
-            return ResponseEntity.ok(groupRoleService.updateGroupRole(groupName, demarcation, parentName));
+            return ResponseEntity.ok(groupRoleService.updateGroupRole(id, demarcation));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

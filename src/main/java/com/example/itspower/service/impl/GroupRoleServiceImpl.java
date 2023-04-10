@@ -60,7 +60,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             groupRoleResponses.add(groupRoleResponse);
         });
         Map<Integer, List<GroupRoleResponse>> parentIdToChildren = groupRoleResponses.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
-        groupRoleResponses.forEach(p -> p.setChildren(parentIdToChildren.get(p.getId())));
+        groupRoleResponses.forEach(p -> p.setChildren(parentIdToChildren.get(p.getValue())));
         return parentIdToChildren.get(0);
     }
 
@@ -103,16 +103,13 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public Object updateGroupRole(String groupName, Integer demarcation, String parentName) {
-        Optional<GroupEntity> groupChildren = groupRoleRepository.findByGroupName(groupName);
-        if (groupChildren.isEmpty()) {
-            return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "groupName sai ", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        Optional<GroupEntity> groupParent = groupRoleRepository.findByGroupName(parentName);
-        if (groupParent.isEmpty()) {
+    public Object updateGroupRole(Integer id, Integer demarcation) {
+
+        Optional<GroupEntity> group = groupRoleRepository.findById(id);
+        if (group.isEmpty()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "parentName sai ", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        GroupEntity groupEntity = groupRoleRepository.update(groupChildren.get().getId(), groupChildren.get().getGroupName(), groupParent.get().getId(), demarcation);
+        GroupEntity groupEntity = groupRoleRepository.update(group.get().getId(), group.get().getGroupName(), group.get().getParentId(), demarcation);
         return new SuccessResponse<>(HttpStatus.OK.value(), "update group demarcation success", groupEntity);
     }
 
