@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupRoleRequest {
-
-    private String groupName;
     private Integer demarcation;
-    private String groupNameRoot;
+    private String groupName;
+    private Integer parentId;
 }

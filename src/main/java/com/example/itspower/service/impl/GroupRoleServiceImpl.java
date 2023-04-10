@@ -35,14 +35,14 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     @Override
     public List<GroupRoleResponse> searchAllDeleteTM() {
-        List<GroupRoleResponse> a =getSubListChildren(groupRoleRepository.searchAll());
+        List<GroupRoleResponse> a = getSubListChildren(groupRoleRepository.searchAll());
         removeGroupRoleById(a);
         return a;
     }
 
     public void removeGroupRoleById(List<GroupRoleResponse> list) {
-        String groupName ="Tổ may";
-        Optional<GroupEntity> optionalGroupEntity=groupRoleRepository.findByGroupName(groupName);
+        String groupName = "Tổ may";
+        Optional<GroupEntity> optionalGroupEntity = groupRoleRepository.findByGroupName(groupName);
         for (GroupRoleResponse groupRole : list) {
             if (groupRole.getValue() == optionalGroupEntity.get().getId()) {
                 list.remove(groupRole);
@@ -53,6 +53,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             }
         }
     }
+
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {
@@ -129,14 +130,11 @@ public class GroupRoleServiceImpl implements GroupRoleService {
 
     @Override
     public Object save(GroupRoleRequest groupRoleRequest) {
-        Optional<GroupEntity> groupRoleCheck = groupRoleRepository.findByGroupName(groupRoleRequest.getGroupNameRoot());
-        GroupEntity groupEntity;
-        if (groupRoleCheck.isEmpty()) {
-            groupEntity = groupRoleRepository.save(groupRoleRequest, null);
-        } else {
-            groupEntity = groupRoleRepository.save(groupRoleRequest, groupRoleCheck.get().getId());
+        Optional<GroupEntity> groupRoleCheck = groupRoleRepository.findByGroupNameAndParentId(groupRoleRequest.getGroupName(), groupRoleRequest.getParentId());
+        if (groupRoleCheck.isPresent()) {
+            return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "Parent Id is not exits", null);
         }
-        return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupEntity);
+        return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupRoleRepository.save(groupRoleRequest, groupRoleRequest.getParentId()));
     }
 
     public Object getViewRoot() {
