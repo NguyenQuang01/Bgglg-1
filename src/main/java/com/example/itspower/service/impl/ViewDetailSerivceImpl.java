@@ -56,7 +56,6 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
     List<ViewAllDto> getLogicParent (List<ViewAllDto> viewAllDtoList, List<RootNameDto> getIdRoot){
         Float totalLaborProductivity =Float.valueOf(String.valueOf(viewAllDtoList.stream().map(i ->i.getLaborProductivity())
                 .mapToInt(Integer::intValue).sum())) ;
-
           Float totalRatioOfOfficeAndDonvile=0.0f;
         for(RootNameDto id :getIdRoot){
             List<ViewAllDto> parent = viewAllDtoList.stream().filter(i ->i.getGroupId()==id.getId()).collect(Collectors.toList());
@@ -91,7 +90,7 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             }
             viewAllDtoList.removeIf(i -> i.getGroupId()==id.getId());
             viewAllDtoList.add(new ViewAllDto(groupID,groupParentId,groupName,reportDemarcation,laborProductivity1
-                    ,partTimeNumber,studentNum,restNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
+                    ,partTimeNumber,restNum,studentNum,riceCus,riceEmp,riceVip,ratio,totalLaborProductivity,totalRatioOfOfficeAndDonvile));
         }
         List<ViewAllDto> office = viewAllDtoList.stream().filter(i->i.getGroupName()
                 .equalsIgnoreCase("văn phòng")).collect(Collectors.toList());
