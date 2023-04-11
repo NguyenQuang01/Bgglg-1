@@ -42,7 +42,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             labelList.add(groupRole.getValue());
             if (groupRole.getChildren() != null) {
                 for (GroupRoleResponse childGroupRole : groupRole.getChildren()) {
-                    labelList.add(groupRole.getValue());
+                    labelList.add(childGroupRole.getValue());
                     if (childGroupRole.getChildren() != null) {
                         for (GroupRoleResponse grandChildGroupRole : childGroupRole.getChildren()) {
                             labelList.add(grandChildGroupRole.getValue());
