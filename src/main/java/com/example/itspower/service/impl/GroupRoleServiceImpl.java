@@ -6,6 +6,7 @@ import com.example.itspower.repository.GroupRoleRepository;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleResponse;
+import com.example.itspower.response.group.ResponseCount;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,43 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         return labelList;
     }
 
+    public List<ResponseCount> count() {
+        List<GroupRoleResponse> a = getSubListChildren(groupRoleRepository.searchAll());
+        removeGroupRoleById(a);
+        List<ResponseCount> labelList = new ArrayList<>();
+        for (GroupRoleResponse item : a) {
+            int parentId = item.getParentId();
+            if (parentId == 0) {
+                int count = 0;
+                for (GroupRoleResponse child : item.getChildren()) {
+                    if (child.getParentId() == item.getValue()) {
+                        count++;
+                    }
+                    int countChild = 0;
+                    if (child.getChildren() != null) {
+                        for (GroupRoleResponse childrent : child.getChildren()) {
+                            if (childrent.getParentId() == child.getValue()) {
+                                countChild++;
+                            }
+                            int countChildParent = 0;
+                            if (childrent.getChildren() != null) {
+                                for (GroupRoleResponse childrents : childrent.getChildren()) {
+                                    if (childrents.getParentId() == childrent.getValue()) {
+                                        countChildParent++;
+                                    }
+                                }
+                                labelList.add(new ResponseCount(child.getLabel(), countChildParent));
+                            }
+                        }
+                        labelList.add(new ResponseCount(child.getLabel(), countChild));
+                    }
+                }
+                labelList.add(new ResponseCount(item.getLabel(), count));
+            }
+        }
+        return labelList;
+    }
+
     public void removeGroupRoleById(List<GroupRoleResponse> list) {
         String groupName = "Tổ may";
         Optional<GroupEntity> optionalGroupEntity = groupRoleRepository.findByGroupName(groupName);
@@ -67,6 +105,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             }
         }
     }
+
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {

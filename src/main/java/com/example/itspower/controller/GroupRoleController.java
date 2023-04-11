@@ -40,6 +40,17 @@ public class GroupRoleController {
         }
     }
 
+    @GetMapping("/groupRole/count")
+    @CrossOrigin
+    public ResponseEntity<BaseResponse<Object>> count() {
+        try {
+            BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(), SUCCESS, groupRoleService.count());
+            return ResponseEntity.status(HttpStatus.OK).body(res);
+        } catch (Exception e) {
+            throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
+        }
+    }
+
 
     @GetMapping("/getName")
     @CrossOrigin
