@@ -52,7 +52,6 @@ public class ReportRepository {
         if (request.getId() == 0) {
             throw new ResourceNotFoundException(HttpStatus.BAD_REQUEST.value(), "is not exits", HttpStatus.BAD_REQUEST.name());
         }
-        Optional<GroupEntity> groupEntity = groupJpaRepository.findById(groupId);
         reportEntity.setId(request.getId());
         reportEntity.setDemarcation(request.getDemarcation());
         reportEntity.setGroupId(groupId);

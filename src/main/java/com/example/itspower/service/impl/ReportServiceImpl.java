@@ -48,8 +48,10 @@ public class ReportServiceImpl implements ReportService {
         List<TransferEntity> transferEntities = transferRepository.findByReportId(reportDto.getId());
         for (TransferEntity transfer : transferEntities) {
             Optional<GroupEntity> groupEntity = groupRoleRepository.findById(transfer.getGroupId());
-            transfer.setParentId(groupEntity.get().getParentId());
-            transfer.setGroupName(groupEntity.get().getGroupName());
+            if (groupEntity.isPresent()) {
+                transfer.setParentId(groupEntity.get().getParentId());
+                transfer.setGroupName(groupEntity.get().getGroupName());
+            }
         }
         RiceEntity riceEntity = riceRepository.getByRiceDetail(reportDto.getId());
         return new ReportResponse(reportDto, riceEntity, restDtos, transferEntities);
@@ -61,7 +63,6 @@ public class ReportServiceImpl implements ReportService {
         calendar.setTime(new Date());
         calendar.add(Calendar.HOUR_OF_DAY, 7); // thêm 7 giờ vào thời gian hiện tại
         Date newDate = calendar.getTime();
-
         Optional<ReportEntity> entity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(newDate), groupId);
         if (entity.isPresent()) {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "report date is exits", HttpStatus.INTERNAL_SERVER_ERROR.name());
@@ -70,12 +71,10 @@ public class ReportServiceImpl implements ReportService {
             return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "size rest not equal size effective", HttpStatus.INTERNAL_SERVER_ERROR.name());
         }
         for (TransferRequest transferRequests : request.getTransferRequests()) {
-            Optional<GroupEntity> groupChild = groupRoleRepository.findById(transferRequests.getGroupId());
-            if (groupChild.isEmpty()) {
-                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name is empty!", null);
-            }
-            if (groupId == groupChild.get().getId()) {
-                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
+            if (transferRequests.getGroupId() != null) {
+                if (groupId == transferRequests.getGroupId().intValue()) {
+                    return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
+                }
             }
         }
         boolean isCheck = check(request.getRiceRequests().getRiceCus(), request.getRiceRequests().getRiceEmp(), request.getRiceRequests().getRiceVip());
@@ -94,6 +93,7 @@ public class ReportServiceImpl implements ReportService {
         riceRepository.saveRice(request.getRiceRequests(), reportEntity.getId());
         restRepository.saveRest(request.getRestRequests(), reportEntity.getId());
         transferRepository.saveTransfer(request.getTransferRequests(), reportEntity.getId());
+
         return ResponseEntity.ok(new SuccessResponse<>(HttpStatus.CREATED.value(), "report success", reportDto(DateUtils.formatDate(reportEntity.getReportDate()), reportEntity.getGroupId())));
     }
 
@@ -108,12 +108,10 @@ public class ReportServiceImpl implements ReportService {
             if (transferRequests.getTransferId() == 0) {
                 return new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "transferId not exits", null);
             }
-            Optional<GroupEntity> groupChild = groupRoleRepository.findById(transferRequests.getGroupId());
-            if (groupChild.isEmpty()) {
-                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name is empty!", null);
-            }
-            if (groupId == groupChild.get().getId()) {
-                return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
+            if (transferRequests.getGroupId() != null) {
+                if (groupId == transferRequests.getGroupId().intValue()) {
+                    return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "group name not current group user!", null);
+                }
             }
         }
         boolean isCheck = check(request.getRiceRequests().getRiceCus(), request.getRiceRequests().getRiceEmp(), request.getRiceRequests().getRiceVip());
