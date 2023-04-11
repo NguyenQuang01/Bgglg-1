@@ -12,6 +12,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 @RestController
 public class ReportController {
@@ -20,8 +25,15 @@ public class ReportController {
 
     @GetMapping("/report")
     @CrossOrigin
-    public Object report(@RequestParam("reportDate") String reportDate, @RequestParam("groupId") int groupId) {
-        return reportService.reportDto(reportDate, groupId);
+    public Object report(@RequestParam("reportDate") String reportDate, @RequestParam("groupId") int groupId) throws ParseException {
+        Date date=new SimpleDateFormat("yyyy-MM-dd").parse(reportDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // yourDate là thời gian hiện tại của bạn
+        calendar.add(Calendar.HOUR_OF_DAY, 7); // thêm 7 giờ vào thời gian hiện tại
+        Date newDate = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(newDate);
+        return reportService.reportDto(strDate, groupId);
     }
 
     @PostMapping("/report/save")
