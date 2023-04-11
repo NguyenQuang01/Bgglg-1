@@ -34,18 +34,18 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
-    public List<String> searchAllDeleteTM() {
+    public List<Integer> searchAllDeleteTM() {
         List<GroupRoleResponse> a = getSubListChildren(groupRoleRepository.searchAll());
         removeGroupRoleById(a);
-        List<String> labelList = new ArrayList<>();
+        List<Integer> labelList = new ArrayList<>();
         for (GroupRoleResponse groupRole : a) {
-            labelList.add(groupRole.getLabel());
+            labelList.add(groupRole.getValue());
             if (groupRole.getChildren() != null) {
                 for (GroupRoleResponse childGroupRole : groupRole.getChildren()) {
-                    labelList.add(childGroupRole.getLabel());
+                    labelList.add(groupRole.getValue());
                     if (childGroupRole.getChildren() != null) {
                         for (GroupRoleResponse grandChildGroupRole : childGroupRole.getChildren()) {
-                            labelList.add(grandChildGroupRole.getLabel());
+                            labelList.add(grandChildGroupRole.getValue());
                         }
                     }
                 }
