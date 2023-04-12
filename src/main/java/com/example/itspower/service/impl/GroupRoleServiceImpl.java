@@ -2,10 +2,12 @@ package com.example.itspower.service.impl;
 
 import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
+import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.repository.GroupRoleRepository;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.group.GroupRoleResponse;
+import com.example.itspower.response.group.ResponseCount;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,6 +56,43 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         return labelList;
     }
 
+    public List<ResponseCount> count(String reportDate) {
+        List<GroupRoleResponse> a = getDetailsReport(reportDate);
+        removeGroupRoleById(a);
+        List<ResponseCount> labelList = new ArrayList<>();
+        for (GroupRoleResponse item : a) {
+            int parentId = item.getParentId();
+            if (parentId == 0) {
+                int count = 0;
+                for (GroupRoleResponse child : item.getChildren()) {
+                    if (child.getParentId() == item.getValue()) {
+                        count++;
+                    }
+                    int countChild = 0;
+                    if (child.getChildren() != null) {
+                        for (GroupRoleResponse childrent : child.getChildren()) {
+                            if (childrent.getParentId() == child.getValue()) {
+                                countChild++;
+                            }
+                            int countChildParent = 0;
+                            if (childrent.getChildren() != null) {
+                                for (GroupRoleResponse childrents : childrent.getChildren()) {
+                                    if (childrents.getParentId() == childrent.getValue()) {
+                                        countChildParent++;
+                                    }
+                                }
+                                labelList.add(new ResponseCount(childrent.getValue(), childrent.getLabel(), countChildParent));
+                            }
+                        }
+                        labelList.add(new ResponseCount(child.getValue(), child.getLabel(), countChild));
+                    }
+                }
+                labelList.add(new ResponseCount(item.getValue(), item.getLabel(), count));
+            }
+        }
+        return labelList;
+    }
+
     public void removeGroupRoleById(List<GroupRoleResponse> list) {
         String groupName = "Tổ may";
         Optional<GroupEntity> optionalGroupEntity = groupRoleRepository.findByGroupName(groupName);
@@ -67,6 +106,7 @@ public class GroupRoleServiceImpl implements GroupRoleService {
             }
         }
     }
+
     public List<GroupRoleResponse> getSubListChildren(List<GroupRoleDto> groups) {
         List<GroupRoleResponse> groupRoleResponses = new ArrayList<>();
         groups.forEach(i -> {
@@ -78,22 +118,17 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         return parentIdToChildren.get(0);
     }
 
-//    @Override
-//    public Object getDetailsReport(String reportDate) {
-//        List<ViewDetailGroupResponse> mapReportParent = groupRoleRepository.getDetailParent();
-//        List<ViewDetailGroupResponse> mapReport = groupRoleRepository.getDetails(reportDate);
-//        List<ViewDetailGroups> mapData = new ArrayList<>();
-//        for (ViewDetailGroupResponse mapParent : mapReportParent) {
-//            mapData.add(new ViewDetailGroups(mapParent));
-//        }
-//        for (ViewDetailGroupResponse mapChildren : mapReport) {
-//            mapData.add(new ViewDetailGroups(mapChildren));
-//        }
-//        Map<Integer, List<ViewDetailGroups>> parentIdToChildren =
-//                mapData.stream().collect(Collectors.groupingBy(ViewDetailGroups::getParentId));
-//        mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getKey())));
-//        return new SuccessResponse<>(HttpStatus.OK.value(), "report successfully!", parentIdToChildren.get(0));
-//    }
+    private List<GroupRoleResponse> getDetailsReport(String reportDate) {
+        List<ViewAllDto> mapReport = groupRoleRepository.searchAllView(reportDate);
+        List<GroupRoleResponse> mapData = new ArrayList<>();
+        for (ViewAllDto mapChildren : mapReport) {
+            mapData.add(new GroupRoleResponse(mapChildren));
+        }
+        Map<Integer, List<GroupRoleResponse>> parentIdToChildren =
+                mapData.stream().collect(Collectors.groupingBy(GroupRoleResponse::getParentId));
+        mapData.forEach(p -> p.setChildren(parentIdToChildren.get(p.getValue())));
+        return  parentIdToChildren.get(0);
+    }
 
 
     @Override
