@@ -12,7 +12,7 @@ public interface GroupRoleService {
 
     List<Integer> searchAllDeleteTM();
 
-    List<ResponseCount> count();
+    List<ResponseCount> count(String reportDate);
 
     List<GroupEntity> searchAllByParentId(int parentId);
 
