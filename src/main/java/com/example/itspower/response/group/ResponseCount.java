@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseCount {
+    private int key;
     private String parentName;
     private int totalNum;
 }

@@ -80,13 +80,13 @@ public class GroupRoleServiceImpl implements GroupRoleService {
                                         countChildParent++;
                                     }
                                 }
-                                labelList.add(new ResponseCount(child.getLabel(), countChildParent));
+                                labelList.add(new ResponseCount(childrent.getValue(), childrent.getLabel(), countChildParent));
                             }
                         }
-                        labelList.add(new ResponseCount(child.getLabel(), countChild));
+                        labelList.add(new ResponseCount(child.getValue(), child.getLabel(), countChild));
                     }
                 }
-                labelList.add(new ResponseCount(item.getLabel(), count));
+                labelList.add(new ResponseCount(item.getValue(), item.getLabel(), count));
             }
         }
         return labelList;
