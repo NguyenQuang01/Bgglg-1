@@ -10,6 +10,7 @@ import com.example.itspower.service.ViewDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
     GroupJpaRepository groupJpaRepository;
     @Autowired
     private GroupRoleRepository groupRoleRepository;
+    public static DecimalFormat decimalFormat = new DecimalFormat("#.#");
     @Override
     public List<ViewDetailGroups> searchAllView(String reportDate) {
         List<RootNameDto> getIdRoot = groupJpaRepository.getAllRoot();
@@ -84,7 +86,9 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             int riceCus=child.stream().map(i ->i.getRiceCus()).mapToInt(Integer::intValue).sum();
             int riceEmp=child.stream().map(i ->i.getRiceEmp()).mapToInt(Integer::intValue).sum();
             int riceVip=child.stream().map(i ->i.getRiceVip()).mapToInt(Integer::intValue).sum();
+
             Float ratio = (laborProductivity2/totalLaborProductivity)*100;
+            ratio= Float.valueOf(decimalFormat.format(ratio));
             if(ratio.isNaN()==true){
                 ratio=0.0f;
             }
@@ -101,7 +105,9 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
                     .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
             Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.get(0).getGroupId())
                     .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
-            totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
+          totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
+            totalRatioOfOfficeAndDonvile= Float.valueOf(decimalFormat.format(totalLaborProductivity));
+
         }
         if(totalRatioOfOfficeAndDonvile.isNaN()==true){
             totalRatioOfOfficeAndDonvile=0.0f;
