@@ -106,7 +106,7 @@ public class ViewDetailSerivceImpl implements ViewDetailService {
             Float DonViLeRatio = Float.valueOf(viewAllDtoList.stream().filter(i -> i.getGroupParentId()==donViLe.get(0).getGroupId())
                     .map(i -> i.getLaborProductivity()).mapToInt(Integer::intValue).sum())/totalLaborProductivity*100;
           totalRatioOfOfficeAndDonvile = officeRatio+DonViLeRatio;
-            totalRatioOfOfficeAndDonvile= Float.valueOf(decimalFormat.format(totalLaborProductivity));
+            totalRatioOfOfficeAndDonvile= Float.valueOf(decimalFormat.format(totalRatioOfOfficeAndDonvile));
 
         }
         if(totalRatioOfOfficeAndDonvile.isNaN()==true){
