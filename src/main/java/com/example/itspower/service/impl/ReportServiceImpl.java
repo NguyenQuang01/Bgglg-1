@@ -136,6 +136,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void deleteRestIdsAndReportId(Integer reportId, List<Integer> restIds) {
         restRepository.deleteRestIdsAndReportId(reportId, restIds);
+        // report id
     }
 
     private boolean check(int riceCus, int riseEmp, int riseVip) {

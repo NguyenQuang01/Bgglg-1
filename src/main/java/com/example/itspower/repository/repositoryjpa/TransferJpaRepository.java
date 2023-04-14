@@ -1,6 +1,7 @@
 package com.example.itspower.repository.repositoryjpa;
 
 import com.example.itspower.model.entity.TransferEntity;
+import com.example.itspower.response.transfer.TransferNumAccept;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,8 +15,8 @@ import java.util.List;
 public interface TransferJpaRepository extends JpaRepository<TransferEntity, Integer> {
     List<TransferEntity> findByReportId(Integer reportId);
 
-    @Query(value = "select * from transfer t where t.group_id =:groupId and t.`type` =1 AND DATE_FORMAT(t.transfer_date , '%Y%m%d') = DATE_FORMAT(:transferDate, '%Y%m%d') AND t.is_access = false", nativeQuery = true)
-    List<TransferEntity> findGroupIdAndTransferDate(@Param("groupId") int groupId, @Param("transferDate") String transferDate);
+    @Query(name = "group_accept", nativeQuery = true)
+    List<TransferNumAccept> findGroupIdAndTransferDate(@Param("groupId") int groupId, @Param("reportDate") String reportDate);
 
     @Modifying
     @Transactional

@@ -69,6 +69,6 @@ public class RestRepository {
     }
 
     public void deleteRestIdsAndReportId(Integer reportId, List<Integer> restIds) {
-        restJpaRepository.deleteRestIdsAndReportId(restIds, reportId);
+        restJpaRepository.deleteByReportIdAndRestIdIn( reportId,restIds);
     }
 }
