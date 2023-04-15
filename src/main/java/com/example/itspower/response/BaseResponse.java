@@ -13,4 +13,6 @@ public class BaseResponse<T> {
     private String message;
 
     private T data;
+
+
 }

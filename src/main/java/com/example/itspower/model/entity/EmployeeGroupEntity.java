@@ -1,0 +1,39 @@
+package com.example.itspower.model.entity;
+
+import com.example.itspower.response.employee.EmployeeGroupResponse;
+import lombok.Data;
+
+import javax.persistence.*;
+@SqlResultSetMapping(
+        name = "getEmployee",
+        classes = @ConstructorResult(targetClass = EmployeeGroupResponse.class, columns = {
+                @ColumnResult(name = "employeeId", type = Integer.class),
+                @ColumnResult(name = "laborCode", type = String.class),
+                @ColumnResult(name = "employeeName", type = String.class),
+                @ColumnResult(name = "groupId", type = Integer.class),
+                @ColumnResult(name = "groupName", type = String.class),
+        }
+        )
+)
+@NamedNativeQuery(name = "view_all_employee", query = "SELECT ge.id as employeeId,ge.labor_code as laborCode" +
+        ",ge.name as employeeName,ge.group_id as groupId,\n" +
+        "gr.group_name as groupName\n" +
+        "from group_employee ge inner join group_role gr on ge.group_id =gr.id  where ge.group_id =:groupId and " +
+        " ge.name LIKE CONCAT('%',:name, '%')",
+        resultSetMapping = "getEmployee"
+)
+@Entity
+@Table(name = "group_Employee")
+@Data
+public class EmployeeGroupEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "laborCode")
+    private String laborCode;
+    @Column(name = "group_id")
+    private Integer groupId;
+
+}

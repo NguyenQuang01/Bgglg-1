@@ -5,6 +5,8 @@ import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.BaseResponse;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,6 +104,19 @@ public class GroupRoleController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @GetMapping("/groupRole/getAllDemarcation")
+    @CrossOrigin
+    public ResponseEntity<Object> getAllDemarcation( @RequestParam(defaultValue = "1") Integer pageNo,
+                                                     @RequestParam(defaultValue = "10") Integer pageSize) {
+        try {
+            Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+            return ResponseEntity.ok(groupRoleService.getAllDamercation(pageable));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 
     @GetMapping("/groupRole/update")
     @CrossOrigin

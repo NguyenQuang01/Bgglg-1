@@ -3,11 +3,13 @@ package com.example.itspower.model.entity;
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.RootNameDto;
 import com.example.itspower.model.resultset.ViewAllDto;
+import com.example.itspower.response.group.GroupRoleDemarcationRes;
 import com.example.itspower.response.group.ViewDetailGroupResponse;
 import com.example.itspower.response.group.ViewGroupRoot;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "group_role")
@@ -38,13 +40,30 @@ import javax.persistence.*;
         }
         )
 )
-@NamedNativeQuery(name = "findAllRole", query = "select gr.id                 as id,\n" +
+@NamedNativeQuery(name = "findAllRole", query = "select gr.id  as id,\n" +
         "       gr.group_name                               as name,\n" +
         "       gr.group_name                               as label,\n" +
         "       (IF(gr.parent_id is null, 0, gr.parent_id)) as parentId,\n" +
         "        gr.demarcation_available        as demarcationAvailable\n" +
         "from group_role gr;",
         resultSetMapping = "GroupRoleDto"
+)
+@SqlResultSetMapping(
+        name = "getAllDinhBien",
+        classes = @ConstructorResult(targetClass = GroupRoleDemarcationRes.class, columns = {
+                @ColumnResult(name = "groupId", type = int.class),
+                @ColumnResult(name = "dinhBien", type = Integer.class),
+                @ColumnResult(name = "groupName", type = String.class)
+        }
+        )
+)
+
+
+@NamedNativeQuery(name = "findAllDinhBien", query = "SELECT gr.id as groupId," +
+        "gr.demarcation_available as dinhBien," +
+        "gr .group_name as groupName\n" +
+        "from group_role gr",
+        resultSetMapping = "getAllDinhBien"
 )
 
 @SqlResultSetMapping(
@@ -152,7 +171,7 @@ import javax.persistence.*;
         resultSetMapping = "ViewGroupRoot"
 )
 
-public class GroupEntity {
+public class GroupEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

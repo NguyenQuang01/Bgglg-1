@@ -21,6 +21,7 @@ public interface GroupJpaRepository extends JpaRepository<GroupEntity, Integer> 
 
     List<GroupEntity> findAllByParentId(int parentId);
 
+
     @Transactional
     @Modifying
     @Query(value = "Delete FROM group_role where id =:groupId ", nativeQuery = true)

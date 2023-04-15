@@ -4,12 +4,16 @@ import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.resultset.GroupRoleDto;
 import com.example.itspower.model.resultset.ViewAllDto;
 import com.example.itspower.repository.GroupRoleRepository;
+import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.request.GroupRoleRequest;
 import com.example.itspower.response.SuccessResponse;
+import com.example.itspower.response.group.GroupRoleDemarcationRes;
 import com.example.itspower.response.group.GroupRoleResponse;
 import com.example.itspower.response.group.ResponseCount;
 import com.example.itspower.service.GroupRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,8 @@ import java.util.stream.Collectors;
 public class GroupRoleServiceImpl implements GroupRoleService {
     @Autowired
     private GroupRoleRepository groupRoleRepository;
+    @Autowired
+    private GroupJpaRepository groupJpaRepository;
 
     private static final String OFFICE = "Office";
     private static final String VANPHONG = "Văn phòng";
@@ -33,6 +39,17 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     @Override
     public List<GroupRoleResponse> searchAll() {
         return getSubListChildren(groupRoleRepository.searchAll());
+    }
+
+    @Override
+    public Page<GroupEntity> getAllDamercation(Pageable pageable) {
+        try{
+            Page<GroupEntity> findAll = groupJpaRepository.findAll(pageable);
+            return findAll;
+        }catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     @Override
@@ -152,6 +169,11 @@ public class GroupRoleServiceImpl implements GroupRoleService {
     }
 
     @Override
+    public List<GroupRoleDemarcationRes> getAllDemarcationRes() {
+        return null;
+    }
+
+    @Override
     public Object updateGroupRole(Integer id, Integer demarcation) {
 
         Optional<GroupEntity> group = groupRoleRepository.findById(id);
@@ -177,7 +199,8 @@ public class GroupRoleServiceImpl implements GroupRoleService {
         if (groupRoleCheck.isPresent()) {
             return new SuccessResponse<>(HttpStatus.BAD_REQUEST.value(), "Parent Id is not exits", null);
         }
-        return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!", groupRoleRepository.save(groupRoleRequest, groupRoleRequest.getParentId()));
+        return new SuccessResponse<>(HttpStatus.OK.value(), "Save group success!",
+                groupRoleRepository.save(groupRoleRequest, groupRoleRequest.getParentId()));
     }
 
     public Object getViewRoot() {

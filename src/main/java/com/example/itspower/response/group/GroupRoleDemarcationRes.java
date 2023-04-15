@@ -16,4 +16,10 @@ public class GroupRoleDemarcationRes {
         this.groupName = groupEntity.getGroupName();
         this.demarcationAvailable = groupEntity.getDemarcationAvailable();
     }
+
+    public GroupRoleDemarcationRes(Integer groupId, Integer demarcationAvailable, String groupName) {
+        this.groupId = groupId;
+        this.groupName = groupName;
+        this.demarcationAvailable = demarcationAvailable;
+    }
 }
