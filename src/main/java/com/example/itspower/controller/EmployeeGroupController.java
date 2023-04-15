@@ -54,10 +54,13 @@ public class EmployeeGroupController {
 
     @GetMapping("/getEmployee")
     @CrossOrigin
-    public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("groupId")Integer groupId,@RequestParam("name")String name) {
+    public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("groupId")Integer groupId,
+                                                                     @RequestParam("name")String name,
+                                                                     @RequestParam("laborCode")  String laborCode,
+                                                                     @RequestParam("groupName")   String groupName) {
         try {
             BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(),
-                    SUCCESS, employeeGroupService.getEmployee(groupId, name));
+                    SUCCESS, employeeGroupService.getEmployee(groupId, name,laborCode,groupName));
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);
