@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.text.ParseException;
 import java.util.Date;
 @RestController
 public class TransferController {
@@ -17,8 +19,8 @@ public class TransferController {
 
     @GetMapping("transfer/now-date")
     @CrossOrigin
-    public ResponseEntity<Object> nowDate(@RequestParam("groupId") int groupId) {
-        return ResponseEntity.status(HttpStatus.OK).body(transferService.findGroupIdAndTransferDate(groupId));
+    public ResponseEntity<Object> nowDate(@RequestParam("groupId") int groupId,@RequestParam("reportDate") String reportDate) throws ParseException {
+        return ResponseEntity.status(HttpStatus.OK).body(transferService.findGroupIdAndTransferDate(groupId,reportDate));
     }
 
     @GetMapping("transfer/accept")

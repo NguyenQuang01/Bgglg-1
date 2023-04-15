@@ -1,21 +1,23 @@
 package com.example.itspower.repository;
 
-import com.example.itspower.component.util.DateUtils;
-import com.example.itspower.model.entity.GroupEntity;
 import com.example.itspower.model.entity.TransferEntity;
 import com.example.itspower.repository.repositoryjpa.GroupJpaRepository;
 import com.example.itspower.repository.repositoryjpa.TransferJpaRepository;
 import com.example.itspower.request.TransferRequest;
+import com.example.itspower.response.transfer.TransferNumAccept;
 import com.example.itspower.response.transfer.TransferResponseGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class TransferRepository {
@@ -59,12 +61,18 @@ public class TransferRepository {
         return transferJpaRepository.saveAll(entities);
     }
 
-    public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId) {
-        List<TransferEntity> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId, DateUtils.formatDate(new Date()));
+    public List<TransferResponseGroup> findGroupIdAndTransferDate(int groupId,String reportDate) throws ParseException {
+        Date date=new SimpleDateFormat("yyyy/MM/dd").parse(reportDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date); // yourDate là thời gian hiện tại của bạn
+        calendar.add(Calendar.HOUR_OF_DAY, 7); // thêm 7 giờ vào thời gian hiện tại
+        Date newDate = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(newDate);
+        List<TransferNumAccept> entities = transferJpaRepository.findGroupIdAndTransferDate(groupId, strDate);
         List<TransferResponseGroup> transferResponseGroups = new ArrayList<>();
-        for (TransferEntity entity : entities) {
-            Optional<GroupEntity> groupEntity = groupJpaRepository.findById(entity.getGroupId());
-            transferResponseGroups.add(new TransferResponseGroup(entity.getGroupId(), groupEntity.get().getGroupName(), entity.getTransferNum()));
+        for (TransferNumAccept transsfer : entities) {
+            transferResponseGroups.add(new TransferResponseGroup(transsfer.getId(), transsfer.getGroupName(), transsfer.getTransferNum()));
         }
         return transferResponseGroups;
     }
