@@ -18,9 +18,8 @@ import javax.persistence.*;
 @NamedNativeQuery(name = "view_all_employee", query = "SELECT ge.id as employeeId,ge.labor_code as laborCode" +
         ",ge.name as employeeName,ge.group_id as groupId,\n" +
         "gr.group_name as groupName\n" +
-        "from group_employee ge inner join group_role gr on ge.group_id =gr.id  where ge.group_id =:groupId and " +
-        " ge.name LIKE CONCAT('%',:name, '%') and ge.labor_code LIKE CONCAT('%',:laborCode, '%')" +
-        "and gr.group_name LIKE CONCAT('%',:groupName, '%')",
+        "from group_employee ge inner join group_role gr on ge.group_id =gr.id ORDER BY gr.group_name ASC " +
+        "LIMIT :limit ",
         resultSetMapping = "getEmployee"
 )
 @Entity

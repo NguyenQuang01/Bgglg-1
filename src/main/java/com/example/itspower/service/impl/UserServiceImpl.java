@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    // chua can toi
+
     @Override
     @Transactional
     public ResponseEntity<Object> update(UserUpdateRequest userUpdateRequest, int id) {
@@ -111,8 +111,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ListUserResponse> getAllUser(String userName, String groupName) {
-        return userJpaRepository.listUser(userName,groupName);
+    public List<ListUserResponse> getAllUser(Integer limit) {
+        return userJpaRepository.listUser(limit);
     }
 
     public UserDto loginInfor(String userLogin) {

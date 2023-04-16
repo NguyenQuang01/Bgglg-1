@@ -13,7 +13,5 @@ import java.util.List;
 public interface EmployeeGroupRepository extends JpaRepository<EmployeeGroupEntity,Integer> {
 
     @Query(name = "view_all_employee", nativeQuery = true)
-    List<EmployeeGroupResponse> getEmployee(@Param("groupId") Integer groupId,
-                                            @Param("name") String name,@Param("laborCode")String laborCode
-            ,String groupName);
+    List<EmployeeGroupResponse> getEmployee(@Param("limit") Integer limit);
 }

@@ -63,8 +63,7 @@ import javax.persistence.*;
         query = "SELECT u.id as userId,u.user_login as userName,u.password as password,u.is_view as isView,\n" +
                 "u.is_edit as isEdit , u.is_report as isReport,u.is_admin as isAdmin ,gr.group_name as groupName" +
                 " from user u inner join user_group ug on u.id =ug.user_id " +
-                "INNER join group_role gr on ug.group_id = gr.id where u.user_login like  CONCAT('%',:userLogin, '%')" +
-                "and gr.group_name like  CONCAT('%',:groupName, '%') ",
+                "INNER join group_role gr on ug.group_id = gr.id ORDER BY gr.group_name ASC limit :limit  ",
         resultSetMapping = "list_user"
 )
 
