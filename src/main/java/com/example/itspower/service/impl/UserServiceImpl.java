@@ -8,8 +8,10 @@ import com.example.itspower.model.entity.UserEntity;
 import com.example.itspower.model.entity.UserGroupEntity;
 import com.example.itspower.model.resultset.UserDto;
 import com.example.itspower.repository.*;
+import com.example.itspower.repository.repositoryjpa.UserJpaRepository;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
+import com.example.itspower.response.user.ListUserResponse;
 import com.example.itspower.response.user.UserResponseSave;
 import com.example.itspower.response.search.UserRequest;
 import com.example.itspower.service.UserService;
@@ -37,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserGroupRepository userGroupRepository;
     private final UserLoginConfig userLoginConfig;
+
+    private final UserJpaRepository userJpaRepository;
 
     @Override
     @Transactional
@@ -126,6 +130,11 @@ public class UserServiceImpl implements UserService {
     public boolean isCheckReport(int groupId) {
         Optional<ReportEntity> reportEntity = reportRepository.findByReportDateAndGroupId(DateUtils.formatDate(new Date()), groupId);
         return reportEntity.isPresent();
+    }
+
+    @Override
+    public List<ListUserResponse> getAllUser(String userName, String groupName) {
+        return userJpaRepository.listUser(userName,groupName);
     }
 
     public UserDto loginInfor(String userLogin) {

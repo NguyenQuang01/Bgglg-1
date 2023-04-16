@@ -1,6 +1,7 @@
 package com.example.itspower.model.entity;
 
 import com.example.itspower.model.resultset.UserDto;
+import com.example.itspower.response.user.ListUserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,34 @@ import javax.persistence.*;
                 "left join group_role gr on ug.group_id = gr .id where u.user_login = :userLogin ",
         resultSetMapping = "user_dto"
 )
+@SqlResultSetMapping(
+        name = "list_user",
+        classes = @ConstructorResult(
+                targetClass = ListUserResponse.class,
+                columns = {
+                        @ColumnResult(name = "userId", type = Integer.class),
+                        @ColumnResult(name = "userName", type = String.class),
+                        @ColumnResult(name = "password", type = String.class),
+                        @ColumnResult(name = "isView", type = Boolean.class),
+                        @ColumnResult(name = "isEdit", type = Boolean.class),
+                        @ColumnResult(name = "isReport", type = Boolean.class),
+                        @ColumnResult(name = "isAdmin", type = Boolean.class),
+                        @ColumnResult(name = "groupName", type = String.class),
+
+                }
+        )
+)
+
+@NamedNativeQuery(
+        name = "list_infor_user",
+        query = "SELECT u.id as userId,u.user_login as userName,u.password as password,u.is_view as isView,\n" +
+                "u.is_edit as isEdit , u.is_report as isReport,u.is_admin as isAdmin ,gr.group_name as groupName" +
+                " from user u inner join user_group ug on u.id =ug.user_id " +
+                "INNER join group_role gr on ug.group_id = gr.id where u.user_login like  CONCAT('%',:userLogin, '%')" +
+                "and gr.group_name like  CONCAT('%',:groupName, '%') ",
+        resultSetMapping = "list_user"
+)
+
 public class UserEntity {
     @Id
     @Column(name = "id")

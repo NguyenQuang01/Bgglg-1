@@ -49,7 +49,6 @@ public class UserController {
             throw new GeneralSecurityException(ex.getMessage());
         }
     }
-
     @PostMapping("/api/update")
     @CrossOrigin
     public ResponseEntity<Object> update(@Valid @RequestBody UserUpdateRequest userRequest, @RequestParam("userId") int id) {
@@ -93,4 +92,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "login is not success", null));
         }
     }
+
+    @GetMapping("/getAllUser")
+    @CrossOrigin
+    public ResponseEntity<Object> getAllDemarcation( @RequestParam("userName") String userName,
+                                                     @RequestParam("groupName") String groupName) {
+        try {
+            return ResponseEntity.ok(userService.getAllUser(userName,groupName));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 }
