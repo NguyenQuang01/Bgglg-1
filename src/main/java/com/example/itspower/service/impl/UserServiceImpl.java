@@ -74,20 +74,8 @@ public class UserServiceImpl implements UserService {
         try {
             UserDetails userEntity = userLoginConfig.loadUserById(id);
             UserEntity user = new UserEntity();
-            if (userEntity.getPassword().equals(userUpdateRequest.getPasswordOld())) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "password present is not correct", ""));
-            }
-            if (userUpdateRequest.getPasswordOld().equals(userUpdateRequest.getPassword())) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "new password is not current password present", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-            }
             Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(id);
-            if (userGroupEntity.isEmpty()) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "user group is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-            }
             Optional<GroupEntity> groupEntity = groupRoleRepository.findById(userGroupEntity.get().getGroupId());
-            if (groupEntity.isEmpty()) {
-                return ResponseEntity.badRequest().body(new SuccessResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "group Id is not exits", HttpStatus.INTERNAL_SERVER_ERROR.name()));
-            }
             user.setId(id);
             user.setUserLogin(userEntity.getUsername());
             user.setPassword(userEntity.getPassword());
@@ -110,13 +98,6 @@ public class UserServiceImpl implements UserService {
                 for (int userId : ids) {
                     Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(userId);
                     if (userGroupEntity.isPresent()) {
-                        Optional<ReportEntity> reportEntity = reportRepository.findByGroupId(userGroupEntity.get().getGroupId());
-                        if (reportEntity.isPresent()) {
-                            restRepository.deleteRestReportId(reportEntity.get().getId());
-                            riceRepository.deleteReportId(reportEntity.get().getId());
-                            transferRepository.deleteTransferReportId(reportEntity.get().getId());
-                            reportRepository.deleteByGroupId(userGroupEntity.get().getGroupId());
-                        }
                         userGroupRepository.deleteGroupUser(userId);
                     }
                 }

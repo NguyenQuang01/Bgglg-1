@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="fix bug search view">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/response/user/ListUserResponse.java" afterDir="false" />
+    <list default="true" id="d8e811f7-ab85-440d-81dd-29fe6388095e" name="Changes" comment="add api get All User">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/model/entity/UserEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/repository/repositoryjpa/UserJpaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/repository/repositoryjpa/UserJpaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/itspower/service/impl/UserServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -217,14 +212,8 @@
       <workItem from="1681531799980" duration="521000" />
       <workItem from="1681562927155" duration="11366000" />
       <workItem from="1681574435874" duration="444000" />
-      <workItem from="1681618527219" duration="1990000" />
-    </task>
-    <task id="LOCAL-00024" summary="api">
-      <created>1678985276106</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1678985276106</updated>
+      <workItem from="1681618527219" duration="2169000" />
+      <workItem from="1681621261604" duration="423000" />
     </task>
     <task id="LOCAL-00025" summary="api">
       <created>1679118862712</created>
@@ -562,7 +551,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681574483257</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="add api get All User">
+      <created>1681620639316</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1681620639317</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -592,7 +588,8 @@
     <MESSAGE value="fix view report" />
     <MESSAGE value="api /groupRole/demarcation get and update" />
     <MESSAGE value="fix bug search view" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix bug search view" />
+    <MESSAGE value="add api get All User" />
+    <option name="LAST_COMMIT_MESSAGE" value="add api get All User" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
