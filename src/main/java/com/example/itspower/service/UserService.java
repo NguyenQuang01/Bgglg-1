@@ -1,6 +1,7 @@
 package com.example.itspower.service;
 
 import com.example.itspower.model.resultset.UserDto;
+import com.example.itspower.request.search.UserSearchRequest;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.search.UserRequest;
@@ -19,5 +20,5 @@ public interface UserService {
     void delete(List<Integer> ids, String userName);
 
     boolean isCheckReport(int groupId);
-    List<ListUserResponse> getAllUser(Integer limit);
+    List<ListUserResponse> getAllUser(Integer limit, UserSearchRequest request);
 }

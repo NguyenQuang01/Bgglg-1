@@ -4,6 +4,7 @@ import com.example.itspower.filter.JwtToken;
 import com.example.itspower.model.resultset.UserDto;
 import com.example.itspower.model.usertoken.UserRefreshToken;
 import com.example.itspower.model.usertoken.UserResponse;
+import com.example.itspower.request.search.UserSearchRequest;
 import com.example.itspower.request.userrequest.UserDeleteRequest;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
@@ -95,9 +96,9 @@ public class UserController {
 
     @GetMapping("/getAllUser")
     @CrossOrigin
-    public ResponseEntity<Object> getAllDemarcation(@RequestParam("limit") Integer limit) {
+    public ResponseEntity<Object> getAllDemarcation(@RequestParam("limit") Integer limit,@RequestBody UserSearchRequest request) {
         try {
-            return ResponseEntity.ok(userService.getAllUser(limit));
+            return ResponseEntity.ok(userService.getAllUser(limit,request));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

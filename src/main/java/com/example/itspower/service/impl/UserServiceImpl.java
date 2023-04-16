@@ -9,6 +9,7 @@ import com.example.itspower.model.entity.UserGroupEntity;
 import com.example.itspower.model.resultset.UserDto;
 import com.example.itspower.repository.*;
 import com.example.itspower.repository.repositoryjpa.UserJpaRepository;
+import com.example.itspower.request.search.UserSearchRequest;
 import com.example.itspower.request.userrequest.UserUpdateRequest;
 import com.example.itspower.response.SuccessResponse;
 import com.example.itspower.response.user.ListUserResponse;
@@ -111,8 +112,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ListUserResponse> getAllUser(Integer limit) {
-        return userJpaRepository.listUser(limit);
+    public List<ListUserResponse> getAllUser(Integer limit, UserSearchRequest request) {
+        return userJpaRepository.listUser(limit, request.getGroupName(), request.getUserName());
     }
 
     public UserDto loginInfor(String userLogin) {

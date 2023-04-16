@@ -21,7 +21,8 @@ public interface UserJpaRepository extends JpaRepository<UserEntity, Integer>, J
     @Query(name = "loginInfor", nativeQuery = true)
     UserDto loginInfor(@Param("userLogin") String userLogin);
     @Query(name = "list_infor_user", nativeQuery = true)
-    List<ListUserResponse> listUser(@Param("limit")Integer limit);
+    List<ListUserResponse> listUser(@Param("limit")Integer limit,@Param("groupName")String groupName
+            ,@Param("loginName")String loginName);
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM user WHERE id in(:ids)", nativeQuery = true)

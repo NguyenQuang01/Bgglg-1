@@ -1,6 +1,7 @@
 package com.example.itspower.controller;
 
 import com.example.itspower.exception.ReasonException;
+import com.example.itspower.request.search.SearchEmployeeRequest;
 import com.example.itspower.request.userrequest.addUserRequest;
 import com.example.itspower.response.BaseResponse;
 import com.example.itspower.response.SuccessResponse;
@@ -54,10 +55,12 @@ public class EmployeeGroupController {
 
     @GetMapping("/getEmployee")
     @CrossOrigin
-    public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("limit") Integer limit) {
+    public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("limit") Integer limit,
+                                                                     @RequestBody SearchEmployeeRequest searchForm) {
         try {
             BaseResponse<Object> res = new BaseResponse<>(HttpStatus.CREATED.value(),
-                    SUCCESS, employeeGroupService.getEmployee(limit));
+                    SUCCESS, employeeGroupService.
+                    getEmployee(limit, searchForm.getGroupName(), searchForm.getGroupId(), searchForm.getLaborCode()));
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             throw new ReasonException(HttpStatus.BAD_REQUEST.value(), ERROR, e);

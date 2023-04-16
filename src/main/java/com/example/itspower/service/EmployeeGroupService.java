@@ -10,5 +10,5 @@ public interface EmployeeGroupService {
 
     void delete(List<Integer> ids);
 
-    List<EmployeeGroupResponse> getEmployee(Integer limit);
+    List<EmployeeGroupResponse> getEmployee(Integer limit,String groupName,Integer groupId,String laborCode);
 }

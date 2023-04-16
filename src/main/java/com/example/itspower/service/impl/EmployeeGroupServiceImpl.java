@@ -1,5 +1,4 @@
 package com.example.itspower.service.impl;
-
 import com.example.itspower.model.entity.EmployeeGroupEntity;
 import com.example.itspower.repository.repositoryjpa.EmployeeGroupRepository;
 import com.example.itspower.request.userrequest.addUserRequest;
@@ -7,10 +6,8 @@ import com.example.itspower.response.employee.EmployeeGroupResponse;
 import com.example.itspower.service.EmployeeGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
-
 @Component
 public class EmployeeGroupServiceImpl implements EmployeeGroupService {
     @Autowired
@@ -39,7 +36,7 @@ public class EmployeeGroupServiceImpl implements EmployeeGroupService {
     }
 
     @Override
-    public List<EmployeeGroupResponse> getEmployee( Integer limit) {
-        return groupRepository.getEmployee(limit);
+    public List<EmployeeGroupResponse> getEmployee( Integer limit,String groupName,Integer groupId,String laborCode) {
+        return groupRepository.getEmployee(limit,groupId,groupName,laborCode);
     }
 }
