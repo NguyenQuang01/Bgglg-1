@@ -96,10 +96,7 @@ public class UserServiceImpl implements UserService {
             UserDetails userDetails = userLoginConfig.loadUserByUsername("admin");
             if (userName.equals(userDetails.getUsername())) {
                 for (int userId : ids) {
-                    Optional<UserGroupEntity> userGroupEntity = userGroupRepository.finByUserId(userId);
-                    if (userGroupEntity.isPresent()) {
-                        userGroupRepository.deleteGroupUser(userId);
-                    }
+                    userGroupRepository.deleteGroupUser(userId);
                 }
                 userRepository.deleteIds(ids);
             }
