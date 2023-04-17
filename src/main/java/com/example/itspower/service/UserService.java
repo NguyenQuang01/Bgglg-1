@@ -20,5 +20,5 @@ public interface UserService {
     void delete(List<Integer> ids, String userName);
 
     boolean isCheckReport(int groupId);
-    List<ListUserResponse> getAllUser(Integer limit, UserSearchRequest request);
+    List<ListUserResponse> getAllUser( UserSearchRequest request);
 }

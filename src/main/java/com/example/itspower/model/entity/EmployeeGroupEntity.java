@@ -22,8 +22,7 @@ import javax.persistence.*;
         " where (:groupId IS NULL OR ge.group_id LIKE CONCAT(:groupId)) and " +
         "(:groupName IS NULL OR gr.group_name LIKE CONCAT('%',:groupName,'%')) and " +
         "(:laborCode IS NULL OR ge.labor_code LIKE CONCAT('%',:laborCode,'%'))"+
-        " ORDER BY gr.group_name ASC " +
-        "LIMIT :limit ",
+        " ORDER BY gr.group_name ASC ",
         resultSetMapping = "getEmployee"
 
         )
