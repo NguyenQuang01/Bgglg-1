@@ -96,9 +96,9 @@ public class UserController {
 
     @GetMapping("/getAllUser")
     @CrossOrigin
-    public ResponseEntity<Object> getAllDemarcation(@RequestParam("limit") Integer limit,@RequestBody UserSearchRequest request) {
+    public ResponseEntity<Object> getAllDemarcation(@RequestBody UserSearchRequest request) {
         try {
-            return ResponseEntity.ok(userService.getAllUser(limit,request));
+            return ResponseEntity.ok(userService.getAllUser(request));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

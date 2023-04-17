@@ -36,7 +36,7 @@ public class EmployeeGroupServiceImpl implements EmployeeGroupService {
     }
 
     @Override
-    public List<EmployeeGroupResponse> getEmployee( Integer limit,String groupName,Integer groupId,String laborCode) {
-        return groupRepository.getEmployee(limit,groupId,groupName,laborCode);
+    public List<EmployeeGroupResponse> getEmployee( String groupName,Integer groupId,String laborCode) {
+        return groupRepository.getEmployee(groupId,groupName,laborCode);
     }
 }

@@ -112,8 +112,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ListUserResponse> getAllUser(Integer limit, UserSearchRequest request) {
-        return userJpaRepository.listUser(limit, request.getGroupName(), request.getUserName());
+    public List<ListUserResponse> getAllUser( UserSearchRequest request) {
+        return userJpaRepository.listUser( request.getGroupName(), request.getUserName());
     }
 
     public UserDto loginInfor(String userLogin) {

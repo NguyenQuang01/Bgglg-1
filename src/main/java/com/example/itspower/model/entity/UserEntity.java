@@ -66,7 +66,7 @@ import javax.persistence.*;
                 "INNER join group_role gr on ug.group_id = gr.id " +
                 " where (:groupName IS NULL OR gr.group_name LIKE CONCAT('%',:groupName,'%'))" +
                 "and (:loginName IS NULL OR u.user_login LIKE CONCAT('%',:loginName,'%'))" +
-                "ORDER BY gr.group_name ASC limit :limit  ",
+                "ORDER BY gr.group_name ASC ",
         resultSetMapping = "list_user"
 )
 
