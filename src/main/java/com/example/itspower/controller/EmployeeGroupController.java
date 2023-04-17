@@ -53,7 +53,7 @@ public class EmployeeGroupController {
         }
     }
 
-    @GetMapping("/getEmployee")
+    @PostMapping("/getEmployee")
     @CrossOrigin
     public ResponseEntity<BaseResponse<Object>> searchAllViewDetails(@RequestParam("limit") Integer limit,
                                                                      @RequestBody SearchEmployeeRequest searchForm) {
